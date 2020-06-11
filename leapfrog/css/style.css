@@ -11,3 +11,12 @@
 body{
   font-family: 'IBM Plex Mono'
 }
+
+.text-center{
+  text-align: center;
+}
+
+.container{
+  padding: 8px;
+  margin: auto;
+}
