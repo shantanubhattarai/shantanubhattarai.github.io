@@ -23,6 +23,7 @@ body{
 
 .table{
   border-collapse: collapse;
+  margin: auto;
 }
 
 table, th, td{
@@ -36,4 +37,8 @@ th, td{
 
 a, a:hover {
   text-decoration: none;
+}
+
+a, a:visited{
+  color: blue;
 }
