@@ -53,10 +53,10 @@ body{
 }
 
 .header-form .header-form-input{
-  background: url('../img/SearchBarBG.png') no-repeat;
+  background: url('../img/SearchBarBG-text.png') no-repeat;
   padding: 2px 4px;
   width: 268px;
-  height: 19px;
+  height: 16px;
   border:none;
   font-size: 8px;
   margin-right: 5px;
@@ -72,6 +72,7 @@ body{
 }
 
 .header-form input:focus{
+  background: url('../img/SearchBarBG.png') no-repeat;
   outline: none;
 }
 
