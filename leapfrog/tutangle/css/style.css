@@ -3,6 +3,7 @@ body{
   font-size: 10px;
 }
 
+
 .header-section-right{
   padding-bottom: 23px;
   padding-top: 28px;
@@ -64,6 +65,7 @@ body{
 
 .header-form .header-form-btn{
   background: url('../img/SearchButtonBG.png') no-repeat;
+  cursor: pointer;
   border:none;
   color: white;
   font-size: 8px;
@@ -98,6 +100,9 @@ body{
   margin-bottom: 4px;
 }
 
+.sidebar-list-item:first-child:hover{
+  cursor: default;
+}
 
 .sidebar-list-item-left{
   display: inline-block;
