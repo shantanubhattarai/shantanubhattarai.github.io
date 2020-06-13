@@ -1,0 +1,262 @@
+body{
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 10px;
+}
+
+.header-section-right{
+  padding-bottom: 23px;
+  padding-top: 28px;
+}
+
+.header-name{
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.header-right-menu{
+  list-style: none;
+  margin-top: 10px;
+  font-size: 0; /* to fix enter being rendered as extra space*/
+}
+
+.header-right-menu-item{
+  font-size: 9px;
+  display: inline;
+  padding: 3px 5px;
+  border-left: 1px solid #000;
+}
+
+.header-right-menu-item:first-child{
+  border-left: none;
+}
+
+.header-right{
+  padding-top: 28px;
+  padding-bottom: 23px;
+}
+
+.header-right p{
+  text-align: right;
+}
+
+.header-left{
+  padding-top: 20px;
+}
+
+.header-left img{
+  margin-right: 20px;
+  vertical-align: middle;
+}
+
+.header-form{
+  display: inline;
+}
+
+.header-form .header-form-input{
+  background: url('../img/SearchBarBG.png') no-repeat;
+  padding: 2px 4px;
+  width: 268px;
+  height: 19px;
+  border:none;
+  font-size: 8px;
+  margin-right: 5px;
+}
+
+.header-form .header-form-btn{
+  background: url('../img/SearchButtonBG.png') no-repeat;
+  border:none;
+  color: white;
+  font-size: 8px;
+  width: 53px;
+  height: 20px;
+}
+
+.header-form input:focus{
+  outline: none;
+}
+
+.sidebar-list{
+  list-style: none;
+}
+
+.sidebar-list-item{
+  padding: 11px;
+}
+
+.sidebar-list-item:hover{
+  background-color: #ffffff;
+  cursor: pointer;
+}
+
+.sidebar-list-item:first-child{
+  font-size: 12px;
+  font-weight: bold;
+  background-color: #7dd9e8;
+  padding: 15px 12px;
+  color: #fff;
+  margin-bottom: 4px;
+}
+
+
+.sidebar-list-item-left{
+  display: inline-block;
+  width: 96px;
+}
+
+.sidebar-list-item-right{
+  margin-left: 61px;
+}
+
+.sidebar-bottom-list-item-left{
+  display: inline-block;
+  width: 138px;
+}
+
+.sidebar-bottom-list-item-right{
+  margin-left: 19px;
+}
+
+.main-header{
+  height: 65px;
+  border-bottom: 2px #7dd9e8 solid;
+}
+
+.main-title{
+  font-size: 22px;
+}
+
+.main-header-filter{
+  text-align:center;
+  width: 258px;
+}
+
+.main-header-filter-left{
+  background: url('../img/Filter-Background.png');
+}
+
+.main-header-filter-right{
+  background: url('../img/Filter-Background-Right.png');
+}
+
+.main-header-filter-text{
+  display: inline-block;
+  margin: 12px 0px;
+}
+
+.main-header-list-item{
+  display: inline-block;
+  margin: 0px 5px;
+  width: 114px;
+  padding: 10px 0px 9px 0px;
+  background: url('../img/header-list-bg.png');
+}
+
+.main-header-list-item:hover{
+  cursor: pointer;
+  background: url('../img/header-list-bg-hover.png');
+  color: white;
+}
+
+.main-header-list-item.active{
+  background: url('../img/header-list-bg-active.png');
+  color: white;
+}
+
+.subheader-list{
+  font-size: 0;
+  padding-left: 8px;
+}
+
+.subheader-list-item{
+  display: inline-block;
+  padding: 14px 15px;
+  font-size: 11px; /* to fix enter being rendered as extra space*/
+}
+
+.subheader-list-item a, .subheader-list-item a, .header-right-menu a{
+  color: #000000;
+  text-decoration:none;
+}
+
+.text-muted{
+  color: #aaaaaa;
+}
+
+.subheader-list-right .subheader-list-item{
+  font-size: 8px;
+  padding: 12px 15px;
+}
+
+.subheader-list-item img{
+  height: 15px;
+  width: auto;
+  vertical-align:middle;
+}
+
+.main-content-list{
+  list-style: none;
+}
+
+.main-content-list-item{
+  padding: 15px 0px;
+  border-bottom: 1px #d8d8d8 solid;
+}
+
+.main-content-list .pull-left{
+  width: 70px;
+}
+
+.main-content-right{
+  width: calc(518px - 70px - 16px);
+  color: #606060;
+}
+
+.main-content-right-title{
+  font-size: 11px;
+  margin-bottom: 10px;
+  color: #000;
+  font-weight: bold;
+}
+
+.text-blue{
+  color: #4eadbf;
+}
+
+.text-green{
+  color: #6f9820;
+}
+
+.text-red{
+  color: #d73f1a;
+}
+
+.description-text{
+  margin-bottom: 5px;
+}
+
+.footer-section{
+  background-color: #727272;
+  color: #ffffff;
+  height: 9px;
+  padding: 19px 0px 17px 0px;
+  font-size: 9px;
+}
+
+.footer-section ul {
+  list-style: disc;
+}
+
+.footer-section ul li{
+  display: inline-block;
+  font-weight: bold;
+}
+
+.footer-section li:before{
+  content: "\2022";
+  padding: 0px 6px;
+}
+
+.footer-section li:first-child:before{
+  content:"";
+  padding: 0px;
+}
