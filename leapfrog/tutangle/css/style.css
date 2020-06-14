@@ -54,7 +54,7 @@ body{
 }
 
 .header-form .header-form-input{
-  background: url('../img/SearchBarBG-text.png') no-repeat;
+  background: url('../img/SearchBarBG.png') no-repeat;
   padding: 2px 4px;
   width: 268px;
   height: 16px;
@@ -74,7 +74,6 @@ body{
 }
 
 .header-form input:focus{
-  background: url('../img/SearchBarBG.png') no-repeat;
   outline: none;
 }
 
