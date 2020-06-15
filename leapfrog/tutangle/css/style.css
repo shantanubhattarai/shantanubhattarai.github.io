@@ -3,6 +3,10 @@ body{
   font-size: 10px;
 }
 
+a{
+  color: #000000;
+  text-decoration:none;
+}
 
 .header-section-right{
   padding-bottom: 23px;
@@ -178,10 +182,6 @@ body{
   font-size: 11px; /* to fix enter being rendered as extra space*/
 }
 
-.subheader-list-item a, .subheader-list-item a, .header-right-menu a{
-  color: #000000;
-  text-decoration:none;
-}
 
 .text-muted{
   color: #aaaaaa;
@@ -218,9 +218,13 @@ body{
 
 .main-content-right-title{
   font-size: 11px;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
   color: #000;
   font-weight: bold;
+}
+
+.main-callout-text{
+  margin-bottom: 4px;
 }
 
 .text-blue{
