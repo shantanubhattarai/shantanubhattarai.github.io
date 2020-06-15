@@ -8,6 +8,10 @@ a{
   text-decoration:none;
 }
 
+a:hover{
+  text-decoration: underline;
+}
+
 .header-section-right{
   padding-bottom: 23px;
   padding-top: 28px;
@@ -65,6 +69,7 @@ a{
   border:none;
   font-size: 8px;
   margin-right: 5px;
+  color: #889697;
 }
 
 .header-form .header-form-btn{
@@ -75,6 +80,13 @@ a{
   font-size: 8px;
   width: 53px;
   height: 20px;
+}
+
+.header-form .header-form-btn:hover{
+  background: url('../img/SearchButtonBG-hover.png') no-repeat;
+  cursor: pointer;
+  border:none;
+  color: white;
 }
 
 .header-form input:focus{
@@ -126,7 +138,6 @@ a{
 }
 
 .main-header{
-  height: 65px;
   border-bottom: 2px #7dd9e8 solid;
 }
 
@@ -172,14 +183,14 @@ a{
 }
 
 .subheader-list{
-  font-size: 0;
+  font-size: 0; /* to fix enter being rendered as extra space*/
   padding-left: 8px;
 }
 
 .subheader-list-item{
   display: inline-block;
   padding: 14px 15px;
-  font-size: 11px; /* to fix enter being rendered as extra space*/
+  font-size: 12px;
 }
 
 
@@ -188,7 +199,7 @@ a{
 }
 
 .subheader-list-right .subheader-list-item{
-  font-size: 8px;
+  font-size: 9px;
   padding: 12px 15px;
 }
 
