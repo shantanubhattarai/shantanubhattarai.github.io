@@ -1,6 +1,5 @@
-.main-section-wrapper, .header-section{
-  width: 100%;
-  min-width: 936px;
+.main-section-wrapper{
+  min-width: 1002px;
 }
 
 .header-section{
