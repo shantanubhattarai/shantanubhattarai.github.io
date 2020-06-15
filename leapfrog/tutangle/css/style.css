@@ -1,6 +1,6 @@
 body{
   font-family: Arial, Helvetica, sans-serif;
-  font-size: 10px;
+  font-size: 11px;
 }
 
 a{
@@ -18,20 +18,19 @@ a:hover{
 }
 
 .header-name{
-  font-size: 12px;
-  font-weight: bold;
+  font-size: 14px;
 }
 
 .header-right-menu{
   list-style: none;
-  margin-top: 10px;
+  margin-top: 7px;
   font-size: 0; /* to fix enter being rendered as extra space*/
 }
 
 .header-right-menu-item{
-  font-size: 9px;
+  font-size: 10px;
   display: inline;
-  padding: 3px 5px;
+  padding: 2px 5px;
   border-left: 1px solid #000;
 }
 
@@ -134,7 +133,7 @@ a:hover{
 }
 
 .sidebar-bottom-list-item-right{
-  margin-left: 19px;
+  margin-left: 18px;
 }
 
 .main-header{
@@ -142,7 +141,9 @@ a:hover{
 }
 
 .main-title{
-  font-size: 22px;
+  font-size: 24px;
+  margin-bottom: 10px;
+  font-weight: 500;
 }
 
 .main-header-filter{
@@ -151,34 +152,35 @@ a:hover{
 }
 
 .main-header-filter-left{
-  background: url('../img/Filter-Background.png');
+  background: url('../img/Filter-Background.png') no-repeat;
 }
 
 .main-header-filter-right{
-  background: url('../img/Filter-Background-Right.png');
+  background: url('../img/Filter-Background-Right.png') no-repeat;
 }
 
 .main-header-filter-text{
+  font-size: 12px;
   display: inline-block;
-  margin: 12px 0px;
+  margin: 11px 0px 12px 0px;
 }
 
 .main-header-list-item{
   display: inline-block;
   margin: 0px 5px;
   width: 114px;
-  padding: 10px 0px 9px 0px;
-  background: url('../img/header-list-bg.png');
+  padding: 8px 0px 8px 0px;
+  background: url('../img/header-list-bg.png') no-repeat;
 }
 
 .main-header-list-item:hover{
   cursor: pointer;
-  background: url('../img/header-list-bg-hover.png');
+  background: url('../img/header-list-bg-hover.png') no-repeat;
   color: white;
 }
 
 .main-header-list-item.active{
-  background: url('../img/header-list-bg-active.png');
+  background: url('../img/header-list-bg-active.png') no-repeat;
   color: white;
 }
 
@@ -199,7 +201,7 @@ a:hover{
 }
 
 .subheader-list-right .subheader-list-item{
-  font-size: 9px;
+  font-size: 11px;
   padding: 12px 15px;
 }
 
@@ -228,7 +230,7 @@ a:hover{
 }
 
 .main-content-right-title{
-  font-size: 11px;
+  font-size: 12px;
   margin-bottom: 8px;
   color: #000;
   font-weight: bold;
