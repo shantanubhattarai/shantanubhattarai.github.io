@@ -40,8 +40,8 @@ a:hover{
 
 .header-right{
   width: calc(100% - 243px);
-  padding-top: 28px;
-  padding-bottom: 23px;
+  padding-top: 24px;
+  padding-bottom: 0px;
 }
 
 .header-right p{
@@ -50,6 +50,7 @@ a:hover{
 
 .header-left{
   padding-top: 20px;
+  padding-bottom: 15px;
 }
 
 .header-left img{
@@ -148,7 +149,7 @@ a:hover{
 }
 
 .sidebar-bottom-list-item-right{
-  margin-left: 18px;
+  /* margin-left: 18px; */
 }
 
 .main-header{
@@ -243,7 +244,6 @@ a:hover{
 }
 
 .header-form-input{
-  margin-bottom: 24px;
   background-color: #caeff7;
   border: none;
   border-radius: 20px;
@@ -337,6 +337,14 @@ a:hover{
   height: 9px;
   padding: 19px 0px 17px 0px;
   font-size: 9px;
+}
+
+.footer-section a{
+  color: #d2d2d2;
+}
+
+.column-left-sidebar li a:hover, .column-right li a:hover {
+  text-decoration: none;
 }
 
 .footer-section ul {

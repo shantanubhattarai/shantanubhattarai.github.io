@@ -273,6 +273,10 @@ a:hover{
   font-weight: bold;
 }
 
+.footer-section a{
+  color: #d2d2d2;
+}
+
 .footer-section li:before{
   content: "\2022";
   padding: 0px 6px;
