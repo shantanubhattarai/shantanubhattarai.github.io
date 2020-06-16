@@ -85,7 +85,14 @@ a:hover{
   text-align:center;
   width: 49.8%;
   background-color: #f5f5f5;
-  border-radius: 20px 20px 0px 0px;
+}
+
+.main-header-filter-left{
+  border-radius: 20px 0px 0px 0px;
+}
+
+.main-header-filter-right{
+  border-radius: 0px 20px 0px 0px;
 }
 
 .main-header-filter-text{
