@@ -135,21 +135,12 @@ a:hover{
 }
 
 .sidebar-list-item-left{
-  display: inline-block;
   width: 96px;
 }
 
-.sidebar-list-item-right{
-  margin-left: 61px;
-}
 
-.sidebar-bottom-list-item-left{
-  display: inline-block;
+.sidebar-list-bottom .sidebar-list-item-left{
   width: 138px;
-}
-
-.sidebar-bottom-list-item-right{
-  /* margin-left: 18px; */
 }
 
 .main-header{
