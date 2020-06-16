@@ -21,20 +21,28 @@ a:hover{
   font-size: 14px;
 }
 
-.header-right-menu{
+.header-small-menu{
   list-style: none;
   margin-top: 7px;
   font-size: 0; /* to fix enter being rendered as extra space*/
 }
 
-.header-right-menu-item{
+.header-small-menu-item{
   font-size: 10px;
   display: inline;
   padding: 2px 5px;
   border-left: 1px solid #000;
 }
 
-.header-right-menu-item:first-child{
+.mbl-header-small-menu{
+  margin-bottom: 16px;
+}
+
+.mbl-header-small-menu .header-small-menu-item{
+  font-size: 12px;
+}
+
+.header-small-menu-item:first-child{
   border-left: none;
 }
 
@@ -76,34 +84,6 @@ a:hover{
   display: none;
 }
 
-/* .header-form .header-form-input{
-  background: url('../img/SearchBarBG.png') no-repeat;
-  padding: 2px 4px;
-  width: 268px;
-  height: 16px;
-  border:none;
-  font-size: 8px;
-  margin-right: 5px;
-  color: #889697;
-} */
-
-/* .header-form .header-form-btn{
-  background: url('../img/SearchButtonBG.png') no-repeat;
-  cursor: pointer;
-  border:none;
-  color: white;
-  font-size: 8px;
-  width: 53px;
-  height: 20px;
-}
-
-.header-form .header-form-btn:hover{
-  background: url('../img/SearchButtonBG-hover.png') no-repeat;
-  cursor: pointer;
-  border:none;
-  color: white;
-}
-*/
 .header-form input:focus{
   outline: none;
 }
@@ -216,7 +196,7 @@ a:hover{
 
 .mbl-menu-list{
   list-style: none;
-  margin-bottom: 24px;
+  margin-bottom: 16px;
 }
 
 .mbl-menu-list-item{
@@ -232,6 +212,10 @@ a:hover{
 
 .mbl-header-right-menu{
   padding: 4px 0px;
+}
+
+.mbl-header-form{
+  margin-bottom: 16px;
 }
 
 .header-form-input{
@@ -358,7 +342,7 @@ a:hover{
 }
 
 .mbl-menu-content .header-name{
-  margin-bottom: 24px;
+  margin-bottom: 16px;
 }
 
 @media(min-width: 992px){
