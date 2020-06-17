@@ -163,7 +163,7 @@ a:hover{
   border: none;
   border-radius: 20px;
   padding: 8px;
-  min-width: 268px;
+  min-width: 200px;
   font-size: 10px;
 }
 
@@ -238,8 +238,8 @@ a:hover{
 .footer-section{
   background-color: #727272;
   color: #d2d2d2;
-  padding: 18px 0px 17px 0px;
-  font-size: 9px;
+  padding: 16px 0px 15px 0px;
+  font-size: 12px;
 }
 
 .footer-section a{
@@ -257,10 +257,76 @@ a:hover{
 }
 
 @media(min-width: 768px){
+
+  .header-menu-mbl{
+    display: none;
+  }
+
+  .header-left img{
+    width: 223px;
+    height: auto;
+  }
+
+  .header-small-menu{
+    list-style: none;
+    margin-top: 7px;
+    font-size: 0; /* to fix enter being rendered as extra space*/
+  }
+
+  .header-form{
+    margin-top: 10px;
+    display: inline-block;
+  }
+
+  .mbl-menu-content{
+    display: none;
+  }
+
+  .header-right-content{
+    display: block;
+  }
+
+  .header-right p{
+    text-align: right;
+  }
+
   .main-header-list-item{
     margin: 0px 5px;
     padding: 8px 8px 6px 8px;
     border-radius: 18px 18px 0px 0px;
+  }
+
+  .header-form-input{
+    min-width: 240px;
+  }
+
+  .subheader{
+    display: block;
+  }
+
+  .subheader-list{
+    font-size: 0; /* to fix enter being rendered as extra space*/
+  }
+
+  .subheader-list-item{
+    display: inline-block;
+    padding: 14px 15px;
+    font-size: 12px;
+  }
+
+  .subheader-list-right .subheader-list-item{
+    font-size: 11px;
+    padding: 12px 15px;
+  }
+
+  .subheader-list-item:first-child{
+    padding:14px 0px;
+  }
+
+  .subheader-list-item img{
+    height: 15px;
+    width: auto;
+    vertical-align:middle;
   }
 
   .footer-section ul li{
@@ -311,62 +377,13 @@ a:hover{
 }
 
 @media(min-width: 992px){
-  .header-menu-mbl{
-    display: none;
-  }
 
-  .header-left img{
-    width: 223px;
-    height: auto;
-  }
-
-  .header-small-menu{
-    list-style: none;
-    margin-top: 7px;
-    font-size: 0; /* to fix enter being rendered as extra space*/
-  }
-
-  .header-form{
-    margin-top: 10px;
-    display: inline-block;
-  }
-
-  .subheader{
-    display: block;
+  .subheader-list-item:first-child{
+    padding:14px 15px;
   }
 
   .subheader-list{
-    font-size: 0; /* to fix enter being rendered as extra space*/
     padding-left: 8px;
-  }
-
-  .subheader-list-item{
-    display: inline-block;
-    padding: 14px 15px;
-    font-size: 12px;
-  }
-
-  .subheader-list-right .subheader-list-item{
-    font-size: 11px;
-    padding: 12px 15px;
-  }
-
-  .subheader-list-item img{
-    height: 15px;
-    width: auto;
-    vertical-align:middle;
-  }
-
-  .mbl-menu-content{
-    display: none;
-  }
-
-  .header-right-content{
-    display: block;
-  }
-
-  .header-right p{
-    text-align: right;
   }
 
   .sidebar-list-item-left{
