@@ -93,6 +93,7 @@ a{
   background-color: crimson;
   color: white;
   font-size: 24px;
+  padding: 8px;
 }
 
 .slider-sub-text{
@@ -144,7 +145,7 @@ a{
 
 .gallery-col-featured, .gallery-col-special, .gallery-col-info, .gallery-col-info-news{
   font-size: 1rem;
-  padding: 0 15px;
+  padding: 0px 15px 15px 15px;
   display: inline-block;
 }
 
@@ -152,9 +153,11 @@ a{
   background: white;
   box-shadow: 0px 2px 4px #ddd;
   padding: 15px;
+  text-align: center;
 }
 
 .gallery-card-fill{
+  text-align: center;
   position: relative;
 }
 
@@ -171,6 +174,24 @@ a{
 
 .gallery-col-info{
   width: 50%;
+}
+
+.special-banner{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  color: white;
+  transform: translateY(-60%) translateX(-50%);
+}
+
+.special-title{
+  font-size: 80px;
+  font-weight: 400;
+  border-bottom: 1px #ddd dotted;
+}
+
+.special-sub-text{
+  font-size: 12px;
 }
 
 @media(min-width: 768px){
