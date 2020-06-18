@@ -1,10 +1,8 @@
 body{
   font-family: 'Source Sans Pro';
   font-size: 14px;
-}
-
-.header-section{
-
+  background: url('../img/background.png');
+  color: #222;
 }
 
 ul{
@@ -13,6 +11,16 @@ ul{
 
 img{
   max-width: 100%;
+}
+
+a{
+  color: #222;
+  text-decoration: none;
+}
+
+.header-section, .image-slider, .welcome-section, .featured-section,
+.special-offers-section, .info-section{
+  margin-bottom: 15px;
 }
 
 .top-menu{
@@ -89,4 +97,154 @@ img{
   border-radius: 50%;
   border: 2px solid red;
   background: white;
+}
+
+.welcome-row{
+  display: table;
+  text-align: center;
+}
+
+.section-header-container{
+  border-bottom: 2px dotted #ddd;
+  margin-bottom: 15px;
+}
+
+.gallery{
+  margin: 0px -15px;
+  font-size: 0;
+}
+
+.gallery-col-featured, .gallery-col-special, .gallery-col-info, .gallery-col-info-news{
+  font-size: 1rem;
+  padding: 0 15px;
+  display: inline-block;
+}
+
+.gallery-card{
+  background: white;
+  box-shadow: 0px 2px 4px #ddd;
+  padding: 15px;
+}
+
+.gallery-card-fill{
+  position: relative;
+}
+
+.gallery-col-featured{
+  width: 50%;
+}
+
+.gallery-col-special{
+  width: 100%;
+}
+.gallery-col-info-news{
+  display: none;
+}
+
+.gallery-col-info{
+  width: 50%;
+}
+
+
+@media(min-width: 768px){
+  .mobile-menu, .mobile-right{
+    display: none;
+  }
+
+  .bottom-menu{
+    display: block;
+    padding: 15px 0px;
+  }
+
+  .main-nav{
+    margin-top: 8px;
+  }
+
+  .main-nav-list li{
+    display: inline-block;
+  }
+
+  .slider-sub-text{
+    display: block;
+    background: crimson;
+    font-family: Arial;
+    color: white;
+    padding: 8px;
+  }
+
+  .sub-text-link{
+    font-weight: 700;
+    color: white;
+  }
+
+  .welcome-section-text {
+    vertical-align: middle;
+    display: table-cell;
+  }
+
+  .gallery-col-featured{
+    width: 25%;
+  }
+
+  .gallery-col-special{
+    width: 33%;
+  }
+  .gallery-col-info-news{
+    display: inline-block;
+    width: 40%;
+  }
+
+  .gallery-col-info{
+    width: 30%;
+  }
+
+}
+
+@media(min-width: 992px){
+  .center-menu{
+    display: block;
+    padding: 15px 0px;
+  }
+
+  .center-menu-form{
+    display: inline-block;
+  }
+
+  .center-menu-form .form-input{
+    display: inline-block;
+    margin-right: 12px;
+    width: 170px;
+  }
+
+  .input-group{
+    display: inline-block;
+    margin-right: 12px;
+  }
+
+  .input-group .form-input:last-child{
+    -webkit-appearance: none!important;
+    color: red;
+    text-align: right;
+    width: 75px;
+    border-left: 0px;
+    margin: 0 0 0 -7px;
+    background: white;
+  }
+
+  .input-group .form-input{
+      -webkit-appearance: none!important;
+      border-right: 0px;
+      outline: none;
+      width: 100px;
+      margin-right: 0;
+  }
+
+  .form-input-btn{
+    background-color: crimson;
+    color: white;
+    cursor: pointer;
+    border: none;
+    padding: 8px;
+  }
+
 }
