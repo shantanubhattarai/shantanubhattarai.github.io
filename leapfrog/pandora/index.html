@@ -3,9 +3,107 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>Pandora</title>
+  <link rel="stylesheet" href="./css/reset.css">
+  <link rel="stylesheet" href="./css/layout.css">
+  <link rel="stylesheet" href="./css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&display=swap" rel="stylesheet">
 </head>
 <body>
-hello world
+  <div class="main-wrapper">
+    <header class="header-section">
+      <div class="container">
+        <div class="top-menu clearfix">
+          <div class="pull-left">
+            <h1 class="brand logo">Pandora</h1>
+            <span class="brand brand-text"> fantastic products and great prices </span>
+          </div>
+          <div class="pull-right">
+            <div class="mobile-right">
+              <span class="right-icon">cart</span>
+              <span class="right-icon">account</span>
+              <span class="mobile-menu-icon">&#9776;</span>
+            </div>
+          </div>
+        </div>
+        <div class="mobile-menu">
+          <nav>
+            <ul class="mobile-menu-list">
+              <li> <a href="#">Home</a></li>
+              <li> <a href="#">Women +</a></li>
+              <li> <a href="#">Men +</a></li>
+              <li> <a href="#">Blog</a></li>
+              <li> <a href="#">Contact & Info</a></li>
+              <li> <a href="#">Features</a></li>
+            </ul>
+            <form action="#" class="mobile-header-form">
+              <input type="text" class="form-input" placeholder="search here">
+            </form>
+          </nav>
+        </div>
+        <div class="center-menu">
+          <form action="#" class="center-menu-form">
+            <label for="email">Log-in</label>
+            <input type="text" class="form-input" placeholder="E-mail address">
+            <div class="input-group">
+              <input type="text" class="form-input" placeholder="Password"/>
+              <a href="#"><input type="text" class="form-input form-link" value="Forgot?" disabled></a>
+            </div>
+            <input type="submit" class="form-input-btn" value="Log-in">
+          </form>
+          <a href="#"> <button class="form-input-btn">Continute as guest </button></a>
+        </div>
+        <div class="bottom-menu clearfix">
+          <nav class="main-nav pull-left">
+            <ul class="main-nav-list">
+              <li class="main-nav-list-item"><a href="#">Home</a></li>
+              <li class="main-nav-list-item"><a href="#">Women +</a></li>
+              <li class="main-nav-list-item"><a href="#">Men +</a></li>
+              <li class="main-nav-list-item"><a href="#">Blog</a></li>
+              <li class="main-nav-list-item"><a href="#">Contact & Info</a></li>
+              <li class="main-nav-list-item"><a href="#">Features</a></li>
+            </ul>
+          </nav>
+          <form action="#" class="pull-right main-nav-form">
+            <input type="text" class="form-input" placeholder="search here">
+          </form>
+        </div>
+      </div>
+    </header>
+    <div class="body-section">
+      <div class="image-slider">
+        <img src="./img/img-1.png" alt="image" class="slider-img">
+          <div class="image-slider-text container clearfix">
+            <div class="pull-left">
+              <span class="slider-title-text">Lorem ipsum dolor siramet consectetur</span>
+              <span class="slider-sub-text">Numquam, omnis! Ea vitae excepturi hic a perspiciatis sequi dignissimos? <a href="#" class="sub-text-link"> Read More + </a> </span>
+            </div>
+          </div>
+          <ul class="slider-nav">
+            <li class="slider-nav-item"><span class="slider-nav-inner">1</span></li>
+            <li class="slider-nav-item"><span class="slider-nav-inner">2</span></li>
+            <li class="slider-nav-item"><span class="slider-nav-inner">3</span></li>
+            <li class="slider-nav-item"><span class="slider-nav-inner">4</span></li>
+          </ul>
+      </div>
+      <div class="welcome-section">
+        <div class="container">
+          <div class="welcome-row">
+            <div class="col-left">
+              <img class="welcome-section-img" src="./img/img-1.png" alt="welcome-image">
+            </div>
+            <div class="welcome-section-text">
+              <h2 class="welcome-title">Welcome to PANDORA, responsive Shopify theme</h2>
+              <p> Congratulations on starting your own e-commerce store! </p>
+              <p>GANYMEDE is an elegant & responsive Shopify theme which dynamically adjusts for all screen sizes and devices.
+                Your shop will look great and will be easy to use on desktops, laptops, tablets and mobile smartphones.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      hello world
+    </div>
+
+  </div>
 </body>
 </html>
