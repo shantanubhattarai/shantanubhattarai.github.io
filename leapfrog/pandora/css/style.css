@@ -18,6 +18,19 @@ a{
   text-decoration: none;
 }
 
+.brand{
+  color: crimson;
+}
+
+.logo{
+  font-family: 'Montserrat Subrayada';
+  display: inline-block;
+}
+
+.brand-text{
+  display: none;
+}
+
 .header-section, .image-slider, .welcome-section, .featured-section,
 .special-offers-section, .info-section{
   margin-bottom: 15px;
@@ -151,6 +164,10 @@ a{
     display: none;
   }
 
+  .brand-text{
+    display: inline-block;
+  }
+
   .bottom-menu{
     display: block;
     padding: 15px 0px;
@@ -204,6 +221,7 @@ a{
   .center-menu{
     display: block;
     padding: 15px 0px;
+    text-align: center;
   }
 
   .center-menu-form{
@@ -214,6 +232,10 @@ a{
     display: inline-block;
     margin-right: 12px;
     width: 170px;
+  }
+
+  .center-menu-form .form-input-btn{
+    margin-right: 12px;
   }
 
   .input-group{
