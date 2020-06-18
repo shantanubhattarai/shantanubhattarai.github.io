@@ -39,7 +39,6 @@ a{
 .spacer{
   background-image: url('../img/spacer-2.png');
   background-repeat: no-repeat;
-  background-size: stretch;
   background-attachment: scroll;
   background-position: center bottom;
 }
@@ -73,6 +72,13 @@ a{
 
 .image-slider {
   position: relative;
+  width: 100%;
+  padding-top: 50%;
+  background-image: url('../img/img-1.jfif');
+  background-size: cover;
+  box-shadow:
+        inset 0px 20px 20px -14px #222,
+        inset 0px -20px 20px -14px #222;
 }
 
 .image-slider-text{
