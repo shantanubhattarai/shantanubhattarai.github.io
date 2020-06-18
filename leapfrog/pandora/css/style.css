@@ -36,12 +36,17 @@ a{
   margin-bottom: 15px;
 }
 
-.top-menu{
-  padding: 15px 0px;
-  background-image: url('../img/spacer.png');
+.spacer{
+  background-image: url('../img/spacer-2.png');
   background-repeat: no-repeat;
+  background-size: stretch;
   background-attachment: scroll;
   background-position: center bottom;
+}
+
+.top-menu{
+  padding: 15px 0px;
+
 }
 
 .mobile-menu{
@@ -122,7 +127,7 @@ a{
 }
 
 .section-header-container{
-  border-bottom: 2px dotted #ddd;
+  padding: 15px 0px;
   margin-bottom: 15px;
 }
 
@@ -287,6 +292,10 @@ a{
     cursor: pointer;
     border: none;
     padding: 8px;
+  }
+
+  .container{
+    max-width: 980px;
   }
 
 }
