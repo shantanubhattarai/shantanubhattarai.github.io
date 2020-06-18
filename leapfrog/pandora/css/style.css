@@ -1,0 +1,272 @@
+body{
+  font-family: 'Source Sans Pro';
+  font-size: 14px;
+  background: url('../img/background.png');
+  color: #222;
+}
+
+ul{
+  list-style: none;
+}
+
+img{
+  max-width: 100%;
+}
+
+a{
+  color: #222;
+  text-decoration: none;
+}
+
+.brand{
+  color: crimson;
+}
+
+.logo{
+  font-family: 'Montserrat Subrayada';
+  display: inline-block;
+}
+
+.brand-text{
+  display: none;
+}
+
+.header-section, .image-slider, .welcome-section, .featured-section,
+.special-offers-section, .info-section{
+  margin-bottom: 15px;
+}
+
+.top-menu{
+  padding: 15px 0px;
+}
+
+.mobile-menu{
+  text-align: center;
+}
+
+.mobile-menu-list li{
+  padding: 8px;
+  border-bottom: 1px #ddd solid;
+}
+
+.form-input{
+  padding: 8px;
+  border: 1px #ddd solid;
+}
+
+.center-menu{
+  display: none;
+}
+
+.bottom-menu{
+  display: none;
+}
+
+.image-slider {
+  position: relative;
+}
+
+.image-slider-text{
+  position: absolute;
+  top: 50%;
+  right: 0;
+  left: 0;
+  transform: translateY(-50%);
+}
+
+.slider-title-text{
+  background-color: crimson;
+  color: white;
+  font-size: 24px;
+}
+
+.slider-sub-text{
+  display: none;
+}
+
+.slider-nav{
+  position: absolute;
+  bottom: 0;
+  color: red;
+  left: 50%;
+  transform: translateX(-50%) translateY(50%);
+}
+
+.slider-nav-item{
+  height: 25px;
+  width: 25px;
+  border-radius: 50%;
+  border: 2px solid white;
+  display: table-cell;
+  vertical-align: middle;
+  font-size: 12px;
+  text-align: center;
+}
+
+.slider-nav-inner{
+  display: inline-block;
+  width: 21px;
+  height: 21px;
+  border-radius: 50%;
+  border: 2px solid red;
+  background: white;
+}
+
+.welcome-row{
+  display: table;
+  text-align: center;
+}
+
+.section-header-container{
+  border-bottom: 2px dotted #ddd;
+  margin-bottom: 15px;
+}
+
+.gallery{
+  margin: 0px -15px;
+  font-size: 0;
+}
+
+.gallery-col-featured, .gallery-col-special, .gallery-col-info, .gallery-col-info-news{
+  font-size: 1rem;
+  padding: 0 15px;
+  display: inline-block;
+}
+
+.gallery-card{
+  background: white;
+  box-shadow: 0px 2px 4px #ddd;
+  padding: 15px;
+}
+
+.gallery-card-fill{
+  position: relative;
+}
+
+.gallery-col-featured{
+  width: 50%;
+}
+
+.gallery-col-special{
+  width: 100%;
+}
+.gallery-col-info-news{
+  display: none;
+}
+
+.gallery-col-info{
+  width: 50%;
+}
+
+
+@media(min-width: 768px){
+  .mobile-menu, .mobile-right{
+    display: none;
+  }
+
+  .brand-text{
+    display: inline-block;
+  }
+
+  .bottom-menu{
+    display: block;
+    padding: 15px 0px;
+  }
+
+  .main-nav{
+    margin-top: 8px;
+  }
+
+  .main-nav-list li{
+    display: inline-block;
+  }
+
+  .slider-sub-text{
+    display: block;
+    background: crimson;
+    font-family: Arial;
+    color: white;
+    padding: 8px;
+  }
+
+  .sub-text-link{
+    font-weight: 700;
+    color: white;
+  }
+
+  .welcome-section-text {
+    vertical-align: middle;
+    display: table-cell;
+  }
+
+  .gallery-col-featured{
+    width: 25%;
+  }
+
+  .gallery-col-special{
+    width: 33%;
+  }
+  .gallery-col-info-news{
+    display: inline-block;
+    width: 40%;
+  }
+
+  .gallery-col-info{
+    width: 30%;
+  }
+
+}
+
+@media(min-width: 992px){
+  .center-menu{
+    display: block;
+    padding: 15px 0px;
+    text-align: center;
+  }
+
+  .center-menu-form{
+    display: inline-block;
+  }
+
+  .center-menu-form .form-input{
+    display: inline-block;
+    margin-right: 12px;
+    width: 170px;
+  }
+
+  .center-menu-form .form-input-btn{
+    margin-right: 12px;
+  }
+
+  .input-group{
+    display: inline-block;
+    margin-right: 12px;
+  }
+
+  .input-group .form-input:last-child{
+    -webkit-appearance: none!important;
+    color: red;
+    text-align: right;
+    width: 75px;
+    border-left: 0px;
+    margin: 0 0 0 -7px;
+    background: white;
+  }
+
+  .input-group .form-input{
+      -webkit-appearance: none!important;
+      border-right: 0px;
+      outline: none;
+      width: 100px;
+      margin-right: 0;
+  }
+
+  .form-input-btn{
+    background-color: crimson;
+    color: white;
+    cursor: pointer;
+    border: none;
+    padding: 8px;
+  }
+
+}
