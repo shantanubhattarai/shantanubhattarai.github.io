@@ -1,6 +1,6 @@
 body{
   font-family: 'Source Sans Pro';
-  font-size: 14px;
+  font-size: 18px;
   background: url('../img/background.png');
   color: #222;
 }
@@ -18,16 +18,32 @@ a{
   text-decoration: none;
 }
 
+a:hover{
+  color: #cc003e;
+}
+
+form, input, label{
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 16px;
+}
+
+label{
+  font-weight: 600;
+}
+
 .brand{
-  color: crimson;
+  color: #cc003e;
 }
 
 .logo{
   font-family: 'Montserrat Subrayada';
+  font-size: 33px;
   display: inline-block;
 }
 
 .brand-text{
+  font-weight: 200;
+  color: #d84270;
   display: none;
 }
 
@@ -45,7 +61,6 @@ a{
 
 .top-menu{
   padding: 15px 0px;
-
 }
 
 .mobile-menu{
@@ -58,8 +73,9 @@ a{
 }
 
 .form-input{
-  padding: 8px;
+  padding: 10px 11px 9px 11px;
   border: 1px #ddd solid;
+  outline: none;
 }
 
 .center-menu{
@@ -79,6 +95,7 @@ a{
   box-shadow:
         inset 0px 20px 20px -14px #222,
         inset 0px -20px 20px -14px #222;
+  min-height: 260px;
 }
 
 .image-slider-text{
@@ -94,6 +111,9 @@ a{
   color: white;
   font-size: 24px;
   padding: 8px;
+  line-height: 36px;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
 }
 
 .slider-sub-text{
@@ -103,7 +123,7 @@ a{
 .slider-nav{
   position: absolute;
   bottom: 0;
-  color: red;
+  color: #cc003e;
   left: 50%;
   transform: translateX(-50%) translateY(50%);
 }
@@ -126,6 +146,12 @@ a{
   border-radius: 50%;
   border: 2px solid red;
   background: white;
+}
+
+.slider-nav-inner:hover{
+  background: #cc003e;
+  color: white;
+  cursor: pointer;
 }
 
 .welcome-row{
@@ -154,10 +180,19 @@ a{
 }
 
 .gallery-card{
+  position: relative;
   background: white;
   box-shadow: 0px 2px 4px #ddd;
   padding: 15px;
   text-align: center;
+}
+
+.sale-image{
+  position: absolute;
+  width: 70px;
+  height: auto;
+  top: 0;
+  left: 0;
 }
 
 .gallery-card-fill{
@@ -247,6 +282,10 @@ a{
     width: 170px;
   }
 
+  .center-menu-form label{
+    margin-right: 13px;
+  }
+
   .center-menu-form .form-input-btn{
     margin-right: 12px;
   }
@@ -258,31 +297,36 @@ a{
 
   .input-group .form-input:last-child{
     -webkit-appearance: none!important;
-    color: red;
+    color: #cc003e;
     text-align: right;
     width: 75px;
     border-left: 0px;
+    padding-left: 0px;
+    padding-right: 10px;
     margin: 0 0 0 -7px;
     background: white;
   }
 
   .input-group .form-input{
       -webkit-appearance: none!important;
-      border-right: 0px;
+      padding-right: 0px;
       outline: none;
-      width: 100px;
+      width: 98px;
       margin-right: 0;
   }
 
   .form-input-btn{
-    background-color: crimson;
+    font-family: 'Source Sans Pro';
+    font-size: 18px;
+    background-color: #d0184f;
     color: white;
     cursor: pointer;
     border: none;
-    padding: 8px;
+    padding: 8px 18px;
   }
 
   .bottom-menu{
+    font-weight: 300;
     display: block;
     padding: 15px 0px;
   }
@@ -301,6 +345,11 @@ a{
     font-family: Arial;
     color: white;
     padding: 8px;
+  }
+
+  .slider-sub-text a:hover{
+    color: white;
+    text-decoration: underline;
   }
 
   .sub-text-link{
