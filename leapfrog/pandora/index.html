@@ -16,32 +16,52 @@
       <div class="container">
         <div class="top-menu spacer clearfix">
           <div class="pull-left">
-            <h1 class="brand logo">Pandora</h1>
-            <span class="brand-text"> fantastic products and great prices </span>
+            <a href="#">
+              <h1 class="brand logo">Pandora</h1>
+              <span class="brand-text"> fantastic products and great prices </span>
+            </a>
           </div>
           <div class="pull-right">
+            <ul class="header-right">
+              <li class="header-right-item"> <a href="#">  <i class="fa fa-shopping-cart"></i> 0 items ($0.00 in total)</a></li>
+              <li class="header-right-item"> <a href="#"> Checkout</a></li>
+              <li class="header-right-item"> <a href="#">  <i class="fa fa-user"></i> My Account <i class="fa fa-chevron-up"></i> </a></li>
+            </ul>
             <div class="mobile-right">
-              <span class="right-icon">cart</span>
-              <span class="right-icon">account</span>
+              <a class="right-icon"><i class="fa fa-shopping-cart"></i></a>
+              <a class="right-icon"><i class="fa fa-user"></i></a>
               <span class="mobile-menu-icon">&#9776;</span>
             </div>
-            <div class="top-menu">
-
-            </div>
           </div>
+        </div>
+        <div class="mobile-login">
+          <form action="#">
+            <label for="email">Log-in:</label>
+            <input type="text" class="form-input" placeholder="E-mail address">
+            <div class="input-group">
+              <input type="text" class="form-input" placeholder="Password"/>
+              <a href="#"><input type="text" class="form-input form-link" value="Forgot?" disabled></a>
+            </div>
+            <div class="form-group">
+              <input type="submit" class="form-input-btn" value="Log-in">
+            </div>
+            <div class="form-group">
+              <a href="#"> <button class="form-input-btn">Continue as guest </button></a>
+            </div>
+          </form>
         </div>
         <div class="mobile-menu">
           <nav>
             <ul class="mobile-menu-list">
-              <li> <a href="#">Home</a></li>
-              <li> <a href="#">Women +</a></li>
-              <li> <a href="#">Men +</a></li>
-              <li> <a href="#">Blog</a></li>
-              <li> <a href="#">Contact & Info</a></li>
-              <li> <a href="#">Features</a></li>
+              <a href="#"><li> Home</li></a>
+              <a href="#"><li> Women +</li></a>
+              <a href="#"><li> Men +</li></a>
+              <a href="#"><li> Blog</li></a>
+              <a href="#"><li> Contact & Info</li></a>
+              <a href="#"><li> Features</li></a>
               <li>
                 <form action="#" class="mobile-header-form">
-                  <input type="text" class="form-input" placeholder="search here">
+                  <input type="text" class="form-input search-input" placeholder="search here">
                 </form>
               </li>
             </ul>
@@ -72,7 +92,7 @@
             </ul>
           </nav>
           <form action="#" class="pull-right main-nav-form">
-            <input type="text" class="form-input" placeholder="search here">
+            <input type="text" class="form-input search-input" placeholder="search here">
           </form>
         </div>
       </div>
@@ -94,14 +114,14 @@
       </div>
       <div class="welcome-section">
         <div class="container">
-          <div class="welcome-row">
-            <div class="col-left">
-              <img class="welcome-section-img" src="./img/img-1.jfif" alt="welcome-image">
+          <div class="welcome-row clearfix">
+            <div class="col-left pull-left">
+              <img class="welcome-section-img" src="./img/welcome-image.png" alt="welcome-image">
             </div>
-            <div class="welcome-section-text">
-              <h2 class="welcome-title">Welcome to PANDORA, responsive Shopify theme</h2>
-              <p> Congratulations on starting your own e-commerce store! </p>
-              <p>GANYMEDE is an elegant & responsive Shopify theme which dynamically adjusts for all screen sizes and devices.
+            <div class="welcome-section-text pull-right">
+              <h2 class="welcome-title">Welcome to <span class="brand logo-small"> PANDORA </span>, responsive Shopify theme</h2>
+              <p class="welcome-sub-title"> Congratulations on starting your own e-commerce store! </p>
+              <p class="welcome-text">GANYMEDE is an elegant & responsive Shopify theme which dynamically adjusts for all screen sizes and devices.
                 Your shop will look great and will be easy to use on desktops, laptops, tablets and mobile smartphones.</p>
             </div>
           </div>
@@ -110,73 +130,89 @@
       <div class="featured-section">
         <div class="container">
           <div class="section-header-container spacer clearfix">
-            <h2 class="section-header pull-left"> Featured Item </h2>
-            <span class="pull-right"><i class="fa fa-eye"></i><a href="#"> view more items</a></span>
+            <h2 class="section-header pull-left"> Featured Items </h2>
+            <span class="pull-right"><a href="#"> <i class="fa fa-eye"></i> view more items</a></span>
           </div>
           <div class="gallery">
             <div class="gallery-col-featured">
+              <a href="#">
               <div class="gallery-card">
-                <img class="card-image" src="./img/img-1.jfif" alt="">
-                <p class="featured-title">Text Here</p>
+                <img class="card-image" src="./img/featured-img-1.png" alt="">
+                <p class="featured-title">Striped colorful dress</p>
                 <p class="featured-price">29.99$</p>
               </div>
+              </a>
             </div>
 
             <div class="gallery-col-featured">
+              <img class="sale-image" src="./img/tag-sale.png" alt="">
+              <a href="#">
               <div class="gallery-card">
-                <img class="card-image" src="./img/img-1.jfif" alt="">
-                <p class="featured-title">Text Here</p>
-                <p class="featured-price">29.99$</p>
+                <img class="card-image" src="./img/featured-img-2.png" alt="">
+                <p class="featured-title">Polka dot light blue blouse</p>
+                <p class="featured-price">13.99$ <span class="discounted-price">$36.99</span> </p>
               </div>
+              </a>
             </div>
 
             <div class="gallery-col-featured">
+              <a href="#">
               <div class="gallery-card">
-                <img class="card-image" src="./img/img-1.jfif" alt="">
-                <p class="featured-title">Text Here</p>
-                <p class="featured-price">29.99$</p>
+                <img class="card-image" src="./img/featured-img-3.png" alt="">
+                <p class="featured-title">Basic sleeveless sweater</p>
+                <p class="featured-price">39.99$</p>
               </div>
+              </a>
             </div>
 
             <div class="gallery-col-featured">
+              <a href="#">
               <div class="gallery-card">
-                <img class="card-image" src="./img/img-1.jfif" alt="">
-                <p class="featured-title">Text Here</p>
-                <p class="featured-price">29.99$</p>
+                <img class="card-image" src="./img/featured-img-4.png" alt="">
+                <p class="featured-title">Colorful summer dress</p>
+                <p class="featured-price">26.99$</p>
               </div>
+              </a>
             </div>
 
             <div class="gallery-col-featured">
+              <a href="#">
               <div class="gallery-card">
-                <img class="card-image" src="./img/img-1.jfif" alt="">
-                <p class="featured-title">Text Here</p>
+                <img class="card-image" src="./img/featured-img-5.png" alt="">
+                <p class="featured-title">Black and white polka dot dress</p>
                 <p class="featured-price">29.99$</p>
               </div>
+              </a>
             </div>
 
             <div class="gallery-col-featured">
+              <a href="#">
               <div class="gallery-card">
-                <img class="sale-image" src="./img/img-1.jfif" alt="">
-                <img class="card-image" src="./img/img-1.jfif" alt="">
-                <p class="featured-title">Text Here</p>
-                <p class="featured-price">29.99$</p>
+                <img class="card-image" src="./img/featured-img-6.png" alt="">
+                <p class="featured-title">Elegant sweater wtih tie</p>
+                <p class="featured-price">59.99$</p>
               </div>
+              </a>
             </div>
 
             <div class="gallery-col-featured">
+              <a href="#">
               <div class="gallery-card">
-                <img class="card-image" src="./img/img-1.jfif" alt="">
-                <p class="featured-title">Text Here</p>
-                <p class="featured-price">29.99$</p>
+                <img class="card-image" src="./img/featured-img-7.png" alt="">
+                <p class="featured-title">Basic summer white foulard</p>
+                <p class="featured-price">9.99$</p>
               </div>
+              </a>
             </div>
 
             <div class="gallery-col-featured">
+              <a href="#">
               <div class="gallery-card">
-                <img class="card-image" src="./img/img-1.jfif" alt="">
-                <p class="featured-title">Text Here</p>
-                <p class="featured-price">29.99$</p>
+                <img class="card-image" src="./img/featured-img-8.png" alt="">
+                <p class="featured-title">White summer dress and hat</p>
+                <p class="featured-price">49.99$</p>
               </div>
+              </a>
             </div>
 
           </div>
@@ -189,31 +225,37 @@
           </div>
           <div class="gallery">
             <div class="gallery-col-special">
-              <div class="gallery-card-fill">
-                <img src="./img/img-1.jfif" alt="">
-                <div class="special-banner">
-                  <h4 class="special-title">sale</h4>
-                  <span class="special-sub-text">check out all items on sale</span>
+              <a href="#">
+                <div class="gallery-card-fill">
+                  <img src="./img/special-1.png" alt="">
+                  <div class="special-banner">
+                    <h4 class="special-title">sale</h4>
+                    <p class="special-sub-text">check out all items on sale</p>
+                  </div>
                 </div>
-              </div>
+              </a>
             </div>
             <div class="gallery-col-special">
-              <div class="gallery-card-fill">
-                <img src="./img/img-1.jfif" alt="">
-                <div class="special-banner">
-                  <h4 class="special-title">sale</h4>
-                  <span class="special-sub-text">check out all items on sale</span>
+              <a href="#">
+                <div class="gallery-card-fill">
+                  <img src="./img/special-2.png" alt="">
+                  <div class="special-banner">
+                    <h4 class="special-title">50%  off</h4>
+                    <p class="special-sub-text">on all winter clothing & accessories</p>
+                  </div>
                 </div>
-              </div>
+              </a>
             </div>
             <div class="gallery-col-special">
-              <div class="gallery-card-fill">
-                <img src="./img/img-1.jfif" alt="">
-                <div class="special-banner">
-                  <h4 class="special-title">sale</h4>
-                  <span class="special-sub-text">check out all items on sale</span>
+              <a href="#">
+                <div class="gallery-card-fill">
+                  <img src="./img/special-3.png" alt="">
+                  <div class="special-banner">
+                    <h4 class="special-title">new</h4>
+                    <p class="special-sub-text">specialized sports clothing</p>
+                  </div>
                 </div>
-              </div>
+              </a>
             </div>
           </div>
         </div>
