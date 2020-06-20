@@ -263,6 +263,7 @@ label{
   color: #cc003e;
   font-weight: 300;
   font-size: 18px;
+  line-height: 30px;
 }
 
 .welcome-sub-title{
@@ -420,6 +421,75 @@ label{
   display: none;
 }
 
+.news-title{
+  font-weight: 300;
+  font-size: 20px;
+  color: #cc003e;
+  margin-bottom: 9px;
+  margin-top: 24px;
+}
+
+.news-title a{
+  color: #cc003e;
+}
+
+.news-title a:hover{
+  text-decoration: underline;
+}
+
+.news-list-item{
+  color: #333333;
+  border-bottom: 1px #ddd solid;
+}
+
+.news-text-preview, .about-contact-text{
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  line-height: 22px;
+  padding-bottom: 24px;
+}
+
+.news-more{
+  font-weight: 600;
+  color: #cc003e;
+}
+
+.news-more:hover{
+  text-decoration: underline;
+}
+
+.news-sub-text{
+  color: #8a8a8a;
+  margin-bottom: 9px;
+  font-size: 11px;
+}
+
+.news-sub-text span:not(:last-child)::after{
+  content:"\205E";
+  padding: 0px 12px;
+}
+
+.phn-number{
+  font-size: 32px;
+  margin-bottom: 8px;
+}
+
+.about-eml{
+  font-size:18px;
+}
+
+.about-col i{
+  font-size: 14px;
+  width: 28px;
+  height: 28px;
+  text-align: center;
+  vertical-align: middle;
+  background-color: black;
+  color: white;
+  border-radius: 50%;
+  padding-top: 6px;
+}
+
 @media(min-width: 768px){
   .mobile-menu, .mobile-right, .mobile-login{
     display: none;
@@ -552,6 +622,7 @@ label{
 
   .welcome-section-text {
     padding-top: 12px;
+    line-height: 24.5px;
     width: 45.8%;
   }
 
@@ -575,14 +646,6 @@ label{
     font-size: 1rem;
 
     width: 50%;
-  }
-
-  .news-sub-text{
-    color: #aaa;
-  }
-
-  .news-sub-text span:first-child{
-    border-right: 1px dotted #ddd;
   }
 
   .gallery-col-footer-nav{
@@ -635,6 +698,6 @@ label{
   }
 
   .welcome-section-text{
-    padding-top: 70px;
+    padding-top: 40px;
   }
 }
