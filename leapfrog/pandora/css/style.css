@@ -137,6 +137,13 @@ label{
   margin-right: 0;
 }
 
+.welcome-row .col-left{
+  width: 100%;
+}
+
+.welcome-section-text{
+  width: 100%;
+}
 
 .welcome-section, .featured-section,
 .special-offers-section, .info-section{
@@ -715,7 +722,7 @@ label{
     color: white;
   }
 
-  .col-left{
+  .welcome-section .col-left{
     width: 45.8%;
   }
 
@@ -785,8 +792,6 @@ label{
   .gallery-col-footer-nav{
     width: 13.87%;
   }
-
-
 
   .gallery-col-footer-tweets{
     display: inline-block;
