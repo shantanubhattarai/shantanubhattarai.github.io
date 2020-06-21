@@ -101,6 +101,12 @@ label{
   border: none;
   border-radius: 0;
   padding: 6px 18px;
+  outline: none;
+}
+
+.mobile-login .form-group a.form-input-btn{
+  display: block;
+  width: 100%;
 }
 
 .form-input-btn:hover{
@@ -175,26 +181,28 @@ label{
   border-bottom: 1px #ddd solid;
 }
 
-.search-input{
-  background-image: url('../img/Search.png');
-  background-repeat: no-repeat;
-  background-position: 9px 50%;
-  text-indent: 19px;
-}
-
-.newsletter-input{
-  background-image: url('../img/newsletter.png');
-  background-repeat: no-repeat;
-  background-position: 9px 50%;
-  text-indent: 19px;
-}
-
 .form-input{
   padding: 7px 11px 7px 11px;
   border: 1px #ddd solid;
   outline: none;
   border-radius: 0;
 }
+
+
+.search-input{
+  background-image: url('../img/Search.png');
+  background-repeat: no-repeat;
+  background-position: 9px 50%;
+  padding-left: 30px;
+}
+
+.newsletter-input{
+  background-image: url('../img/newsletter.png');
+  background-repeat: no-repeat;
+  background-position: 9px 50%;
+  padding-left: 30px;
+}
+
 
 .center-menu{
   display: none;
@@ -366,6 +374,11 @@ label{
 .gallery-card-fill{
   text-align: center;
   position: relative;
+}
+
+.gallery-card-fill img{
+  object-fit: cover;
+  width: 100%;
 }
 
 .gallery-card-fill:hover img{
