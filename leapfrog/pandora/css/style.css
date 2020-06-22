@@ -14,10 +14,6 @@ ul{
   list-style: none;
 }
 
-img{
-  max-width: 100%;
-}
-
 a{
   color: #222;
   text-decoration: none;
@@ -25,13 +21,13 @@ a{
 
 a:hover{
   color: #cc003e;
+  cursor: pointer;
 }
 
 form, input, label{
   font-family: Arial, Helvetica, sans-serif;
   font-size: 12px;
 }
-
 
 label{
   font-weight: 600;
@@ -114,6 +110,9 @@ label{
   color: white;
 }
 
+.form-input-btn:focus, a:focus, .form-input:focus{
+  outline: 3px solid red;
+}
 
 .input-group{
   display: inline-block;
