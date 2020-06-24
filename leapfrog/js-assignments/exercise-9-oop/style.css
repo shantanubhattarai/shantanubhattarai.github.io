@@ -1,0 +1,12 @@
+.outside-box{
+  border: 2px solid #aaa;
+  margin: 10px 10px;
+  position: relative;
+  display: inline-block;
+}
+
+.ball{
+  border-radius: 50%;
+  background-color: #292;
+  position: absolute;
+}
