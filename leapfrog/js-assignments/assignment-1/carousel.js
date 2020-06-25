@@ -1,7 +1,5 @@
-//to move: left: index * - width of image
-// maintain a copy of the first image at the end of the carousel to maintain same direction if you want
 var IMAGE_WIDTH = 500;
-var container = document.querySelector('.carousel-container')
+var container = document.querySelector('.carousel-container');
 var imageWrapper = document.querySelector('.carousel-image-wrapper');
 var imageArray = imageWrapper.getElementsByTagName('img');
 var imageCount = imageArray.length;
@@ -15,8 +13,9 @@ arrowLeft.onclick = function () {
   elapsedTime = 0;
   var nextIndex = currentIndex - 1;
   if (nextIndex < 0) nextIndex = imageCount - 1;
-  animate(nextIndex);
+  transistion(nextIndex);
   currentIndex = nextIndex;
+  setActiveStatus();
 }
 
 var arrowRight = document.createElement('div');
@@ -26,8 +25,9 @@ arrowRight.onclick = function () {
   elapsedTime = 0;
   var nextIndex = currentIndex + 1;
   if (nextIndex > (imageCount - 1)) nextIndex = 0;
-  animate(nextIndex);
+  transistion(nextIndex);
   currentIndex = nextIndex;
+  setActiveStatus();
 }
 
 var navigatorList = document.createElement('ul');
@@ -40,24 +40,34 @@ for(var i = 0; i < imageCount; i++){
   navigatorList.appendChild(navigatorItem);
   navigatorItem.onclick = (function(index){
     return function() {
-    elapsedTime = 0;
-    var nextIndex = index;
-    animate(nextIndex);
-    currentIndex = nextIndex;
+      elapsedTime = 0;
+      var nextIndex = index;
+      transistion(nextIndex);
+      currentIndex = nextIndex;
+      setActiveStatus();
     };
   })(i);
   navigatorListItems.push(navigatorItem);
 }
 
-function animate(index){
+navigatorListItems[0].classList.add("active");
+
+function setActiveStatus(){
+  navigatorListItems.forEach(function(value, index){
+    if(index != currentIndex) value.classList.remove("active");
+    else value.classList.add("active");
+  });
+}
+
+function transistion(index){
   var targetLeft = index * -IMAGE_WIDTH;
   var currentLeft = parseInt(imageWrapper.style.left);
-  var slidePerFrame = (targetLeft - currentLeft) / 100;
+  var amountMovedPerFrame = (targetLeft - currentLeft) / 100;
   var imageSlider = setInterval(function (){
     elapsedTime ++;
     if (elapsedTime >= 100){
       clearInterval(imageSlider);
     }
-    imageWrapper.style.left = (parseInt(imageWrapper.style.left) + slidePerFrame) + 'px';
+    imageWrapper.style.left = (parseInt(imageWrapper.style.left) + amountMovedPerFrame) + 'px';
   }, 1/60);
 }
