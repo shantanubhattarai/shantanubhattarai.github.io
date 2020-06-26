@@ -39,12 +39,12 @@
 
 .arrow-left{
   left: 0;
-  background-image: url('./img/left-bg.png');
+  background-image: url('../img/left-bg.png');
 }
 
 .arrow-right{
   right: 0;
-  background-image: url('./img/right-bg.png');
+  background-image: url('../img/right-bg.png');
 }
 
 .navigator-list{
