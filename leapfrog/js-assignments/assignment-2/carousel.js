@@ -14,7 +14,7 @@ var Carousel = function (containerID, holdTime, transitionTime){
   var sliderNext = 0;
   var IMAGE_WIDTH = 500;
   var WRAPPER_WIDTH = IMAGE_WIDTH * imageCount;
-  var clickAllowed = false;
+  var clickAllowed = true;
   if(imageCount == 0 ){
     container.innerHTML = "No Images";
   }else{
