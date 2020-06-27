@@ -21,11 +21,12 @@ var Carousel = function (containerID = 'carousel', holdTime = 1, transitionTime 
 
   var imageCount = imageArray.length;
   var imageSlideInterval;
+  var autoTransitionTimer;
   var currentImageIndex = 0;
   var elapsedTransitionTime = 0;
   var autoTransitionnextImageIndex = 0;
 
-  var IMAGE_WIDTH = 500;
+  var IMAGE_WIDTH = container.offsetWidth;
   var WRAPPER_WIDTH = IMAGE_WIDTH * imageCount;
 
   var clickAllowed = true;
@@ -40,6 +41,11 @@ var Carousel = function (containerID = 'carousel', holdTime = 1, transitionTime 
   /* Initialize imageWrapper */
   imageWrapper.style.left = 0 + 'px';
   imageWrapper.style.width = WRAPPER_WIDTH + 'px';
+
+  for(var i = 0; i < imageCount; i++){
+    imageArray[i].style.width = IMAGE_WIDTH + 'px';
+    imageArray[i].style.height = container.offsetHeight + 'px';
+  }
 
   /* Creates left and right arrows and appends it to the container */
   var arrowLeft = document.createElement('div');
@@ -65,6 +71,7 @@ var Carousel = function (containerID = 'carousel', holdTime = 1, transitionTime 
   /* Handles onclick event for the right arrow */
   arrowRight.onclick = function () {
     if(hasCompletedOneAutoTransition == true){
+      console.log(autoTransitionTimer.name);
       clearTimeout(autoTransitionTimer);
       if(clickAllowed){
         var nextImageIndex = getNextImageIndex('right');
@@ -171,6 +178,7 @@ var Carousel = function (containerID = 'carousel', holdTime = 1, transitionTime 
    * Performs the slide animation after time defined in holdtime
   */
   var autoTransition = function () {
+    // console.log(self.containerID);
     autoTransitionTimer = setTimeout(function(){
       elapsedTransitionTime = 0;
       autoTransitionnextImageIndex = currentImageIndex + 1;
@@ -180,6 +188,5 @@ var Carousel = function (containerID = 'carousel', holdTime = 1, transitionTime 
   };
   autoTransition();
 }
-
 var carousel = new Carousel('carousel-1', 1, 5);
-var carousel2 = new Carousel('carousel-2', -1, 2);
+var carousel2 = new Carousel('carousel-2', 2, 2);
