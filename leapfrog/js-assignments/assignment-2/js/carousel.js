@@ -191,12 +191,12 @@ var Carousel = function (containerID = 'carousel', holdTime = 1, transitionTime 
 
 var carouselList=[];
 function createCarousel(containerID, holdTime, transitionTime){
-  carouselList.forEach(function(value){
-    if (value.containerID == containerID){
+  for(var i = 0; i < carouselList.length; i++){
+    if (carouselList[i].containerID == containerID){
       console.log("this carousel already exists.");
       return;
     }
-  });
+  }
   document.getElementById(containerID).style.display= 'block';
   var newCarousel = new Carousel(containerID, holdTime, transitionTime);
   carouselList.push(newCarousel);
