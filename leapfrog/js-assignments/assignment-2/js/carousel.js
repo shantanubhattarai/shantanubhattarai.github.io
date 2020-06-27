@@ -198,7 +198,7 @@ function createCarousel(containerID, holdTime, transitionTime){
       return;
     }
   }
-  document.getElementById(containerID).style.display= 'block';
+  document.getElementById(containerID).style.display= 'inline-block';
   var newCarousel = new Carousel(containerID, holdTime, transitionTime);
   carouselList.push(newCarousel);
 }
