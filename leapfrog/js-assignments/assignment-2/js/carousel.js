@@ -188,5 +188,10 @@ var Carousel = function (containerID = 'carousel', holdTime = 1, transitionTime 
   };
   autoTransition();
 }
-var carousel = new Carousel('carousel-1', 1, 5);
-var carousel2 = new Carousel('carousel-2', 2, 2);
+
+var carouselList=[];
+function createCarousel(containerID, holdTime, transitionTime){
+  document.getElementById(containerID).style.display= 'block';
+  var newCarousel = new Carousel(containerID, holdTime, transitionTime);
+  carouselList.push(newCarousel);
+}
