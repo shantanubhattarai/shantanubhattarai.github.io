@@ -12,8 +12,8 @@
 var Carousel = function (containerID = 'carousel', holdTime = 1, transitionTime = 1){
   var self = this;
   this.containerID = containerID;
-  this.holdTime = holdTime < 0 ? 1 : holdTime;
-  this.transitionTime = transitionTime < 0 ? 1 : transitionTime;
+  this.holdTime = holdTime <= 0 ? 1 : holdTime;
+  this.transitionTime = transitionTime <= 0 ? 1 : transitionTime;
 
   var container = document.getElementById(this.containerID);
   var imageWrapper = container.querySelector('.carousel-image-wrapper');
@@ -71,7 +71,6 @@ var Carousel = function (containerID = 'carousel', holdTime = 1, transitionTime 
   /* Handles onclick event for the right arrow */
   arrowRight.onclick = function () {
     if(hasCompletedOneAutoTransition == true){
-      console.log(autoTransitionTimer.name);
       clearTimeout(autoTransitionTimer);
       if(clickAllowed){
         var nextImageIndex = getNextImageIndex('right');
@@ -122,10 +121,13 @@ var Carousel = function (containerID = 'carousel', holdTime = 1, transitionTime 
     /* Handles onclick event for navigation dots */
     navigatorItem.onclick = (function(index){
       return function() {
+        if(index == currentImageIndex){
+          return;
+        }
         clearTimeout(autoTransitionTimer);
         var nextImageIndex = index;
         startSlideAnimation(nextImageIndex);
-      };
+      }
     })(i);
 
     navigatorListItems.push(navigatorItem);
@@ -178,7 +180,6 @@ var Carousel = function (containerID = 'carousel', holdTime = 1, transitionTime 
    * Performs the slide animation after time defined in holdtime
   */
   var autoTransition = function () {
-    // console.log(self.containerID);
     autoTransitionTimer = setTimeout(function(){
       elapsedTransitionTime = 0;
       autoTransitionnextImageIndex = currentImageIndex + 1;
@@ -200,4 +201,9 @@ function createCarousel(containerID, holdTime, transitionTime){
   document.getElementById(containerID).style.display= 'block';
   var newCarousel = new Carousel(containerID, holdTime, transitionTime);
   carouselList.push(newCarousel);
+}
+
+function updateCarousel(objectIndex, holdTime, transitionTime){
+  carouselList[objectIndex].holdTime = holdTime;
+  carouselList[objectIndex].transitionTime = transitionTime;
 }
