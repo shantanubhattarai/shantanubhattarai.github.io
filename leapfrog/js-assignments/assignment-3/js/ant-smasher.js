@@ -100,7 +100,7 @@ function init(){
     //TODO: declare the number as boundary variable
     let randX = (Math.random() * (CANVAS_WIDTH - 18)) + 9;
     let randY = (Math.random() * (CANVAS_HEIGHT - 18)) + 9;
-    let randRadius = Math.floor((Math.random() * 15) + 10);
+    let randRadius = Math.floor((Math.random() * 30) + 20);
     let newBall = new Ball(randX, randY, randRadius, 0);
     ballsArray.push(newBall);
   }
