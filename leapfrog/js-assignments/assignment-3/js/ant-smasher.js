@@ -16,7 +16,7 @@ function Ball (x, y, radius, speed){
   var self = this;
   this.x = x;
   this.y = y;
-  this.speed = speed == 0 ? (Math.random()  * 4) + 1 : speed;
+  this.speed = speed == 0 ? (Math.random()  * 3) + 1 : speed;
   this.radius = radius;
   this.dx = 1;
   this.dy = 1;
