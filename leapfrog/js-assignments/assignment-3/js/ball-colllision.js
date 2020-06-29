@@ -74,7 +74,7 @@ function Ball (x, y, radius, speed){
 }
 
 let ballsArray = [];
-let numberOfBalls = 40;
+let numberOfBalls = 800;
 let colorArray = ['#70D6FF', '#FF70A6', '#FF9770', '#5C2751', '#92D1C3','#440381','#114B5F','#9DACFF','#F45B69','#F2C57C'];
 
 function init(){
