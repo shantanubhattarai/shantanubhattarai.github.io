@@ -1,15 +1,12 @@
 import Player from './player.js';
 import Enemy from './enemy.js';
 import Bullet from './bullet.js';
-import Pickup from './pickup.js';
 import ScoreManager from './scoreManager.js';
 
 export default function Game(){
-  let gameStates = ["MENU", "PLAYING", "GAMEOVER"];
   let scoreManager = new ScoreManager;
   let enemies = [];
   let bullets = [];
-  let pickups = []; //collectible
   let drawQueue = [];
   let enemySpeed = 4;
   const container = document.querySelector('.container');
@@ -17,6 +14,13 @@ export default function Game(){
   const scoreHUD = document.createElement('span');
   scoreHUD.style.verticalAlign = "top";
   scoreHUD.textContent = "Score: " +scoreManager.score;
+
+  let bulletTimer = 0;
+  let cooldown = 400;
+
+  const bulletHUD = document.createElement('span');
+  bulletHUD.style.verticalAlign = "top";
+  bulletHUD.textContent = "Bullet Cooldown: " + Math.ceil((cooldown - bulletTimer)/ 100);
 
   const lanes = {
     'left' : 150,
@@ -30,7 +34,6 @@ export default function Game(){
 
   let spawnTimeCounter = 0;
   let spawnInterval = 100;
-
 
   const playerStartHeight = CANVAS_HEIGHT - 50;
   const enemyStartHeight = -100;
@@ -53,24 +56,30 @@ export default function Game(){
 
   let bulletImage = document.createElement('img');
   bulletImage.src = './img/bullet.png';
-  let gameInstanceLoop;
+
   function initializeEnemies(){
     for(let i = 0; i < maxEnemyNumber; i++){
       let randomLane = Math.floor(Math.random() * 3);
       let newEnemy = new Enemy(Object.values(lanes)[randomLane], enemyStartHeight, 30, 48, enemyImage);
+      newEnemy.active = false;
       enemies.push(newEnemy);
       drawQueue.push(newEnemy);
     }
   }
-
+  let bullet;
   let nextIndex = 0;
   function spawner(){
-    for(let i = 0; i < Object.keys(lanes).length - 1; i++){
-      let randomLane = Math.floor(Math.random() * 3);
-      enemies[nextIndex].setLane(Object.values(lanes)[randomLane]);
+    let randomLane = Math.floor(Math.random() * 3);
+    enemies[nextIndex].setLane(Object.values(lanes)[randomLane]);
+    nextIndex++;
+    if (nextIndex >= maxEnemyNumber) nextIndex = 0;
+    let randomLane2 = Math.floor(Math.random() * 3);
+    if(!(randomLane2 == randomLane)){
+      enemies[nextIndex].setLane(Object.values(lanes)[randomLane2]);
       nextIndex++;
       if (nextIndex >= maxEnemyNumber) nextIndex = 0;
     }
+
   }
 
   function initializeGame(){
@@ -96,37 +105,43 @@ export default function Game(){
           if(drawElement.checkCollision(player) == "player") {
             gameOver();
           }
-          bullets.forEach(bullet => {
-            if(bullet.active && drawElement.checkCollision(bullet) == "bullet"){
-              bullet.active = false;
-              drawElement.active = false;
 
-              bullets = bullets.filter(checkBullet => {
-                return checkBullet.active;
-              });
-              scoreManager.score += 1
-            }
-          })
+          if(bullet && bullet.active && drawElement.checkCollision(bullet) == "bullet"){
+            bullet.active = false;
+            drawElement.active = false;
+            scoreManager.score += 1
+          }
+
           if(drawElement.checkOutOfScreen()) scoreManager.score += 1;
-          scoreHUD.textContent = "Score: " + scoreManager.score;
         }
         if(drawElement.isPlayer){
           window.onmousedown = function(e){
-            e.preventDefault();
-            let bullet = new Bullet(player.x, player.y, 10, 10, bulletImage);
-            bullets.push(bullet);
-            drawQueue.push(bullet);
+            if(bulletTimer > cooldown){
+              bulletTimer = 0;
+              e.preventDefault();
+              bullet = new Bullet(player.x, player.y, 10, 10, bulletImage);
+              bullet.active = true;
+              drawQueue.push(bullet);
+            }
           }
         }
         mainCtx.drawImage(drawElement.image, drawElement.x - drawElement.width/2, drawElement.y - drawElement.height/2, drawElement.width, drawElement.height);
         drawElement.move();
+        scoreHUD.textContent = "Score: " + scoreManager.score;
+        bulletHUD.textContent = "Bullet Cooldown: ";
+        bulletHUD.textContent += Math.ceil((cooldown - bulletTimer) / 100) < 0 ? 0 : Math.ceil((cooldown - bulletTimer) / 100);
       }
+    });
+
+    drawQueue = drawQueue.filter(drawElement => {
+      return !(drawElement.isBullet && !drawElement.active);
     });
   }
 
   function mainGameLoop(){
     drawAll();
     spawnTimeCounter++;
+    bulletTimer++;
     if (spawnTimeCounter > spawnInterval){
       spawner();
       spawnTimeCounter = 0;
@@ -140,11 +155,18 @@ export default function Game(){
 
   function gameOver(){
     gameState = "GAMEOVER";
-    container.innerHTML = "Game Over";
+    container.innerHTML = "";
+    container.classList.add('game-over-container');
+    let gameOverTitle = document.createElement('h1');
+    gameOverTitle.classList.add('game-over-title');
+    gameOverTitle.textContent = "Game Over!";
+    container.append(gameOverTitle);
     let restartButton = document.createElement('button');
     restartButton.textContent = "Restart";
+    restartButton.classList.add('restart-btn');
     restartButton.onclick = function(){
       container.innerHTML = "";
+      container.classList.remove('game-over-container');
       init();
     }
     container.appendChild(restartButton);
@@ -160,13 +182,18 @@ export default function Game(){
 
   initializeGame();
   container.appendChild(scoreHUD);
+  container.appendChild(bulletHUD);
   mainGameLoop();
 }
 
 let gameState = "RUNNING";
 function init(){
+  document.querySelector('.start-menu').style.display= 'none';
   gameState = "RUNNING";
   let gameInstance = new Game();
 }
 
-init();
+let startButton = document.querySelector('.start-btn');
+startButton.onclick = function(){
+  init();
+}
