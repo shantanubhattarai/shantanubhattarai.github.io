@@ -1,6 +1,6 @@
-import Player from './player.js';
-import Enemy from './enemy.js';
-import Bullet from './bullet.js';
+import Player from './Player.js';
+import Enemy from './Enemy.js';
+import Bullet from './Bullet.js';
 import ScoreManager from './scoreManager.js';
 
 /**
