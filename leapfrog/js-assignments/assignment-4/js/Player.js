@@ -1,3 +1,4 @@
+import Bullet from './bullet.js';
 export default function Player(x, y, width, height, image) {
   let self = this;
   this.x = x;
@@ -6,12 +7,12 @@ export default function Player(x, y, width, height, image) {
   this.height = height;
   this.image = image;
   this.active = true;
+  this.isPlayer = true;
 
   this.move = function(){
     //on keypress a and d
     window.onkeydown = function(e) {
       var kc = e.keyCode;
-      e.preventDefault();
       if (kc === 65){
         if(self.x - 300 >= 150) self.x -= 300;
       }
@@ -22,10 +23,6 @@ export default function Player(x, y, width, height, image) {
   }
 
   function replenishAmmo(){
-
-  }
-
-  function shoot(){
 
   }
 
