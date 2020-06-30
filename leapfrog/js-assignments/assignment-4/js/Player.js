@@ -1,4 +1,11 @@
-import Bullet from './bullet.js';
+/**
+ * Declares the Player
+ * @param x starting x position
+ * @param y starting y position
+ * @param width width of Player
+ * @param height height of Player
+ * @param image for Player
+ */
 export default function Player(x, y, width, height, image) {
   let self = this;
   this.x = x;
@@ -9,6 +16,7 @@ export default function Player(x, y, width, height, image) {
   this.active = true;
   this.isPlayer = true;
 
+  /**Handles a and d buttons for movement */
   this.move = function(){
     //on keypress a and d
     window.onkeydown = function(e) {
@@ -20,14 +28,6 @@ export default function Player(x, y, width, height, image) {
         if(self.x + 300 <= 750) self.x += 300;
       }
     }
-  }
-
-  function replenishAmmo(){
-
-  }
-
-  function draw(){
-
   }
 
 }

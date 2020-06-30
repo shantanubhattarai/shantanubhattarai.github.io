@@ -1,3 +1,11 @@
+/**
+ * Declares a bullet
+ * @param x starting x position
+ * @param y starting y position
+ * @param width width of bullet
+ * @param height height of bullet
+ * @param image for bullet
+ */
 export default function Bullet(x,y,width, height, image){
 
   this.active = true;
@@ -9,6 +17,7 @@ export default function Bullet(x,y,width, height, image){
   this.width = width;
   this.height = height;
 
+  /** moves by speed every frame */
   this.move = function(){
     this.y -= this.speed;
   }

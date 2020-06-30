@@ -1,3 +1,11 @@
+/**
+ * Declares an enemy
+ * @param x starting x position
+ * @param y starting y position
+ * @param width width of enemy
+ * @param height height of enemy
+ * @param image for enemy
+ */
 export default function Enemy(x, y, width, height, image){
   let self = this;
   this.x = x;
@@ -9,12 +17,14 @@ export default function Enemy(x, y, width, height, image){
   this.isEnemy = true;
   this.speed = 4;
 
+  /** Move by speed every frame */
   this.move = function (){
     if(this.active){
       this.y += this.speed;
     }
   }
 
+  /** Check if enemy is out of screen */
   this.checkOutOfScreen = function(){
     if(this.y > 1000) {
       this.active = false;
@@ -23,11 +33,18 @@ export default function Enemy(x, y, width, height, image){
     return false;
   }
 
+  /** set x positoin to given lane and reset y position
+   * @param laneX x position of lane to switch to
+   */
   this.setLane = function(laneX){
     this.x = laneX;
     this.y = y;
     this.active = true;
   }
+
+  /** Checks collision with given obejct
+   * @collider object to check collision with
+   */
 
   this.checkCollision = function(collider){
     let distanceX = self.x - collider.x;
@@ -43,6 +60,9 @@ export default function Enemy(x, y, width, height, image){
     }
   }
 
+  /** sets the speed to given speed
+   * @param speed the speed to change to
+   */
   this.setSpeed = function (speed){
     this.speed = speed;
   }
