@@ -148,7 +148,7 @@ function isIntersecting(point, ant){
 }
 
 /** Handle clicks on the canvas */
-canvas.addEventListener('click', (e) => {
+canvas.addEventListener('mousedown', (e) => {
   numberOfClicks++;
   const pos = {
     x: e.clientX,
