@@ -5,6 +5,7 @@ export default function Player(x, y, width, height, image) {
   this.width = width;
   this.height = height;
   this.image = image;
+  this.active = true;
 
   this.move = function(){
     //on keypress a and d
