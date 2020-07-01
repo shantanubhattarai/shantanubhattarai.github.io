@@ -23,6 +23,9 @@ document.addEventListener('click', function(e){
     newBird.flap();
   }else if(gameState.current == gameState.gameOver){
     gameState.current = gameState.getReady;
+    newBird.resetSpeed();
+    pipeManager.reset();
+    scoreManager.resetScore();
     gameOverImage.active = false;
     newBird.active = false;
     getReadyImage.active = true;
@@ -78,6 +81,8 @@ class Bird extends DrawableObject{
       {sX: 276, sY: 164},
       {sX: 276, sY: 139}
     ];
+    this.initX = x;
+    this.initY = y;
     this.frame = 0;
     this.speed = 0;
     this.gravity = 0.25;
@@ -137,6 +142,12 @@ class Bird extends DrawableObject{
 
 
     }
+  }
+
+  resetSpeed = () =>{
+    this.speed = 0;
+    this.x = this.initX;
+    this.y = this.initY;
   }
 }
 
@@ -200,6 +211,10 @@ class PipeManager{
     }
   }
 
+  reset = () =>{
+    this.position = [];
+  }
+
 }
 
 class ScoreManager{
@@ -207,11 +222,10 @@ class ScoreManager{
     this.score = 0;
     this.highScore = parseInt(localStorage.getItem('highScore')) || 0;
   }
-  draw(){
+  draw = () => {
     ctx.fillStyle = "#FFF";
 
     if(gameState.current == gameState.game){
-      ctx.lineWidth = 2;
       ctx.font = "35px Teko";
       ctx.fillText(this.score, canvas.width/2, 50);
     }else if (gameState.current == gameState.gameOver){
@@ -220,13 +234,16 @@ class ScoreManager{
       ctx.fillText(this.highScore, 225, 228);
     }
   }
+  resetScore = () => {
+    this.score = 0;
+  }
 }
 
 let newBird = new Bird(276, 112, 34, 26, 50, 150, 12);
 let background = new Background(0, 0, 275, 226, 0, canvas.height - 226, 0.1);
 let backgroundTopLayer = new Background(276, 0, 224, 112, 0, canvas.height - 112, 2);
 let getReadyImage = new DrawableObject(0, 228, 173, 152, canvas.width/2 - 173/2, 200);
-let gameOverImage = new DrawableObject(175, 228, 225, 202, canvas.width/2 - 225/2, 90);
+let gameOverImage = new DrawableObject(175, 228, 225, 160, canvas.width/2 - 225/2, 90);
 let pipeManager = new PipeManager(2, 85, -150);
 let scoreManager = new ScoreManager();
 
