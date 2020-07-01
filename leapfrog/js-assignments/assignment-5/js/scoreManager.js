@@ -21,8 +21,8 @@ export default class ScoreManager{
       ctx.font = "25px Teko";
       ctx.fillText(this.score, 150, 186);
       ctx.fillText(this.highScore, 150, 228);
-      ctx.strokeText("Press R or Right Click to restart", 100, 300);
-      ctx.fillText("Press R or Right Click to restart", 100, 300);
+      ctx.strokeText("Press R or Left Click to restart", 50, 300);
+      ctx.fillText("Press R or Left Click to restart", 50, 300);
     }
   }
 
