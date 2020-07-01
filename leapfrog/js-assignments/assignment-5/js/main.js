@@ -24,7 +24,7 @@ document.addEventListener('mousedown', function(e){
   }
 });
 
-document.addEventListener('keydown', function(e){
+document.addEventListener('keyup', function(e){
   if (e.keyCode == 82 && gameState.current == gameState.gameOver){
     gameState.current = gameState.getReady;
     newBird.resetSpeed();
@@ -33,6 +33,9 @@ document.addEventListener('keydown', function(e){
     gameOverImage.active = false;
     newBird.active = false;
     getReadyImage.active = true;
+  }
+  if(e.key == ' ' && gameState.current == gameState.game){
+    newBird.flap();
   }
 })
 
