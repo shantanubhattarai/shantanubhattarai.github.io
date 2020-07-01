@@ -126,4 +126,7 @@ export default function Main(container){
   loop();
 }
 
-let mainGame = new Main('main-canvas');
+window.addEventListener('load', function(){
+  let mainGame = new Main('main-canvas');
+})
+
