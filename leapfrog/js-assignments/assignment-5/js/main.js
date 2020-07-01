@@ -13,7 +13,7 @@ const gameState = {
   'gameOver' : 2
 }
 
-document.addEventListener('click', function(e){
+document.addEventListener('mousedown', function(e){
   if(gameState.current == gameState.getReady){
     gameState.current = gameState.game;
     getReadyImage.active = false;
@@ -21,7 +21,11 @@ document.addEventListener('click', function(e){
     gameOverImage.active = false;
   }else if(gameState.current == gameState.game){
     newBird.flap();
-  }else if(gameState.current == gameState.gameOver){
+  }
+});
+
+document.addEventListener('keydown', function(e){
+  if (e.keyCode == 82 && gameState.current == gameState.gameOver){
     gameState.current = gameState.getReady;
     newBird.resetSpeed();
     pipeManager.reset();
@@ -30,7 +34,7 @@ document.addEventListener('click', function(e){
     newBird.active = false;
     getReadyImage.active = true;
   }
-});
+})
 
 class DrawableObject {
   constructor(sX, sY, w, h, x, y){
@@ -224,7 +228,8 @@ class ScoreManager{
   }
   draw = () => {
     ctx.fillStyle = "#FFF";
-
+    ctx.strokeStyle = "#000";
+    ctx.lineWidth = 2;
     if(gameState.current == gameState.game){
       ctx.font = "35px Teko";
       ctx.fillText(this.score, canvas.width/2, 50);
@@ -232,6 +237,8 @@ class ScoreManager{
       ctx.font = "25px Teko";
       ctx.fillText(this.score, 150, 186);
       ctx.fillText(this.highScore, 150, 228);
+      ctx.strokeText("Press R to restart", 100, 300);
+      ctx.fillText("Press R to restart", 100, 300);
     }
   }
   resetScore = () => {
