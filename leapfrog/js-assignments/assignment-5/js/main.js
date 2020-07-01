@@ -139,6 +139,7 @@ class Bird extends DrawableObject{
       if(this.y <= 0)
       {
         this.y = 0;
+        gameOver();
       }
 
       if(this.y + this.h/2 >= canvas.height - backgroundTopLayer.h){
