@@ -13,7 +13,7 @@ const gameState = {
   'gameOver' : 2
 }
 
-document.addEventListener('click', function(e){
+document.addEventListener('mousedown', function(e){
   if(gameState.current == gameState.getReady){
     gameState.current = gameState.game;
     getReadyImage.active = false;
@@ -21,7 +21,11 @@ document.addEventListener('click', function(e){
     gameOverImage.active = false;
   }else if(gameState.current == gameState.game){
     newBird.flap();
-  }else if(gameState.current == gameState.gameOver){
+  }
+});
+
+document.addEventListener('keyup', function(e){
+  if (e.keyCode == 82 && gameState.current == gameState.gameOver){
     gameState.current = gameState.getReady;
     newBird.resetSpeed();
     pipeManager.reset();
@@ -30,7 +34,10 @@ document.addEventListener('click', function(e){
     newBird.active = false;
     getReadyImage.active = true;
   }
-});
+  if(e.key == ' ' && gameState.current == gameState.game){
+    newBird.flap();
+  }
+})
 
 class DrawableObject {
   constructor(sX, sY, w, h, x, y){
@@ -132,6 +139,7 @@ class Bird extends DrawableObject{
       if(this.y <= 0)
       {
         this.y = 0;
+        gameOver();
       }
 
       if(this.y + this.h/2 >= canvas.height - backgroundTopLayer.h){
@@ -224,14 +232,17 @@ class ScoreManager{
   }
   draw = () => {
     ctx.fillStyle = "#FFF";
-
+    ctx.strokeStyle = "#000";
+    ctx.lineWidth = 2;
     if(gameState.current == gameState.game){
       ctx.font = "35px Teko";
       ctx.fillText(this.score, canvas.width/2, 50);
     }else if (gameState.current == gameState.gameOver){
       ctx.font = "25px Teko";
-      ctx.fillText(this.score, 225, 186);
-      ctx.fillText(this.highScore, 225, 228);
+      ctx.fillText(this.score, 150, 186);
+      ctx.fillText(this.highScore, 150, 228);
+      ctx.strokeText("Press R to restart", 100, 300);
+      ctx.fillText("Press R to restart", 100, 300);
     }
   }
   resetScore = () => {
@@ -244,7 +255,7 @@ let background = new Background(0, 0, 275, 226, 0, canvas.height - 226, 0.1);
 let backgroundTopLayer = new Background(276, 0, 224, 112, 0, canvas.height - 112, 2);
 let getReadyImage = new DrawableObject(0, 228, 173, 152, canvas.width/2 - 173/2, 200);
 let gameOverImage = new DrawableObject(175, 228, 225, 160, canvas.width/2 - 225/2, 90);
-let pipeManager = new PipeManager(2, 85, -150);
+let pipeManager = new PipeManager(2, 100, -150);
 let scoreManager = new ScoreManager();
 
 function draw(){
