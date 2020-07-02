@@ -1,7 +1,7 @@
 import Dot from './dot.js';
 
 /** Declares Main class. Spawns dots and executes main loop */
-export default class Main {
+export default class MainAnimation {
   constructor() {
     this.canvas = document.getElementById('main-canvas');
     this.ctx = this.canvas.getContext('2d');
@@ -69,4 +69,4 @@ export default class Main {
   }
 }
 
-var helix = new Helix();
+var mainAnim = new MainAnimation();
