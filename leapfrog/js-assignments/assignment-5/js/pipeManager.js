@@ -41,7 +41,7 @@ export default class PipeManager{
    * @main references the main game
   */
   update = (canvas, gameState, newBird, scoreManager, main) =>{
-    if (gameState.current !== gameState.game) return;
+    if (gameState.current !== gameState.playing) return;
 
     if(main.frames % 100 == 0){
       this.position.push({

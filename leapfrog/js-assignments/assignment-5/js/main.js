@@ -24,18 +24,18 @@ export default function Main(container){
   const gameState = {
     'current': 0,
     'getReady': 0,
-    'game': 1,
+    'playing': 1,
     'gameOver' : 2
   }
 
   /** Handles Mouse click event on different game states*/
   canvas.addEventListener('mousedown', function(e){
     if(gameState.current == gameState.getReady){
-      gameState.current = gameState.game;
+      gameState.current = gameState.playing;
       getReadyImage.active = false;
       newBird.active = true;
       gameOverImage.active = false;
-    }else if(gameState.current == gameState.game){
+    }else if(gameState.current == gameState.playing){
       newBird.flap();
     }else if (gameState.current == gameState.gameOver){
       gameState.current = gameState.getReady;
@@ -59,11 +59,11 @@ export default function Main(container){
       newBird.active = false;
       getReadyImage.active = true;
     }
-    if(e.key == ' ' && gameState.current == gameState.game){
+    if(e.key == ' ' && gameState.current == gameState.playing){
       newBird.flap();
     }
     if(e.key == ' ' && gameState.current == gameState.getReady){
-      gameState.current = gameState.game;
+      gameState.current = gameState.playing;
       getReadyImage.active = false;
       newBird.active = true;
       gameOverImage.active = false;
@@ -111,7 +111,7 @@ export default function Main(container){
 
   /** Game Over function */
   this. gameOver = function(){
-    if(gameState.current == gameState.game) {
+    if(gameState.current == gameState.playing) {
       gameState.current = gameState.gameOver;
       gameOverImage.active = true;
     }

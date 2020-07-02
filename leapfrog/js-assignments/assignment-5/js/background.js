@@ -25,7 +25,7 @@ export default class Background extends DrawableObject{
    * @param gameState object, state of the game
    */
   update = (gameState) => {
-    if(gameState.current == gameState.game){
+    if(gameState.current == gameState.playing){
       if(this.x > -this.w/2){
         this.x = (this.x - this.dx);
       }else{

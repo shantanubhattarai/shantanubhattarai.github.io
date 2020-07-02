@@ -14,7 +14,7 @@ export default class ScoreManager{
     ctx.fillStyle = "#FFF";
     ctx.strokeStyle = "#000";
     ctx.lineWidth = 2;
-    if(gameState.current == gameState.game){
+    if(gameState.current == gameState.playing){
       ctx.font = "35px Teko";
       ctx.fillText(this.score, canvas.width/2, 50);
     }else if (gameState.current == gameState.gameOver){
