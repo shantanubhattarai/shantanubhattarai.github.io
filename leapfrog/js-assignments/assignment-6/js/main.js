@@ -1,8 +1,9 @@
 import Dot from './dot.js';
 
-export default class Helix {
+/** Declares Main class. Spawns dots and executes main loop */
+export default class Main {
   constructor() {
-    this.canvas = document.getElementById('helix');
+    this.canvas = document.getElementById('main-canvas');
     this.ctx = this.canvas.getContext('2d');
 
     this.width = this.canvas.width;
@@ -21,6 +22,7 @@ export default class Helix {
     this.loop();
   }
 
+  /** Generates rows x column number of dots twice in opposite directions */
   generateDots() {
     for (let idx = 1; idx < 3; idx++){
       var currentY = this.initY;
@@ -54,6 +56,7 @@ export default class Helix {
     }
   }
 
+  /** Main loop. Calls draw and update on each dot */
   loop() {
     this.ctx.clearRect(0, 0, this.width, this.height);
 
