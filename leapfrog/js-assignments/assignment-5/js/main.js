@@ -12,7 +12,7 @@ export default function Main(container){
   let self = this;
   /** Spritesheet for all sprites */
   const sprite = new Image();
-  sprite.src = "img/sprite.png"
+  sprite.src = "img/sprite.png";
 
   /** Canvas and its context */
   const canvas = document.getElementById(container);
@@ -29,7 +29,7 @@ export default function Main(container){
   }
 
   /** Handles Mouse click event on different game states*/
-  document.addEventListener('mousedown', function(e){
+  canvas.addEventListener('mousedown', function(e){
     if(gameState.current == gameState.getReady){
       gameState.current = gameState.game;
       getReadyImage.active = false;
@@ -49,7 +49,7 @@ export default function Main(container){
   });
 
   /** Handles keyboard events on different game states  */
-  document.addEventListener('keyup', function(e){
+  canvas.addEventListener('keyup', function(e){
     if (e.keyCode == 82 && gameState.current == gameState.gameOver){
       gameState.current = gameState.getReady;
       newBird.resetSpeed();
@@ -126,6 +126,7 @@ export default function Main(container){
   loop();
 }
 
+/**Add new canvas in index.html and create new instances here */
 window.addEventListener('load', function(){
   let mainGame = new Main('main-canvas');
 })
