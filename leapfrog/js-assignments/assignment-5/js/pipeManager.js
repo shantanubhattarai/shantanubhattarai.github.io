@@ -35,10 +35,10 @@ export default class PipeManager{
   /**
    * Updates the pipe manager
    * @param canvas canvas to draw on
-   * @gamestate object, state of the game
-   * @newBird references the player bird
-   * @scoreMnaager references the scoreManager object
-   * @main references the main game
+   * @param gamestate object, state of the game
+   * @param newBird references the player bird
+   * @param scoreMnaager references the scoreManager object
+   * @param main references the main game
   */
   update = (canvas, gameState, newBird, scoreManager, main) =>{
     if (gameState.current !== gameState.playing) return;

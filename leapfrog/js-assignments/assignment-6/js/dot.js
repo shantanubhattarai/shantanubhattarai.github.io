@@ -42,7 +42,7 @@ export default class Dot {
   }
 
   /** Convets given parameter to hexadecimal
-   * @number value from 0 to 255 to get hex from
+   * @param number value from 0 to 255 to get hex from
    */
   toHex(number) {
     var hex = Number(number).toString(16);
