@@ -68,14 +68,16 @@ const mainMap = {
     return this.layers[layer][row * this.cols + col];
   }
 }
+let selectedUnit;
 
 const mainSpriteSheet = document.createElement('img');
 mainSpriteSheet.src=('./img/UnitMap.png');
 
 class Unit{
-  constructor(tileX, tileY){
+  constructor(tileX, tileY, range){
     this.tileX = tileX;
     this.tileY = tileY;
+    this.range = range;
     this.x = (this.tileX - 1) * mainMap.tsize;
     this.y = (this.tileY - 1) * mainMap.tsize;
   }
@@ -88,21 +90,48 @@ class Unit{
     return {tileX: this.tileX, tileY: this.tileY};
   }
 
+  moveTo(tileX, tileY){
+    this.tileX = tileX;
+    this.tileY = tileY;
+    //this is temporary, change it.
+    var movementInterval = setInterval(() => {
+      if(this.x < (tileX-1) * mainMap.tsize){
+        this.x += 1;
+      }else if(this.x > (tileX - 1) * mainMap.tsize){
+        this.x -= 1;
+      }else if(this.y < (tileY - 1) * mainMap.tsize){
+        this.y += 1;
+      }else if(this.y > (tileY - 1) * mainMap.tsize){
+        this.y -= 1;
+      }
+      else{
+        clearInterval(movementInterval);
+      }
+    }, 1);
+
+    // this.x = (tileX-1) * mainMap.tsize;
+    // this.y = (tileY-1) * mainMap.tsize;
+    actionState.current = actionState.fire;
+  }
 }
 
-
+const actionState = {
+  current: 0,
+  move: 1,
+  fire: 2,
+  end: 3
+}
 
 class Player{
   constructor(){
     this.unitList = [];
-    let newUnit = new Unit(5,5);
+    let newUnit = new Unit(5,5, 5);
     this.unitList.push(newUnit);
-    let newUnit2 = new Unit(5,6);
+    let newUnit2 = new Unit(5,6, 3);
     this.unitList.push(newUnit2);
   }
-
-
 }
+
 
 class MainGameLoop{
   constructor(){
@@ -122,19 +151,25 @@ class MainGameLoop{
         x: e.clientX - rect.left,
         y: e.clientY - rect.top
       }
-      console.log(mousePos);
+
       let clickedTile = {
         tileX: Math.floor(mousePos.x / mainMap.tsize) + 1,
         tileY: Math.floor(mousePos.y / mainMap.tsize) + 1
       };
 
-      playerList.forEach(function(valueP){
-        valueP.unitList.forEach(function(valueU){
-          if(valueU.getTilePos().tileX == clickedTile.tileX && valueU.getTilePos().tileY == clickedTile.tileY){
-            console.log(valueP, valueU);
-          }
+      if(actionState.current == actionState.move){
+        selectedUnit.moveTo(clickedTile.tileX, clickedTile.tileY);
+      }else{
+        playerList.forEach(function(valueP){
+          valueP.unitList.forEach(function(valueU){
+            if(valueU.getTilePos().tileX == clickedTile.tileX && valueU.getTilePos().tileY == clickedTile.tileY){
+              actionState.current = actionState.move;
+              selectedUnit = valueU;
+            }
+          });
         });
-      });
+      }
+
     });
   }
 
@@ -169,16 +204,14 @@ class MainGameLoop{
 
   render(){
     this.drawLayer(0);
+    this.drawLayer(1);
     player1.unitList[1].draw(this.context);
     player1.unitList[0].draw(this.context);
-    this.drawLayer(1);
     window.requestAnimationFrame(this.render.bind(this));
   }
-
 }
 
 const playerList = [];
-
 
 let player1 = new Player();
 playerList.push(player1);
