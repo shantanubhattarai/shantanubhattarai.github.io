@@ -66,6 +66,21 @@ const mainMap = {
 ],
   getTile: function(layer, col,row){
     return this.layers[layer][row * this.cols + col];
+  },
+  getTileWalkable(tileX, tileY){
+    return this.layers.reduce((res, layer, index) => {
+      var tile = this.getTile(index, tileX, tileY)
+        var walkableLevel = 1;
+        if(tile == 2 || tile == 3){
+          walkableLevel = 2; //air, infantry and mech, one tile less movement, no water
+        }else if(tile == 5 || 7){
+          walkableLevel = 3; //air, infantry and mech, one movement max, no water
+        }else if(tile == 28 || tile == 29){
+          walkableLevel = 5; //air only
+        }else if(tile == 155 || tile == 134 || tile == 137){
+          walkableLevel = 4; //water and air only
+        }
+    });
   }
 }
 let selectedUnit;
@@ -73,16 +88,65 @@ let selectedUnit;
 const mainSpriteSheet = document.createElement('img');
 mainSpriteSheet.src=('./img/UnitMap.png');
 
+const token = 0;
+
+const actionState = {
+  current: 0,
+  move: 1,
+  fire: 2,
+  end: 3,
+  idle: 4
+}
+
 class Unit{
   constructor(tileX, tileY, range){
     this.tileX = tileX;
     this.tileY = tileY;
-    this.range = range;
+    this.range = 3;
     this.x = (this.tileX - 1) * mainMap.tsize;
     this.y = (this.tileY - 1) * mainMap.tsize;
+    this.drawGrid = false;
+    this.count = 0;
+    this.movementGrid = [];
+  }
+
+  isArrayinArray(arr, item){
+    var itemAsString = JSON.stringify(item);
+    var contains = arr.some((value) => {
+      return JSON.stringify(value) === itemAsString;
+    });
+    return contains;
+  }
+
+  generateMovementTiles(startX, startY, count){
+    let xyOffsets = [[0,0], [-1, 0], [1,0], [0, -1], [0,1]];
+    let i = 0;
+    let j = 0;
+    count--;
+    xyOffsets.forEach((value) => {
+      i = startX + value[0];
+      j = startY + value[1];
+      if(!this.isArrayinArray(this.movementGrid, [i,j])) this.movementGrid.push([i,j]);
+      if(count > 0){
+        this.generateMovementTiles(i, j, count);
+      }
+    });
+  }
+
+  drawMovementTiles(x, y, context){
+    context.fillStyle = 'rgba(255,255,255, 0.5)';
+    context.beginPath();
+    context.rect((x-1) * mainMap.tsize, (y-1) * mainMap.tsize, mainMap.tsize, mainMap.tsize);
+    context.fill();
+    context.closePath();
   }
 
   draw(context){
+    if(this.drawGrid == true){
+      this.movementGrid.forEach((value) => {
+        this.drawMovementTiles(value[0], value[1], context);
+      })
+    }
     context.drawImage(mainSpriteSheet, 3, 104, mainMap.tsize, mainMap.tsize, this.x, this.y, mainMap.tsize, mainMap.tsize);
   }
 
@@ -90,9 +154,20 @@ class Unit{
     return {tileX: this.tileX, tileY: this.tileY};
   }
 
+  startMovement = () => {
+    this.drawGrid = true;
+    this.generateMovementTiles(this.tileX, this.tileY, this.range);
+  }
+
   moveTo(tileX, tileY){
-    this.tileX = tileX;
-    this.tileY = tileY;
+    console.log(tileX, this.tileX);
+    if(Math.abs(tileX - this.tileX) > this.range || Math.abs(tileY - this.tileY) > this.range){
+      this.drawGrid = false;
+      this.movementGrid = [];
+      this.count = 0;
+      actionState.current = actionState.idle;
+      return;
+    }
     //this is temporary, change it.
     var movementInterval = setInterval(() => {
       if(this.x < (tileX-1) * mainMap.tsize){
@@ -108,19 +183,17 @@ class Unit{
         clearInterval(movementInterval);
       }
     }, 1);
-
+    this.tileX = tileX;
+    this.tileY = tileY;
+    this.drawGrid = false;
+    this.movementGrid = [];
+    this.count = 0;
     // this.x = (tileX-1) * mainMap.tsize;
     // this.y = (tileY-1) * mainMap.tsize;
     actionState.current = actionState.fire;
   }
 }
 
-const actionState = {
-  current: 0,
-  move: 1,
-  fire: 2,
-  end: 3
-}
 
 class Player{
   constructor(){
@@ -145,7 +218,7 @@ class MainGameLoop{
     this.render();
 
     //use mousemove for hover
-    this.canvas.addEventListener('click', function(e){
+    this.canvas.addEventListener('click', (e) => {
       let rect = self.canvas.getBoundingClientRect();
       let mousePos = {
         x: e.clientX - rect.left,
@@ -160,9 +233,10 @@ class MainGameLoop{
       if(actionState.current == actionState.move){
         selectedUnit.moveTo(clickedTile.tileX, clickedTile.tileY);
       }else{
-        playerList.forEach(function(valueP){
-          valueP.unitList.forEach(function(valueU){
+        playerList.forEach((valueP) => {
+          valueP.unitList.forEach((valueU) => {
             if(valueU.getTilePos().tileX == clickedTile.tileX && valueU.getTilePos().tileY == clickedTile.tileY){
+              valueU.startMovement(this.context);
               actionState.current = actionState.move;
               selectedUnit = valueU;
             }
@@ -203,6 +277,7 @@ class MainGameLoop{
   }
 
   render(){
+    this.context.clearRect(0,0, this.canvas.width, this.canvas.height);
     this.drawLayer(0);
     this.drawLayer(1);
     player1.unitList[1].draw(this.context);
