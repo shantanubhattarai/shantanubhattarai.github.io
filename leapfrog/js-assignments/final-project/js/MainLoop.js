@@ -123,6 +123,7 @@ class Unit{
     this.toMoveTotileY = 0;
     this.walkableLevel = walkableLevel;
     this.movementPath = [];
+    this.nodeCount = 0;
   }
 
   isArrayinArray(arr, item){
@@ -214,8 +215,11 @@ class Unit{
       [current.x - 1, current.y], [current.x, current.y+1]
     ];
     results = results.filter((value) => {
+      return 0 < value[0] && 0 < value[1];
+    });
+    results = results.filter((value) => {
       return mainMap.getTileWalkable(value[0]-1, value[1]-1) <= this.walkableLevel;
-    })
+    });
     return results;
   }
 
@@ -241,9 +245,8 @@ class Unit{
       this.getNeighbours(current).forEach((value) => {
         i = value[0];
         j = value[1];
-        let thisPos = {x: i, y: j}
-
-        if(!came_from.includes(thisPos)){
+        let thisPos = {x: i, y: j};
+        if(came_from.length == 0 || !came_from.some(posCheck => (posCheck.x == thisPos.x && posCheck.y == thisPos.y))){
           let priority = this.heuristic(i, j);
           frontier.enqueue(thisPos, priority);
           came_from.push(thisPos);
@@ -255,18 +258,30 @@ class Unit{
   update = () => {
     if(actionState.current == actionState.move && selectedUnit == this){
       console.log(this.movementPath);
-      this.x = (this.movementPath[1].x - 1) * mainMap.tsize;
-      this.y = (this.movementPath[1].y - 1) * mainMap.tsize;
+      var newPos = {x: this.movementPath[this.nodeCount].x - this.tileX,
+                    y: this.movementPath[this.nodeCount].y - this.tileY};
+      this.tileX += newPos.x * 0.9;
+      this.tileY += newPos.y * 0.9;
+      this.x = (this.tileX - 1) * mainMap.tsize;
+      this.y = (this.tileY - 1) * mainMap.tsize;
 
-    if(Math.floor(this.x/mainMap.tsize + 1) == this.toMoveTotileX && Math.floor(this.y/mainMap.tsize + 1) == this.toMoveTotileY)
-      this.tileX = this.toMoveTotileX;
-      this.tileY = this.toMoveTotileY;
-      this.drawGrid = false;
-      this.movementGrid = [];
-      actionState.current = actionState.fire;
-      this.count = 0;
+      if(this.tileX == (this.movementPath[this.nodeCount].x)
+      && this.tileY == (this.movementPath[this.nodeCount].y)) {
+        if(this.nodeCount < this.movementPath.length - 1) this.nodeCount++;
+      }
+      if(
+        this.tileX == this.toMoveTotileX &&
+        this.tileY == this.toMoveTotileY
+      ){
+        this.drawGrid = false;
+        this.movementGrid = [];
+        actionState.current = actionState.fire;
+        this.count = 0;
+        this.nodeCount = 0;
+        this.movementPath = [];
+      }
+    }
   }
-}
 
   moveTo = (tileX, tileY) => {
     if(!this.isArrayinArray(this.movementGrid, [tileX, tileY])){
