@@ -92,10 +92,11 @@ const token = 0;
 
 const actionState = {
   current: 0,
-  move: 1,
-  fire: 2,
-  end: 3,
-  idle: 4
+  prepareMove: 1,
+  move: 2,
+  fire: 3,
+  end: 4,
+  idle: 5
 }
 
 class Unit{
@@ -108,6 +109,8 @@ class Unit{
     this.drawGrid = false;
     this.count = 0;
     this.movementGrid = [];
+    this.toMoveTotileX = 0;
+    this.toMoveTotileY = 0;
   }
 
   isArrayinArray(arr, item){
@@ -159,8 +162,31 @@ class Unit{
     this.generateMovementTiles(this.tileX, this.tileY, this.range);
   }
 
+  update = () => {
+    if(actionState.current == actionState.move && selectedUnit == this){
+      if(this.x < (this.toMoveTotileX-1) * mainMap.tsize){
+        this.x += 1;
+      }else if(this.x > (this.toMoveTotileX - 1) * mainMap.tsize){
+        this.x -= 1;
+      }else if(this.y < (this.toMoveTotileY - 1) * mainMap.tsize){
+        this.y += 1;
+      }else if(this.y > (this.toMoveTotileY - 1) * mainMap.tsize){
+        this.y -= 1;
+      }else{
+        this.tileX = this.toMoveTotileX;
+        this.tileY = this.toMoveTotileY;
+        this.drawGrid = false;
+        this.movementGrid = [];
+        this.count = 0;
+        actionState.current = actionState.fire;
+      }
+    }
+  }
+
   moveTo(tileX, tileY){
-    console.log(tileX, this.tileX);
+    this.toMoveTotileX = tileX;
+    this.toMoveTotileY = tileY;
+    actionState.current = actionState.move;
     if(Math.abs(tileX - this.tileX) > this.range || Math.abs(tileY - this.tileY) > this.range){
       this.drawGrid = false;
       this.movementGrid = [];
@@ -168,29 +194,6 @@ class Unit{
       actionState.current = actionState.idle;
       return;
     }
-    //this is temporary, change it.
-    var movementInterval = setInterval(() => {
-      if(this.x < (tileX-1) * mainMap.tsize){
-        this.x += 1;
-      }else if(this.x > (tileX - 1) * mainMap.tsize){
-        this.x -= 1;
-      }else if(this.y < (tileY - 1) * mainMap.tsize){
-        this.y += 1;
-      }else if(this.y > (tileY - 1) * mainMap.tsize){
-        this.y -= 1;
-      }
-      else{
-        clearInterval(movementInterval);
-      }
-    }, 1);
-    this.tileX = tileX;
-    this.tileY = tileY;
-    this.drawGrid = false;
-    this.movementGrid = [];
-    this.count = 0;
-    // this.x = (tileX-1) * mainMap.tsize;
-    // this.y = (tileY-1) * mainMap.tsize;
-    actionState.current = actionState.fire;
   }
 }
 
@@ -230,20 +233,19 @@ class MainGameLoop{
         tileY: Math.floor(mousePos.y / mainMap.tsize) + 1
       };
 
-      if(actionState.current == actionState.move){
+      if(actionState.current == actionState.prepareMove){
         selectedUnit.moveTo(clickedTile.tileX, clickedTile.tileY);
       }else{
         playerList.forEach((valueP) => {
           valueP.unitList.forEach((valueU) => {
             if(valueU.getTilePos().tileX == clickedTile.tileX && valueU.getTilePos().tileY == clickedTile.tileY){
               valueU.startMovement(this.context);
-              actionState.current = actionState.move;
+              actionState.current = actionState.prepareMove;
               selectedUnit = valueU;
             }
           });
         });
       }
-
     });
   }
 
@@ -269,7 +271,11 @@ class MainGameLoop{
   }
 
   update(){
-
+    playerList.forEach((valueP)=>{
+      valueP.unitList.forEach((valueU) => {
+        valueU.update();
+      });
+    });
   }
 
   init(){
@@ -282,6 +288,7 @@ class MainGameLoop{
     this.drawLayer(1);
     player1.unitList[1].draw(this.context);
     player1.unitList[0].draw(this.context);
+    this.update();
     window.requestAnimationFrame(this.render.bind(this));
   }
 }
