@@ -54,7 +54,7 @@ const mainMap = {
     2   ,2   ,0  ,0,0  ,0  ,0  ,0,0  ,0  ,0  ,0,0,0,0,0,0,0 ,0 ,0,0,0,0,0,0,0,0,0,0,0,0   ,0  ,
     2   ,0   ,0  ,0,0  ,0  ,0  ,0,0  ,0  ,0  ,0,0,0,0,0,0,0 ,0 ,0,0,0,0,0,0,0,0,0,0,0,0   ,0  ,
     2   ,0   ,0  ,0,0  ,0  ,0  ,0,0  ,0  ,0  ,0,0,0,0,0,0,0 ,0 ,0,0,0,0,0,0,0,0,0,0,0,0   ,0  ,
-    5   ,0   ,2  ,0,0  ,0  ,0  ,0,0  ,0  ,0  ,0,0,0,0,0,0,0 ,0 ,0,0,0,0,0,0,0,0,0,0,0,0   ,0  ,
+    7   ,0   ,2  ,0,0  ,0  ,0  ,0,0  ,0  ,0  ,0,0,0,0,0,0,0 ,0 ,0,0,0,0,0,0,0,0,0,0,0,0   ,0  ,
     29  ,28  ,2  ,2,0  ,0  ,0  ,0,0  ,0  ,0  ,0,0,0,0,0,0,0 ,0 ,0,0,0,0,0,0,0,0,0,0,0,0   ,0  ,
     28  ,2   ,0  ,2,2  ,0  ,0  ,0,0  ,0  ,0  ,2,0,0,0,0,0,0 ,0 ,0,0,0,0,0,0,0,0,0,0,0,0   ,0  ,
     2   ,0   ,0  ,0,0  ,0  ,0  ,0,0  ,0  ,2  ,2,0,0,0,0,0,0 ,0 ,0,0,0,0,0,0,0,0,0,0,0,0   ,0  ,
@@ -110,7 +110,7 @@ const actionState = {
 }
 
 class Unit{
-  constructor(tileX, tileY, range){
+  constructor(tileX, tileY, range, walkableLevel){
     this.tileX = tileX;
     this.tileY = tileY;
     this.range = range;
@@ -121,7 +121,8 @@ class Unit{
     this.movementGrid = [];
     this.toMoveTotileX = 0;
     this.toMoveTotileY = 0;
-    this.walkableLevel = 2;
+    this.walkableLevel = walkableLevel;
+    this.movementPath = [];
   }
 
   isArrayinArray(arr, item){
@@ -175,8 +176,6 @@ class Unit{
         //this.generateMovementTiles(element[0], element[1], element[2], element[3]);
       });
     }
-
-
   }
 
   drawMovementTiles(x, y, context){
@@ -205,31 +204,71 @@ class Unit{
     this.generateMovementTiles(this.tileX, this.tileY, this.range, 0);
   }
 
-  update = () => {
-    if(actionState.current == actionState.move && selectedUnit == this){
-      if(this.x < (this.toMoveTotileX-1) * mainMap.tsize){
-        this.x += 1;
-      }else if(this.x > (this.toMoveTotileX - 1) * mainMap.tsize){
-        this.x -= 1;
-      }else if(this.y < (this.toMoveTotileY - 1) * mainMap.tsize){
-        this.y += 1;
-      }else if(this.y > (this.toMoveTotileY - 1) * mainMap.tsize){
-        this.y -= 1;
-      }else{
-        this.tileX = this.toMoveTotileX;
-        this.tileY = this.toMoveTotileY;
-        this.drawGrid = false;
-        this.movementGrid = [];
-        this.count = 0;
-        actionState.current = actionState.fire;
+  heuristic = (tileX, tileY) => {
+    return Math.abs(tileX - this.toMoveTotileX) + Math.abs(tileY - this.toMoveTotileY);
+  }
+
+  getNeighbours = (current) =>{
+    let results = [
+      [current.x + 1, current.y], [current.x, current.y-1],
+      [current.x - 1, current.y], [current.x, current.y+1]
+    ];
+    results = results.filter((value) => {
+      return mainMap.getTileWalkable(value[0]-1, value[1]-1) <= this.walkableLevel;
+    })
+    return results;
+  }
+
+  pathfinder = () => {
+    let frontier = new PriorityQueue();
+    let start = {
+      x: this.tileX,
+      y: this.tileY
+    }
+    frontier.enqueue(start, 0);
+
+    let came_from = [];
+    came_from.push(start);
+    while(!frontier.isEmpty()){
+      let current = frontier.dequeue().element;
+      this.movementPath.push(current);
+      if (current.x == this.toMoveTotileX && current.y == this.toMoveTotileY){
+        break;
       }
+
+      let i = 0;
+      let j = 0;
+      this.getNeighbours(current).forEach((value) => {
+        i = value[0];
+        j = value[1];
+        let thisPos = {x: i, y: j}
+
+        if(!came_from.includes(thisPos)){
+          let priority = this.heuristic(i, j);
+          frontier.enqueue(thisPos, priority);
+          came_from.push(thisPos);
+        }
+      });
     }
   }
 
+  update = () => {
+    if(actionState.current == actionState.move && selectedUnit == this){
+      console.log(this.movementPath);
+      this.x = (this.movementPath[1].x - 1) * mainMap.tsize;
+      this.y = (this.movementPath[1].y - 1) * mainMap.tsize;
+
+    if(Math.floor(this.x/mainMap.tsize + 1) == this.toMoveTotileX && Math.floor(this.y/mainMap.tsize + 1) == this.toMoveTotileY)
+      this.tileX = this.toMoveTotileX;
+      this.tileY = this.toMoveTotileY;
+      this.drawGrid = false;
+      this.movementGrid = [];
+      actionState.current = actionState.fire;
+      this.count = 0;
+  }
+}
+
   moveTo = (tileX, tileY) => {
-    this.toMoveTotileX = tileX;
-    this.toMoveTotileY = tileY;
-    actionState.current = actionState.move;
     if(!this.isArrayinArray(this.movementGrid, [tileX, tileY])){
       this.drawGrid = false;
       this.movementGrid = [];
@@ -237,6 +276,11 @@ class Unit{
       actionState.current = actionState.idle;
       return;
     }
+
+    this.toMoveTotileX = tileX;
+    this.toMoveTotileY = tileY;
+    actionState.current = actionState.move;
+    this.pathfinder();
   }
 }
 
@@ -244,10 +288,11 @@ class Unit{
 class Player{
   constructor(){
     this.unitList = [];
-    let newUnit = new Unit(5,5, 5);
+    let newUnit = new Unit(5,5, 5, 2);
     this.unitList.push(newUnit);
-    let newUnit2 = new Unit(5,10, 10);
+    let newUnit2 = new Unit(5,10, 10, 3);
     this.unitList.push(newUnit2);
+    this.active = true;
   }
 }
 
