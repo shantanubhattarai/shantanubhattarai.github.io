@@ -69,17 +69,27 @@ const mainMap = {
   },
   getTileWalkable(tileX, tileY){
     return this.layers.reduce((res, layer, index) => {
-      var tile = this.getTile(index, tileX, tileY)
+      var tile = this.getTile(index, tileX, tileY);
         var walkableLevel = 1;
         if(tile == 2 || tile == 3){
           walkableLevel = 2; //air, infantry and mech, one tile less movement, no water
-        }else if(tile == 5 || 7){
+        }else if(tile == 5 || tile == 7){
           walkableLevel = 3; //air, infantry and mech, one movement max, no water
         }else if(tile == 28 || tile == 29){
           walkableLevel = 5; //air only
         }else if(tile == 155 || tile == 134 || tile == 137){
           walkableLevel = 4; //water and air only
         }
+        return walkableLevel;
+    });
+  },
+  getTileMoveCost(tileX, tileY){
+    return this.layers.reduce(() => {
+      if(this.getTileWalkable(tileX, tileY) == 2){
+        return 2;
+      }else{
+        return 1;
+      }
     });
   }
 }
@@ -103,7 +113,7 @@ class Unit{
   constructor(tileX, tileY, range){
     this.tileX = tileX;
     this.tileY = tileY;
-    this.range = 3;
+    this.range = range;
     this.x = (this.tileX - 1) * mainMap.tsize;
     this.y = (this.tileY - 1) * mainMap.tsize;
     this.drawGrid = false;
@@ -111,29 +121,62 @@ class Unit{
     this.movementGrid = [];
     this.toMoveTotileX = 0;
     this.toMoveTotileY = 0;
+    this.walkableLevel = 2;
   }
 
   isArrayinArray(arr, item){
     var itemAsString = JSON.stringify(item);
     var contains = arr.some((value) => {
-      return JSON.stringify(value) === itemAsString;
+      return JSON.stringify([value[0],value[1]]) === itemAsString;
     });
     return contains;
   }
 
-  generateMovementTiles(startX, startY, count){
+  isCountGreaterThanExisting(arr, item){
+    var itemAsString = JSON.stringify([item[0], item[1]]);
+    for(let i = 0; i < arr.length; i++){
+      if(JSON.stringify([arr[i][0],arr[i][1]]) === itemAsString){
+        return [i, (item[2] > arr[i][2])];
+      }
+    }
+    return false;
+  }
+
+
+  generateMovementTiles(startX, startY, count, moveCost){
     let xyOffsets = [[0,0], [-1, 0], [1,0], [0, -1], [0,1]];
     let i = 0;
     let j = 0;
-    count--;
-    xyOffsets.forEach((value) => {
-      i = startX + value[0];
-      j = startY + value[1];
-      if(!this.isArrayinArray(this.movementGrid, [i,j])) this.movementGrid.push([i,j]);
-      if(count > 0){
-        this.generateMovementTiles(i, j, count);
-      }
-    });
+    let childrenGrid = [];
+    if(moveCost <= count){
+      xyOffsets.forEach((value) => {
+        i = startX + value[0];
+        j = startY + value[1];
+        let newMoveCost = mainMap.getTileMoveCost(i-1, j-1);
+        let newCount = count;
+        if(mainMap.getTileWalkable(i-1, j-1) <= this.walkableLevel){
+          if(childrenGrid.length > 0 && this.isCountGreaterThanExisting(childrenGrid, [i,j, newCount])[1]){
+            childrenGrid[replaceArray[0]] = [i, j, newCount, newMoveCost];
+          }
+          if(this.isArrayinArray(this.movementGrid, [i,j])){
+            let replaceArray = this.isCountGreaterThanExisting(this.movementGrid, [i, j, newCount]);
+            if(replaceArray[1]){
+              this.movementGrid[replaceArray[0]] = [i, j, newCount, newMoveCost];
+            }
+          }else{
+            newCount -= newMoveCost;
+            this.movementGrid.push([i,j, newCount, newMoveCost]);
+            childrenGrid.push([i,j,newCount, newMoveCost]);
+          }
+        }
+      });
+      childrenGrid.forEach(element => {
+        setTimeout(()=>{this.generateMovementTiles(element[0], element[1], element[2], element[3]);}, 0)
+        //this.generateMovementTiles(element[0], element[1], element[2], element[3]);
+      });
+    }
+
+
   }
 
   drawMovementTiles(x, y, context){
@@ -159,7 +202,7 @@ class Unit{
 
   startMovement = () => {
     this.drawGrid = true;
-    this.generateMovementTiles(this.tileX, this.tileY, this.range);
+    this.generateMovementTiles(this.tileX, this.tileY, this.range, 0);
   }
 
   update = () => {
@@ -183,11 +226,11 @@ class Unit{
     }
   }
 
-  moveTo(tileX, tileY){
+  moveTo = (tileX, tileY) => {
     this.toMoveTotileX = tileX;
     this.toMoveTotileY = tileY;
     actionState.current = actionState.move;
-    if(Math.abs(tileX - this.tileX) > this.range || Math.abs(tileY - this.tileY) > this.range){
+    if(!this.isArrayinArray(this.movementGrid, [tileX, tileY])){
       this.drawGrid = false;
       this.movementGrid = [];
       this.count = 0;
@@ -203,7 +246,7 @@ class Player{
     this.unitList = [];
     let newUnit = new Unit(5,5, 5);
     this.unitList.push(newUnit);
-    let newUnit2 = new Unit(5,6, 3);
+    let newUnit2 = new Unit(5,10, 10);
     this.unitList.push(newUnit2);
   }
 }
