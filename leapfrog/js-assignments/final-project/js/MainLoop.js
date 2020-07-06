@@ -98,8 +98,6 @@ let selectedUnit;
 const mainSpriteSheet = document.createElement('img');
 mainSpriteSheet.src=('./img/UnitMap.png');
 
-const token = 0;
-
 const actionState = {
   current: 0,
   prepareMove: 1,
@@ -110,7 +108,7 @@ const actionState = {
 }
 
 class Unit{
-  constructor(tileX, tileY, range, walkableLevel){
+  constructor(tileX, tileY, range, walkableLevel, color){
     this.tileX = tileX;
     this.tileY = tileY;
     this.range = range;
@@ -124,6 +122,7 @@ class Unit{
     this.walkableLevel = walkableLevel;
     this.movementPath = [];
     this.nodeCount = 0;
+    this.color = color;
   }
 
   isArrayinArray(arr, item){
@@ -194,12 +193,12 @@ class Unit{
       })
     }
     let spritePos = {
-      red: {},
-      blue: {},
-      green: {},
-      yellow: {}
+      red: {x: 3, y: 104},
+      blue: {x: 392, y: 104},
+      green: {x: 3, y: 672},
+      yellow: {x: 392, y: 672}
     }
-    context.drawImage(mainSpriteSheet, 3, 104, mainMap.tsize, mainMap.tsize, this.x, this.y, mainMap.tsize, mainMap.tsize);
+    context.drawImage(mainSpriteSheet, spritePos[this.color].x, spritePos[this.color].y, mainMap.tsize, mainMap.tsize, this.x, this.y, mainMap.tsize, mainMap.tsize);
   }
 
   getTilePos(){
@@ -307,18 +306,19 @@ class Unit{
 }
 
 class Infantry extends Unit{
-  constructor(tileX, tileY, range, walkableLevel){
-    super(tileX, tileY, range, walkableLevel);
+  constructor(tileX, tileY, range, walkableLevel, color){
+    super(tileX, tileY, range, walkableLevel, color);
   }
 };
 
 class Player{
-  constructor(){
+  constructor(color){
     this.unitList = [];
     this.active = true;
+    this.color = color;
   }
   addUnit(tileX, tileY, range, walkableLevel){
-    let newUnit = new Infantry(tileX, tileY, range, walkableLevel);
+    let newUnit = new Infantry(tileX, tileY, range, walkableLevel, this.color);
     this.unitList.push(newUnit);
   }
 }
@@ -334,7 +334,7 @@ class MainGameLoop{
     this.canvas.height = mainMap.rows * mainMap.tsize;
     this.context = this.canvas.getContext('2d');
     this.render();
-
+    this.token = 0;
     //use mousemove for hover
     this.canvas.addEventListener('click', (e) => {
       let rect = self.canvas.getBoundingClientRect();
@@ -352,13 +352,15 @@ class MainGameLoop{
         selectedUnit.moveTo(clickedTile.tileX, clickedTile.tileY);
       }else{
         playerList.forEach((valueP) => {
-          valueP.unitList.forEach((valueU) => {
-            if(valueU.getTilePos().tileX == clickedTile.tileX && valueU.getTilePos().tileY == clickedTile.tileY){
-              valueU.startMovement(this.context);
-              actionState.current = actionState.prepareMove;
-              selectedUnit = valueU;
-            }
-          });
+          if(valueP.active){
+            valueP.unitList.forEach((valueU) => {
+              if(valueU.getTilePos().tileX == clickedTile.tileX && valueU.getTilePos().tileY == clickedTile.tileY){
+                  valueU.startMovement(this.context);
+                  actionState.current = actionState.prepareMove;
+                  selectedUnit = valueU;
+              }
+            });
+          }
         });
       }
     });
@@ -386,7 +388,11 @@ class MainGameLoop{
   }
 
   update(){
-    playerList.forEach((valueP)=>{
+    playerList.forEach((valueP, index)=>{
+      if(this.token !== undefined && this.token != index){
+        console.log(this.token);
+        valueP.active = false;
+      }
       valueP.unitList.forEach((valueU) => {
         valueU.update();
       });
@@ -411,11 +417,12 @@ class MainGameLoop{
 
 const playerList = [];
 
-let player1 = new Player();
-player1.addUnit(5,5,3,5);
+let player1 = new Player('red');
 playerList.push(player1);
-let player2 = new Player();
+player1.addUnit(5,5,3,3);
+let player2 = new Player('blue');
 playerList.push(player2);
+player2.addUnit(10,5,3,3);
 window.onload = () => {
   let mainGameLoop = new MainGameLoop();
 }
