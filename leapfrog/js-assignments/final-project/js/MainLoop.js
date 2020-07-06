@@ -91,6 +91,19 @@ const mainMap = {
         return 1;
       }
     });
+  },
+  getTileHasOpposingPlayer(tileX, tileY){
+    let hasCollided = false;
+    playerList.forEach(valueP => {
+      if(valueP.active == false){
+        valueP.unitList.forEach(valueU => {
+          if((tileX) == valueU.tileX && (tileY) == valueU.tileY){
+            hasCollided = true;
+          }
+        });
+      }
+    });
+    return hasCollided;
   }
 }
 let selectedUnit;
@@ -155,7 +168,7 @@ class Unit{
         j = startY + value[1];
         let newMoveCost = mainMap.getTileMoveCost(i-1, j-1);
         let newCount = count;
-        if(mainMap.getTileWalkable(i-1, j-1) <= this.walkableLevel){
+        if(!mainMap.getTileHasOpposingPlayer(i, j) && mainMap.getTileWalkable(i-1, j-1) <= this.walkableLevel){
           if(childrenGrid.length > 0 && this.isCountGreaterThanExisting(childrenGrid, [i,j, newCount])[1]){
             childrenGrid[replaceArray[0]] = [i, j, newCount, newMoveCost];
           }
