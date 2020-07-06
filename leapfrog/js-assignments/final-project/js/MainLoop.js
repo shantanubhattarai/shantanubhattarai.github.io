@@ -350,6 +350,7 @@ class MainGameLoop{
 
       if(actionState.current == actionState.prepareMove){
         selectedUnit.moveTo(clickedTile.tileX, clickedTile.tileY);
+        this.switchToken();
       }else{
         playerList.forEach((valueP) => {
           if(valueP.active){
@@ -364,6 +365,11 @@ class MainGameLoop{
         });
       }
     });
+  }
+
+  switchToken(){
+    if(this.token < playerList.length - 1) this.token++;
+    else this.token = 0;
   }
 
   drawLayer(layer){
@@ -390,8 +396,9 @@ class MainGameLoop{
   update(){
     playerList.forEach((valueP, index)=>{
       if(this.token !== undefined && this.token != index){
-        console.log(this.token);
         valueP.active = false;
+      }else{
+        valueP.active = true;
       }
       valueP.unitList.forEach((valueU) => {
         valueU.update();
