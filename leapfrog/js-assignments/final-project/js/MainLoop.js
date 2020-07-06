@@ -193,6 +193,12 @@ class Unit{
         this.drawMovementTiles(value[0], value[1], context);
       })
     }
+    let spritePos = {
+      red: {},
+      blue: {},
+      green: {},
+      yellow: {}
+    }
     context.drawImage(mainSpriteSheet, 3, 104, mainMap.tsize, mainMap.tsize, this.x, this.y, mainMap.tsize, mainMap.tsize);
   }
 
@@ -257,11 +263,12 @@ class Unit{
 
   update = () => {
     if(actionState.current == actionState.move && selectedUnit == this){
-      console.log(this.movementPath);
-      var newPos = {x: this.movementPath[this.nodeCount].x - this.tileX,
-                    y: this.movementPath[this.nodeCount].y - this.tileY};
-      this.tileX += newPos.x * 0.9;
-      this.tileY += newPos.y * 0.9;
+      var newPos = {
+        x: this.movementPath[this.nodeCount].x - this.tileX,
+        y: this.movementPath[this.nodeCount].y - this.tileY
+      };
+      this.tileX += newPos.x * 1;
+      this.tileY += newPos.y * 1;
       this.x = (this.tileX - 1) * mainMap.tsize;
       this.y = (this.tileY - 1) * mainMap.tsize;
 
@@ -299,15 +306,20 @@ class Unit{
   }
 }
 
+class Infantry extends Unit{
+  constructor(tileX, tileY, range, walkableLevel){
+    super(tileX, tileY, range, walkableLevel);
+  }
+};
 
 class Player{
   constructor(){
     this.unitList = [];
-    let newUnit = new Unit(5,5, 5, 2);
-    this.unitList.push(newUnit);
-    let newUnit2 = new Unit(5,10, 10, 3);
-    this.unitList.push(newUnit2);
     this.active = true;
+  }
+  addUnit(tileX, tileY, range, walkableLevel){
+    let newUnit = new Infantry(tileX, tileY, range, walkableLevel);
+    this.unitList.push(newUnit);
   }
 }
 
@@ -389,8 +401,9 @@ class MainGameLoop{
     this.context.clearRect(0,0, this.canvas.width, this.canvas.height);
     this.drawLayer(0);
     this.drawLayer(1);
-    player1.unitList[1].draw(this.context);
-    player1.unitList[0].draw(this.context);
+    playerList.forEach(player => {
+      player.unitList.forEach(unit => unit.draw(this.context));
+    })
     this.update();
     window.requestAnimationFrame(this.render.bind(this));
   }
@@ -399,7 +412,10 @@ class MainGameLoop{
 const playerList = [];
 
 let player1 = new Player();
+player1.addUnit(5,5,3,5);
 playerList.push(player1);
+let player2 = new Player();
+playerList.push(player2);
 window.onload = () => {
   let mainGameLoop = new MainGameLoop();
 }
