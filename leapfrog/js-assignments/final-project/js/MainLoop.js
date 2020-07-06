@@ -236,7 +236,7 @@ class Unit{
       return 0 < value[0] && 0 < value[1];
     });
     results = results.filter((value) => {
-      return mainMap.getTileWalkable(value[0]-1, value[1]-1) <= this.walkableLevel;
+      return !mainMap.getTileHasOpposingPlayer(value[0], value[1]) && mainMap.getTileWalkable(value[0]-1, value[1]-1) <= this.walkableLevel;
     });
     return results;
   }
@@ -298,6 +298,7 @@ class Unit{
         this.count = 0;
         this.nodeCount = 0;
         this.movementPath = [];
+        window.mainGameLoop.switchToken();
       }
     }
   }
@@ -363,7 +364,6 @@ class MainGameLoop{
 
       if(actionState.current == actionState.prepareMove){
         selectedUnit.moveTo(clickedTile.tileX, clickedTile.tileY);
-        this.switchToken();
       }else{
         playerList.forEach((valueP) => {
           if(valueP.active){
@@ -443,6 +443,6 @@ player1.addUnit(5,5,3,3);
 let player2 = new Player('blue');
 playerList.push(player2);
 player2.addUnit(10,5,3,3);
-window.onload = () => {
-  let mainGameLoop = new MainGameLoop();
-}
+
+var mainGameLoop = new MainGameLoop();
+
