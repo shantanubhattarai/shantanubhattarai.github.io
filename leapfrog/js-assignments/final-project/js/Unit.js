@@ -127,9 +127,18 @@ class Unit{
       red: {x: 3, y: 104},
       blue: {x: 392, y: 104},
       green: {x: 3, y: 672},
-      yellow: {x: 392, y: 672}
+      yellow: {x: 392, y: 672},
+      redInactive: {x: 339,y: 104},
+      blueInactive: {x: 728,y: 104},
+      greenInactive: {x: 339,y: 672},
+      yellowInactive: {x: 728, y: 672}
     }
-    context.drawImage(mainSpriteSheet, spritePos[this.color].x, spritePos[this.color].y, mainMap.tsize, mainMap.tsize, this.x, this.y, mainMap.tsize, mainMap.tsize);
+    if(this.actionState.current == this.actionState.inactive) {
+      context.drawImage(mainSpriteSheet, spritePos[this.color + 'Inactive'].x, spritePos[this.color + 'Inactive'].y, mainMap.tsize, mainMap.tsize, this.x, this.y, mainMap.tsize, mainMap.tsize);
+    }else{
+      context.drawImage(mainSpriteSheet, spritePos[this.color].x, spritePos[this.color].y, mainMap.tsize, mainMap.tsize, this.x, this.y, mainMap.tsize, mainMap.tsize);
+    }
+
   }
 
   getTilePos(){
