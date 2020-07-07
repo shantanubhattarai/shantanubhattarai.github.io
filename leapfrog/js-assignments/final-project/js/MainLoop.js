@@ -7,6 +7,7 @@ class MainGameLoop{
     this.canvas.width = mainMap.cols * mainMap.tsize;
     this.canvas.height = mainMap.rows * mainMap.tsize;
     this.context = this.canvas.getContext('2d');
+    this.init();
     this.render();
     this.token = 0;
     this.setToken(0);
@@ -115,8 +116,6 @@ class MainGameLoop{
     }
   }
 
-
-
   update(){
     if(currentPlayer !== undefined){
       playerList.forEach((valueP)=>{
@@ -125,6 +124,11 @@ class MainGameLoop{
         });
       });
       if(selectedUnit !== undefined && selectedUnit.actionState.current == selectedUnit.actionState.selectingAction){
+        if(mainMap.getTileIsBuilding(selectedUnit.tileX-1, selectedUnit.tileY-1)){
+          actionMenuCapture.style.display = 'block';
+        }else{
+          actionMenuCapture.style.display = 'none';
+        }
         actionMenu.style.display = 'block';
       }else{
         actionMenu.style.display = 'none';
@@ -132,8 +136,26 @@ class MainGameLoop{
     }
   }
 
-  init(){
+  generateBuildings(){
+    for(let c = 0; c < mainMap.cols; c++){
+      for (let r = 0; r < mainMap.rows; r++){
+        var tile = mainMap.getTile(1, c, r);
+        if (tile !== 0){
+          if(tile == 500){
+            let newBuilding = new Building(c+1, r+1);
+            buildingsList.push(newBuilding);
+          }else if(tile == 501){
+            let newBuilding = new Factory(c+1, r+1);
+            buildingsList.push(newBuilding);
+          }
+        }
+      }
+    }
+    console.log(buildingsList);
+  }
 
+  init(){
+    this.generateBuildings();
   }
 
   render(){
@@ -141,6 +163,7 @@ class MainGameLoop{
     this.drawLayer(0);
     this.drawLayer(1);
     playerList.forEach(player => {
+      player.update();
       player.unitList.forEach(unit => unit.draw(this.context));
     })
     this.update();
@@ -149,13 +172,13 @@ class MainGameLoop{
 }
 
 const playerList = [];
-
+const buildingsList = [];
 let player1 = new Player('red');
 playerList.push(player1);
-player1.addUnit(10,10,3,3);
-player1.addUnit(11,12,3,3);
+player1.addUnit(10,6,3,3,'infantry');
+player1.addUnit(11,12,3,3,'infantry');
 let player2 = new Player('blue');
 playerList.push(player2);
-player2.addUnit(10,20,3,3);
-
+player2.addUnit(10,20,3,3,'infantry');
+player2.addUnit(5,5,3,3,'cruiser');
 var mainGameLoop = new MainGameLoop();

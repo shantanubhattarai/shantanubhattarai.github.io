@@ -67,6 +67,9 @@ const mainMap = {
   getTile: function(layer, col,row){
     return this.layers[layer][row * this.cols + col];
   },
+  setTile: function(layer, col, row, newTile){
+    this.layers[layer][row * this.cols + col] = newTile;
+  },
   getTileWalkable(tileX, tileY){
     // let normalWalk = []; fill these with tiles representing each, then just array includes below
     // let slowWalk = [];
@@ -110,11 +113,37 @@ const mainMap = {
       }
     });
     return hasCollided;
-  }
+  },
+  getTileIsBuilding(tileX, tileY){
+    let isBuilding = false;
+    let buildingTiles = [500, 501];
+    if(buildingTiles.includes(this.getTile(1, tileX, tileY))){
+      isBuilding = true;
+    }
+    return isBuilding;
+  },
+
 }
 
 const mainSpriteSheet = document.createElement('img');
-mainSpriteSheet.src=('./img/UnitMap.png');
+mainSpriteSheet.src='./img/UnitMap.png';
+
+const mainHUDSheet = document.createElement('img');
+mainHUDSheet.src='./img/HUD.png';
+
+
+
+const hudPos = {
+  1: {x: 166, y: 23},
+  2: {x: 175, y: 23},
+  3: {x: 184, y: 23},
+  4: {x: 193, y: 23},
+  5: {x: 202, y: 23},
+  6: {x: 211, y: 23},
+  7: {x: 220, y: 23},
+  8: {x: 229, y: 23},
+  9: {x: 238, y: 23},
+}
 
 const actionState = {
   current: 1,
@@ -131,12 +160,31 @@ let currentPlayer;
 
 const actionMenu = document.createElement('div');
 let actionMenuList = document.createElement('ul');
+let actionMenuCapture = document.createElement('li');
+actionMenuCapture.innerHTML = 'Capture';
+actionMenuList.appendChild(actionMenuCapture);
 let actionMenuAttack = document.createElement('li');
 actionMenuAttack.innerHTML = 'Attack';
 actionMenuList.appendChild(actionMenuAttack);
 let actionMenuWait = document.createElement('li');
 actionMenuWait.innerHTML = 'Wait';
 actionMenuList.appendChild(actionMenuWait);
+
+actionMenuCapture.style.display= 'none';
+
+actionMenuCapture.onclick = () => {
+  buildingsList.forEach((building) => {
+    if(building.tileX == selectedUnit.tileX && building.tileY == selectedUnit.tileY){
+      building.captureProgress += 50;
+      if(building.captureProgress == 100){
+        building.getCaptured(currentPlayer);
+      }
+    }
+  });
+  selectedUnit.actionState.current = selectedUnit.actionState.inactive;
+  window.mainGameLoop.switchToken();
+}
+
 actionMenuAttack.onclick = () => {
   selectedUnit.actionState.current = selectedUnit.actionState.prepareFire;
   selectedUnit.startAttack();

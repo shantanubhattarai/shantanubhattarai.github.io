@@ -14,8 +14,12 @@ class Unit{
     this.walkableLevel = walkableLevel;
     this.movementPath = [];
     this.nodeCount = 0;
-    this.actionCount = 0;
+    this.actionCount = 2;
     this.color = color;
+    this.hp = 10;
+    this.damage = 10;
+    this.counterModifier = 20;
+    this.defense = 10;
     this.actionState = {
       current: 1,
       idle: 1,
@@ -56,6 +60,7 @@ class Unit{
         i = startX + value[0];
         j = startY + value[1];
         let newMoveCost = mainMap.getTileMoveCost(i-1, j-1);
+        if(this.walkableLevel == 5) newMoveCost = 1;
         if(newMoveCost == 9) {count = 1; newMoveCost = 1;} //for reducing movement to 1 immediately. hills.
         let newCount = count;
         if(!mainMap.getTileHasOpposingPlayer(i, j) && mainMap.getTileWalkable(i-1, j-1) <= this.walkableLevel){
@@ -123,22 +128,12 @@ class Unit{
       });
     }
 
-    let spritePos = {
-      red: {x: 3, y: 104},
-      blue: {x: 392, y: 104},
-      green: {x: 3, y: 672},
-      yellow: {x: 392, y: 672},
-      redInactive: {x: 339,y: 104},
-      blueInactive: {x: 728,y: 104},
-      greenInactive: {x: 339,y: 672},
-      yellowInactive: {x: 728, y: 672}
-    }
     if(this.actionState.current == this.actionState.inactive) {
-      context.drawImage(mainSpriteSheet, spritePos[this.color + 'Inactive'].x, spritePos[this.color + 'Inactive'].y, mainMap.tsize, mainMap.tsize, this.x, this.y, mainMap.tsize, mainMap.tsize);
+      context.drawImage(mainSpriteSheet, this.spritePos[this.color + 'Inactive'].x, this.spritePos[this.color + 'Inactive'].y, mainMap.tsize, mainMap.tsize, this.x, this.y, mainMap.tsize, mainMap.tsize);
     }else{
-      context.drawImage(mainSpriteSheet, spritePos[this.color].x, spritePos[this.color].y, mainMap.tsize, mainMap.tsize, this.x, this.y, mainMap.tsize, mainMap.tsize);
+      context.drawImage(mainSpriteSheet, this.spritePos[this.color].x, this.spritePos[this.color].y, mainMap.tsize, mainMap.tsize, this.x, this.y, mainMap.tsize, mainMap.tsize);
     }
-
+    if(this.hp < 10) context.drawImage(mainHUDSheet, hudPos[this.hp].x, hudPos[this.hp].y,8,8,this.x + mainMap.tsize - 8, this.y + mainMap.tsize - 8, 8, 8);
   }
 
   getTilePos(){
@@ -162,10 +157,22 @@ class Unit{
       this.actionState.current = this.actionState.selectingAction;
       return;
     }
-    console.log(unitToAttack);
+    let modifiedDamage = this.damage * this.hp/10 < 1? 1 : this.damage * this.hp/10;
+    unitToAttack.takeDamage(modifiedDamage);
+    unitToAttack.counterAttack(this);
     this.drawAttackGrid = false;
     this.attackGrid = [];
     this.actionState.current = this.actionState.inactive;
+  }
+
+  counterAttack = (unitToAttack) => {
+    let modifiedDamage = this.damage * this.hp/10 < 1? 1 : this.damage * this.hp/10;
+    unitToAttack.takeDamage(modifiedDamage, 1);
+  }
+
+  takeDamage = (damage, counter = 0) => {
+    this.hp -= damage - this.defense * damage / 100 - counter * this.counterModifier * damage /100;
+    this.hp = Math.round(this.hp);
   }
 
   heuristic = (tileX, tileY) => {
@@ -239,11 +246,14 @@ class Unit{
       ){
         this.drawGrid = false;
         this.movementGrid = [];
-        this.actionState.current = this.actionState.selectingAction;
+        if (this.actionCount == 2) this.actionState.current = this.actionState.selectingAction;
+        if (this.actionCount == 1) {
+          this.actionState.current = this.actionState.inactive;
+          window.mainGameLoop.switchToken();
+        }
         this.count = 0;
         this.nodeCount = 0;
         this.movementPath = [];
-        // window.mainGameLoop.switchToken();
       }
     }
 
