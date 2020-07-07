@@ -45,7 +45,7 @@ class MainGameLoop{
           selectedUnit.attackGrid = [];
           selectedUnit.actionState.current = selectedUnit.actionState.selectingAction;
         }
-      }else{
+      }else if(selectedUnit == undefined || selectedUnit.actionState.current == selectedUnit.actionState.idle){
         playerList.forEach((valueP) => {
           if(valueP.active){
             valueP.unitList.forEach((valueU) => {
@@ -63,6 +63,7 @@ class MainGameLoop{
 
   setToken = (playerIdx) =>{
     this.token = playerIdx;
+    selectedUnit = undefined;
     playerList.forEach((valueP, index) => {
       if(this.token !== undefined && this.token != index){
         valueP.active = false;
@@ -77,6 +78,7 @@ class MainGameLoop{
   }
 
   switchToken(){
+    selectedUnit = undefined;
     if(this.token < playerList.length - 1) this.token++;
     else this.token = 0;
     playerList.forEach((valueP, index) => {
@@ -157,4 +159,3 @@ playerList.push(player2);
 player2.addUnit(10,20,3,3);
 
 var mainGameLoop = new MainGameLoop();
-
