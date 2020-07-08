@@ -30,4 +30,14 @@ class Player{
     })
   }
 
+  isUnitOnTile(tileX, tileY){
+    var unitOnTile = false;
+    this.unitList.forEach((valueU) => {
+      if(valueU.tileX == tileX && valueU.tileY == tileY){
+        unitOnTile = true;
+      }
+    });
+    return unitOnTile;
+  }
+
 }

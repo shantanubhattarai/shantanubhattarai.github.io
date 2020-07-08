@@ -290,11 +290,10 @@ class Unit{
     if(this.actionState == this.actionState.fire && selectedUnit == this){
       //play fire animation
     }
-
   }
 
   moveTo = (tileX, tileY) => {
-    if(!this.isArrayinArray(this.movementGrid, [tileX, tileY])){
+    if(!this.isArrayinArray(this.movementGrid, [tileX, tileY]) || currentPlayer.isUnitOnTile(tileX, tileY)){
       this.drawGrid = false;
       this.movementGrid = [];
       this.count = 0;
