@@ -88,6 +88,7 @@ class Unit{
 
   generateAttackTiles(){
     // add more offsets for different ranges
+    this.attackGrid = [];
     let xyOffsets = [[-1, 0], [1,0], [0, -1], [0,1]];
     let i = 0;
     let j = 0;
@@ -116,6 +117,34 @@ class Unit{
     context.closePath();
   }
 
+  revertMove(){
+    if(this.movementPath.length > 0){
+      this.tileX = this.movementPath[0].x;
+      this.tileY = this.movementPath[0].y;
+    }
+    this.movementPath = [];
+    this.actionState.current = this.actionState.idle;
+    this.x = (this.tileX - 1) * mainMap.tsize;
+    this.y = (this.tileY - 1) * mainMap.tsize;
+  }
+
+  enemyInAttackTiles(){
+    var enemyFound = false;
+    this.attackGrid.forEach((valueT) => {
+      playerList.forEach((valueP)=> {
+        if(valueP.active == false){
+          valueP.unitList.some((valueU) => {
+            //check can attack interaction, air water and all that
+            if(valueU.tileX == valueT[0] && valueU.tileY == valueT[1]){
+              enemyFound = true;
+            }
+          });
+        }
+      });
+    });
+    return enemyFound;
+  }
+
   draw(context){
     if(this.drawGrid == true){
       this.movementGrid.forEach((value) => {
@@ -133,7 +162,7 @@ class Unit{
     }else{
       context.drawImage(mainSpriteSheet, this.spritePos[this.color].x, this.spritePos[this.color].y, mainMap.tsize, mainMap.tsize, this.x, this.y, mainMap.tsize, mainMap.tsize);
     }
-    if(this.hp < 10) context.drawImage(mainHUDSheet, hudPos[this.hp].x, hudPos[this.hp].y,8,8,this.x + mainMap.tsize - 8, this.y + mainMap.tsize - 8, 8, 8);
+    if(this.hp < 10 && this.hp > 0) context.drawImage(mainHUDSheet, hudPos[this.hp].x, hudPos[this.hp].y,8,8,this.x + mainMap.tsize - 8, this.y + mainMap.tsize - 8, 8, 8);
   }
 
   getTilePos(){
@@ -154,6 +183,7 @@ class Unit{
     if(!this.isArrayinArray(this.attackGrid, [unitToAttack.tileX, unitToAttack.tileY])){
       this.drawAttackGrid = false;
       this.attackGrid = [];
+      this.movementPath = [];
       this.actionState.current = this.actionState.selectingAction;
       return;
     }
@@ -162,6 +192,7 @@ class Unit{
     unitToAttack.counterAttack(this);
     this.drawAttackGrid = false;
     this.attackGrid = [];
+    this.movementPath = [];
     this.actionState.current = this.actionState.inactive;
   }
 
@@ -253,7 +284,7 @@ class Unit{
         }
         this.count = 0;
         this.nodeCount = 0;
-        this.movementPath = [];
+        // this.movementPath = [];
       }
     }
 

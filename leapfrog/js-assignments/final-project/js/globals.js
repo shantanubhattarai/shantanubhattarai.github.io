@@ -161,6 +161,9 @@ let currentPlayer;
 
 const actionMenu = document.createElement('div');
 let actionMenuList = document.createElement('ul');
+let actionMenuMove = document.createElement('li');
+actionMenuMove.innerHTML = 'Move';
+actionMenuList.appendChild(actionMenuMove);
 let actionMenuCapture = document.createElement('li');
 actionMenuCapture.innerHTML = 'Capture';
 actionMenuList.appendChild(actionMenuCapture);
@@ -170,8 +173,16 @@ actionMenuList.appendChild(actionMenuAttack);
 let actionMenuWait = document.createElement('li');
 actionMenuWait.innerHTML = 'Wait';
 actionMenuList.appendChild(actionMenuWait);
+let actionMenuCancel = document.createElement('li');
+actionMenuCancel.innerHTML = 'Cancel';
+actionMenuList.appendChild(actionMenuCancel);
 
 actionMenuCapture.style.display= 'none';
+
+actionMenuMove.onclick = () => {
+  selectedUnit.startMovement();
+  selectedUnit.actionState.current = selectedUnit.actionState.prepareMove;
+}
 
 actionMenuCapture.onclick = () => {
   buildingsList.forEach((building) => {
@@ -194,6 +205,10 @@ actionMenuAttack.onclick = () => {
 actionMenuWait.onclick = () => {
   selectedUnit.actionState.current = selectedUnit.actionState.inactive;
   window.mainGameLoop.switchToken();
+}
+
+actionMenuCancel.onclick = () => {
+  selectedUnit.revertMove();
 }
 
 actionMenu.appendChild(actionMenuList);

@@ -51,9 +51,15 @@ class MainGameLoop{
           if(valueP.active){
             valueP.unitList.forEach((valueU) => {
               if(valueU.getTilePos().tileX == clickedTile.tileX && valueU.getTilePos().tileY == clickedTile.tileY){
-                  valueU.startMovement();
-                  selectedUnit = valueU;
-                  selectedUnit.actionState.current = selectedUnit.actionState.prepareMove;
+                  valueU.generateAttackTiles();
+                  if(valueU.enemyInAttackTiles()){
+                    selectedUnit = valueU;
+                    valueU.actionState.current = selectedUnit.actionState.selectingAction;
+                  }else{
+                    valueU.startMovement();
+                    selectedUnit = valueU;
+                    selectedUnit.actionState.current = selectedUnit.actionState.prepareMove;
+                  }
               }
             });
           }
@@ -133,6 +139,11 @@ class MainGameLoop{
       }else{
         actionMenu.style.display = 'none';
       }
+      if(selectedUnit !== undefined && selectedUnit.movementPath.length == 0){
+        actionMenuMove.style.display = 'block';
+      }else{
+        actionMenuMove.style.display = 'none';
+      }
     }
   }
 
@@ -175,9 +186,9 @@ const buildingsList = [];
 let player1 = new Player('red');
 playerList.push(player1);
 player1.addUnit(10,6,3,3,'infantry');
-player1.addUnit(11,12,3,3,'infantry');
+player1.addUnit(11,11,3,3,'infantry');
 let player2 = new Player('blue');
 playerList.push(player2);
-player2.addUnit(10,20,3,3,'infantry');
+player2.addUnit(11,13,3,3,'infantry');
 player2.addUnit(5,5,3,3,'cruiser');
 var mainGameLoop = new MainGameLoop();
