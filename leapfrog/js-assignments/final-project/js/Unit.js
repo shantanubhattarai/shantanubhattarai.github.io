@@ -1,8 +1,8 @@
 class Unit{
-  constructor(tileX, tileY, range, walkableLevel, color){
+  constructor(tileX, tileY, color){
     this.tileX = tileX;
     this.tileY = tileY;
-    this.range = range;
+    this.range = 3;
     this.x = (this.tileX - 1) * mainMap.tsize;
     this.y = (this.tileY - 1) * mainMap.tsize;
     this.drawGrid = false;
@@ -11,7 +11,7 @@ class Unit{
     this.attackGrid = [];
     this.toMoveTotileX = 0;
     this.toMoveTotileY = 0;
-    this.walkableLevel = walkableLevel;
+    this.walkableLevel = 5;
     this.movementPath = [];
     this.nodeCount = 0;
     this.actionCount = 2;

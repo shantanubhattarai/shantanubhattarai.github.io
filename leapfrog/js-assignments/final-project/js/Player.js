@@ -5,19 +5,18 @@ class Player{
     this.color = color;
   }
 
-  addUnit(tileX, tileY, range, walkableLevel, unitType){
+  addUnit(tileX, tileY, unitType){
     let newUnit;
     switch (unitType){
       case 'infantry': {
-        newUnit = new Infantry(tileX, tileY, range, walkableLevel, this.color);
+        newUnit = new Infantry(tileX, tileY, this.color);
         break;
       }
       case 'cruiser': {
-        newUnit = new Cruiser(tileX, tileY, range, walkableLevel, this.color);
+        newUnit = new Cruiser(tileX, tileY, this.color);
         break;
       }
     }
-
     this.unitList.push(newUnit);
   }
 
@@ -33,7 +32,7 @@ class Player{
   isUnitOnTile(tileX, tileY){
     var unitOnTile = false;
     this.unitList.forEach((valueU) => {
-      if(valueU.tileX == tileX && valueU.tileY == tileY){
+      if(valueU !== selectedUnit && valueU.tileX == tileX && valueU.tileY == tileY){
         unitOnTile = true;
       }
     });

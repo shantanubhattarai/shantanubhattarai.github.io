@@ -1,6 +1,6 @@
 class Infantry extends Unit{
-  constructor(tileX, tileY, range, walkableLevel, color){
-    super(tileX, tileY, range, walkableLevel, color);
+  constructor(tileX, tileY, color){
+    super(tileX, tileY, color);
     this.actionCount = 2;
     this.walkableLevel = 3;
     this.damage = 10;
