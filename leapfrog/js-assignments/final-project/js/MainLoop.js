@@ -53,7 +53,7 @@ class MainGameLoop{
             valueP.unitList.forEach((valueU) => {
               if(valueU.getTilePos().tileX == clickedTile.tileX && valueU.getTilePos().tileY == clickedTile.tileY){
                   valueU.generateAttackTiles();
-                  if(valueU.enemyInAttackTiles()){
+                  if(valueU.actionCount == 1 || valueU.enemyInAttackTiles()){
                     selectedUnit = valueU;
                     valueU.actionState.current = selectedUnit.actionState.selectingAction;
                   }else{

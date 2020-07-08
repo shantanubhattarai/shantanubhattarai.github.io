@@ -1,3 +1,16 @@
+const attackMatrix = {
+  'infantry':['infantry','mech','tank','mdtank','artillery','recon','helicopter','antiair','missile','rocket'],
+  'mech':['infantry','mech','tank','mdtank','artillery','recon','helicopter','antiair','missile','rocket'],
+  'tank':['infantry','mech','tank','mdtank','artillery','recon','helicopter','antiair','missile','rocket'],
+  'mdtank':['infantry','mech','tank','mdtank','artillery','recon','helicopter','antiair','missile','rocket'],
+  'recon':['infantry','mech','tank','mdtank','artillery','recon','helicopter','antiair','missile','rocket'],
+  'artillery':['infantry','mech','tank','mdtank','artillery','recon','helicopter','antiair','missile','rocket'],
+  'helicopter':['infantry','mech','tank','mdtank','artillery','recon','helicopter','fighter','bomber','antiair','missile','rocket'],
+  'cruiser':['infantry', 'cruiser'],
+  'fighter':['fighter', 'helicopter', 'bomber'],
+  'bomber':['infantry','mech','tank','mdtank','artillery','recon','antiair','missile','rocket'],
+};
+
 class Unit{
   constructor(tileX, tileY, color){
     this.tileX = tileX;
@@ -13,7 +26,7 @@ class Unit{
     this.toMoveTotileY = 0;
     this.walkableLevel = 5;
     this.movementPath = [];
-    this.nodeCount = 0;
+    this.nodeCount = 1;
     this.actionCount = 2;
     this.color = color;
     this.hp = 10;
@@ -266,30 +279,38 @@ class Unit{
         x: this.movementPath[this.nodeCount].x - this.tileX,
         y: this.movementPath[this.nodeCount].y - this.tileY
       };
-      this.tileX += newPos.x * 1;
-      this.tileY += newPos.y * 1;
-      this.x = (this.tileX - 1) * mainMap.tsize;
-      this.y = (this.tileY - 1) * mainMap.tsize;
+      let distanceX = (this.movementPath[this.nodeCount].x-1) * mainMap.tsize - this.x;
+      let distanceY = (this.movementPath[this.nodeCount].y-1) * mainMap.tsize - this.y;
+      let distance = Math.abs(distanceX + distanceY);
 
-      if(this.tileX == (this.movementPath[this.nodeCount].x)
-      && this.tileY == (this.movementPath[this.nodeCount].y)) {
-        if(this.nodeCount < this.movementPath.length - 1) this.nodeCount++;
-      }
-      if(
-        this.tileX == this.toMoveTotileX &&
-        this.tileY == this.toMoveTotileY
-      ){
-        this.drawGrid = false;
-        this.movementGrid = [];
-        if (this.actionCount == 2) this.actionState.current = this.actionState.selectingAction;
-        if (this.actionCount == 1) {
-          this.actionState.current = this.actionState.inactive;
-          window.mainGameLoop.switchToken();
+      if(this.x !== (this.movementPath[this.nodeCount].x-1) * mainMap.tsize || this.y !== (this.movementPath[this.nodeCount].y-1) * mainMap.tsize){
+        this.x += distance == 0 ? 0 :distanceX/distance;
+        this.y += distance == 0 ? 0 :distanceY/distance;
+      }else{
+        this.tileX += newPos.x;
+        this.tileY += newPos.y;
+
+        if(this.tileX == (this.movementPath[this.nodeCount].x)
+        && this.tileY == (this.movementPath[this.nodeCount].y)) {
+          if(this.nodeCount < this.movementPath.length - 1) this.nodeCount++;
         }
-        this.count = 0;
-        this.nodeCount = 0;
+        if(
+          this.tileX == this.toMoveTotileX &&
+          this.tileY == this.toMoveTotileY
+        ){
+          this.drawGrid = false;
+          this.movementGrid = [];
+          if (this.actionCount == 2) this.actionState.current = this.actionState.selectingAction;
+          if (this.actionCount == 1) {
+            this.actionState.current = this.actionState.inactive;
+            window.mainGameLoop.switchToken();
+          }
+          this.count = 0;
+          this.nodeCount = 0;
+        }
       }
-    }
+      }
+
 
     if(this.actionState == this.actionState.fire && selectedUnit == this){
       //play fire animation
