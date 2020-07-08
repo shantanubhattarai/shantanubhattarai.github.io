@@ -73,14 +73,14 @@ const mainMap = {
   },
   getTileWalkable(tileX, tileY){
     // let normalWalk = []; fill these with tiles representing each, then just array includes below
-    // let slowWalk = [];
+    let slowWalk = [2,3];
     // let oneWalk = [];
     // let water = [];
     // let air = [];
     return this.layers.reduce((res, layer, index) => {
       var tile = this.getTile(index, tileX, tileY);
         var walkableLevel = 1;
-        if(tile == 2 || tile == 3){
+        if(slowWalk.includes(tile)){
           walkableLevel = 2; //air, infantry and mech, one tile less movement, no water
         }else if(tile == 5 || tile == 7){
           walkableLevel = 3; //air, infantry and mech, one movement max, no water
