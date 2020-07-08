@@ -212,6 +212,9 @@ class Unit{
   }
 
   counterAttack = (unitToAttack) => {
+    if(!this.isArrayinArray(this.attackGrid, [unitToAttack.tileX, unitToAttack.tileY])){
+      return;
+    }
     let modifiedDamage = this.damage * this.hp/10 < 1? 1 : this.damage * this.hp/10;
     if(unitToAttack.isVehicle == 1) modifiedDamage = modifiedDamage * this.vehicleAttackModifier/100;
     unitToAttack.takeDamage(modifiedDamage, 1);

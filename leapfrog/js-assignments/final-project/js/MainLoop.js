@@ -14,7 +14,6 @@ class MainGameLoop{
     this.setToken(0);
     //use mousemove for hover
     this.canvas.addEventListener('click', (e) => {
-      // console.log(selectedUnit.actionState.current);
       let rect = self.canvas.getBoundingClientRect();
       let mousePos = {
         x: e.clientX - rect.left,
@@ -29,46 +28,52 @@ class MainGameLoop{
       if(selectedUnit !== undefined && selectedUnit.actionState.current == selectedUnit.actionState.prepareMove){
         selectedUnit.moveTo(clickedTile.tileX, clickedTile.tileY);
       }else if(selectedUnit !== undefined && selectedUnit.actionState.current == selectedUnit.actionState.prepareFire){
-        var isUnitClicked = false;
-        playerList.forEach((valueP) => {
-          if(!valueP.active){
-            valueP.unitList.forEach((valueU) => {
-              if(valueU.getTilePos().tileX == clickedTile.tileX && valueU.getTilePos().tileY == clickedTile.tileY){
-                if(attackMatrix[selectedUnit.type].includes(valueU.type)){
-                  selectedUnit.attack(valueU);
-                  selectedUnit.actionState.current = selectedUnit.actionState.inactive;
-                  isUnitClicked = true;
-                  window.mainGameLoop.switchToken();
-                }
-              }
-            });
-          }
-        });
+        let isUnitClicked = this.checkIfClickedOnEnemy(clickedTile);
+
         if(!isUnitClicked){
           selectedUnit.drawAttackGrid = false;
           selectedUnit.attackGrid = [];
           selectedUnit.actionState.current = selectedUnit.actionState.selectingAction;
         }
       }else if(selectedUnit == undefined || selectedUnit.actionState.current == selectedUnit.actionState.idle){
-        playerList.forEach((valueP) => {
-          if(valueP.active){
-            valueP.unitList.forEach((valueU) => {
-              if(valueU.getTilePos().tileX == clickedTile.tileX && valueU.getTilePos().tileY == clickedTile.tileY){
-                  valueU.generateAttackTiles();
-                  if(valueU.enemyInAttackTiles()){
-                    selectedUnit = valueU;
-                    valueU.actionState.current = selectedUnit.actionState.selectingAction;
-                  }else{
-                    valueU.startMovement();
-                    selectedUnit = valueU;
-                    selectedUnit.actionState.current = selectedUnit.actionState.prepareMove;
-                  }
-              }
-            });
+        this.selectClickedUnit(clickedTile);
+      }
+    });
+  }
+
+  selectClickedUnit = (clickedTile) => {
+    currentPlayer.unitList.forEach((valueU) => {
+      if(valueU.getTilePos().tileX == clickedTile.tileX && valueU.getTilePos().tileY == clickedTile.tileY){
+          valueU.generateAttackTiles();
+          if(valueU.enemyInAttackTiles()){
+            selectedUnit = valueU;
+            valueU.actionState.current = selectedUnit.actionState.selectingAction;
+          }else{
+            valueU.startMovement();
+            selectedUnit = valueU;
+            selectedUnit.actionState.current = selectedUnit.actionState.prepareMove;
+          }
+      }
+    });
+  }
+
+  checkIfClickedOnEnemy = (clickedTile) => {
+    let isUnitClicked = false;
+    playerList.forEach((valueP) => {
+      if(!valueP.active){
+        valueP.unitList.forEach((valueU) => {
+          if(valueU.getTilePos().tileX == clickedTile.tileX && valueU.getTilePos().tileY == clickedTile.tileY){
+            if(attackMatrix[selectedUnit.type].includes(valueU.type)){
+              selectedUnit.attack(valueU);
+              selectedUnit.actionState.current = selectedUnit.actionState.inactive;
+              isUnitClicked = true;
+              window.mainGameLoop.switchToken();
+            }
           }
         });
       }
     });
+    return isUnitClicked;
   }
 
   setToken = (playerIdx) =>{
