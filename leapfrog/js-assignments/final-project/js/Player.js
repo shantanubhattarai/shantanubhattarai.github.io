@@ -36,6 +36,10 @@ class Player{
         newUnit = new MDTank(tileX, tileY, this.color);
         break;
       }
+      case 'helicopter': {
+        newUnit = new Helicopter(tileX, tileY, this.color);
+        break;
+      }
     }
     this.unitList.push(newUnit);
   }

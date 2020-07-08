@@ -201,4 +201,6 @@ player2.addUnit(11,13,'infantry');
 player2.addUnit(11,14,'tank');
 player2.addUnit(4,7,'mech');
 player2.addUnit(5,5,'cruiser');
+player2.addUnit(6,6,'helicopter');
+
 var mainGameLoop = new MainGameLoop();
