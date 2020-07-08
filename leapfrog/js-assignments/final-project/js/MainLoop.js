@@ -34,10 +34,12 @@ class MainGameLoop{
           if(!valueP.active){
             valueP.unitList.forEach((valueU) => {
               if(valueU.getTilePos().tileX == clickedTile.tileX && valueU.getTilePos().tileY == clickedTile.tileY){
-                selectedUnit.attack(valueU);
-                selectedUnit.actionState.current = selectedUnit.actionState.inactive;
-                isUnitClicked = true;
-                window.mainGameLoop.switchToken();
+                if(attackMatrix[selectedUnit.type].includes(valueU.type)){
+                  selectedUnit.attack(valueU);
+                  selectedUnit.actionState.current = selectedUnit.actionState.inactive;
+                  isUnitClicked = true;
+                  window.mainGameLoop.switchToken();
+                }
               }
             });
           }

@@ -33,6 +33,7 @@ class Unit{
     this.damage = 10;
     this.counterDefense = 20;
     this.defense = 10;
+    this.type = 'generic';
     this.actionState = {
       current: 1,
       idle: 1,
@@ -149,7 +150,7 @@ class Unit{
           valueP.unitList.some((valueU) => {
             //check can attack interaction, air water and all that
             if(valueU.tileX == valueT[0] && valueU.tileY == valueT[1]){
-              enemyFound = true;
+              if(attackMatrix[this.type].includes(valueU.type)) enemyFound = true;
             }
           });
         }

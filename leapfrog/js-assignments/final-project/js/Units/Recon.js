@@ -9,6 +9,7 @@ class Recon extends Unit{
     this.vehicleAttackModifier = 100;
     this.defense = 10;
     this.range = 5;
+    this.type='recon';
     this.spritePos = {
       red: {x: 3, y: 294},
       blue: {x: 392, y: 294},

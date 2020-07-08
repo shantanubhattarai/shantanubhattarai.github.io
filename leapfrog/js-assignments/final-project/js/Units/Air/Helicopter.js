@@ -9,6 +9,7 @@ class Helicopter extends Unit{
     this.vehicleAttackModifier = 100;
     this.defense = 10;
     this.range = 5;
+    this.type='helicopter';
     this.spritePos = {
       red: {x: 3, y: 503},
       blue: {x: 392, y: 503},

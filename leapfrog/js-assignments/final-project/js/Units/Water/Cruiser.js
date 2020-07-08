@@ -5,9 +5,11 @@ class Cruiser extends Unit{
     this.walkableLevel = 4;
     this.damage = 10;
     this.counterModifier = 50;
+    this.vehicleAttackModifier = 100;
     this.defense = 20;
     this.range = 5;
     this.vehicle = 1;
+    this.type='cruiser';
     this.spritePos = {
       red: {x: 3, y: 560},
       blue: {x: 392, y: 560},

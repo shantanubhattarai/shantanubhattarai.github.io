@@ -8,6 +8,7 @@ class Mech extends Unit{
     this.defense = 20;
     this.vehicleAttackModifier = 130;
     this.isVehicle = 0;
+    this.type='mech';
     this.spritePos = {
       red: {x: 3, y: 199},
       blue: {x: 392, y: 199},
