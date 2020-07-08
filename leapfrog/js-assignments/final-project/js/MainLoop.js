@@ -189,7 +189,6 @@ let player1 = new Player('red');
 playerList.push(player1);
 player1.addUnit(10,6,'infantry');
 player1.addUnit(11,11,'infantry');
-<<<<<<< HEAD
 player1.addUnit(5,7,'tank');
 player1.addUnit(6,8,'mdtank');
 player1.addUnit(8,9,'recon');
@@ -204,10 +203,4 @@ player2.addUnit(4,7,'mech');
 player2.addUnit(5,5,'cruiser');
 player2.addUnit(6,6,'helicopter');
 
-=======
-let player2 = new Player('blue');
-playerList.push(player2);
-player2.addUnit(11,13,'infantry');
-player2.addUnit(5,5,'cruiser');
->>>>>>> 40bd5310b4c52b39a93718a7ead8178bc9851df2
 var mainGameLoop = new MainGameLoop();
