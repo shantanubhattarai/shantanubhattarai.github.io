@@ -23,7 +23,10 @@ class Player{
 
   update(){
     this.unitList.forEach((valueU) => {
-      if(valueU.hp <= 0) {this.unitList.pop(valueU)};
+      if(valueU.hp <= 0) {
+        let indexToRemove = this.unitList.indexOf(valueU);
+        this.unitList.splice(indexToRemove, 1);
+      };
     })
   }
 
