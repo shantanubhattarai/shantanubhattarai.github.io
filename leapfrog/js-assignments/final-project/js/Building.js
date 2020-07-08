@@ -8,7 +8,7 @@ class Building{
     this.colorTiles = {
       'neutral' : 500,
       'red': 490,
-      'blue': 512,
+      'blue': 534,
       'green': 490,
       'orange': 490
     }

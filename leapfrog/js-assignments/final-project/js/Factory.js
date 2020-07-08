@@ -5,7 +5,7 @@ class Factory extends Building{
     this.colorTiles = {
       'neutral' : 501,
       'red': 491,
-      'blue': 513,
+      'blue': 535,
       'green': 491,
       'orange': 491
     };

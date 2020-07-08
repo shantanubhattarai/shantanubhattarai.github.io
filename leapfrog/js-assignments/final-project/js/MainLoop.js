@@ -151,7 +151,6 @@ class MainGameLoop{
         }
       }
     }
-    console.log(buildingsList);
   }
 
   init(){
