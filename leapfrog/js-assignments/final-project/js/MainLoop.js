@@ -7,6 +7,7 @@ class MainGameLoop{
     this.canvas.width = mainMap.cols * mainMap.tsize;
     this.canvas.height = mainMap.rows * mainMap.tsize;
     this.context = this.canvas.getContext('2d');
+    this.context.imageSmoothingEnabled = false;
     this.init();
     this.render();
     this.token = 0;
@@ -188,8 +189,16 @@ let player1 = new Player('red');
 playerList.push(player1);
 player1.addUnit(10,6,'infantry');
 player1.addUnit(11,11,'infantry');
+player1.addUnit(5,7,'tank');
+player1.addUnit(6,8,'mdtank');
+player1.addUnit(8,9,'recon');
+player1.addUnit(8,10,'artillery');
+player1.addUnit(13,14,'cruiser');
+
 let player2 = new Player('blue');
 playerList.push(player2);
 player2.addUnit(11,13,'infantry');
+player2.addUnit(11,14,'tank');
+player2.addUnit(4,7,'mech');
 player2.addUnit(5,5,'cruiser');
 var mainGameLoop = new MainGameLoop();

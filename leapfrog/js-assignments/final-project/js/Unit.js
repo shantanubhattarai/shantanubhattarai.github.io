@@ -18,7 +18,7 @@ class Unit{
     this.color = color;
     this.hp = 10;
     this.damage = 10;
-    this.counterModifier = 20;
+    this.counterDefense = 20;
     this.defense = 10;
     this.actionState = {
       current: 1,
@@ -158,9 +158,9 @@ class Unit{
     }
 
     if(this.actionState.current == this.actionState.inactive) {
-      context.drawImage(mainSpriteSheet, this.spritePos[this.color + 'Inactive'].x, this.spritePos[this.color + 'Inactive'].y, mainMap.tsize, mainMap.tsize, this.x, this.y, mainMap.tsize, mainMap.tsize);
+      context.drawImage(mainSpriteSheet, this.spritePos[this.color + 'Inactive'].x, this.spritePos[this.color + 'Inactive'].y, mainMap.tsize-1, mainMap.tsize-1, this.x, this.y, mainMap.tsize, mainMap.tsize);
     }else{
-      context.drawImage(mainSpriteSheet, this.spritePos[this.color].x, this.spritePos[this.color].y, mainMap.tsize, mainMap.tsize, this.x, this.y, mainMap.tsize, mainMap.tsize);
+      context.drawImage(mainSpriteSheet, this.spritePos[this.color].x, this.spritePos[this.color].y, mainMap.tsize-1, mainMap.tsize-1, this.x, this.y, mainMap.tsize, mainMap.tsize);
     }
     if(this.hp < 10 && this.hp > 0) context.drawImage(mainHUDSheet, hudPos[this.hp].x, hudPos[this.hp].y,8,8,this.x + mainMap.tsize - 8, this.y + mainMap.tsize - 8, 8, 8);
   }
@@ -188,6 +188,7 @@ class Unit{
       return;
     }
     let modifiedDamage = this.damage * this.hp/10 < 1? 1 : this.damage * this.hp/10;
+    if(unitToAttack.isVehicle == 1) modifiedDamage = modifiedDamage * this.vehicleAttackModifier/100;
     unitToAttack.takeDamage(modifiedDamage);
     unitToAttack.counterAttack(this);
     this.drawAttackGrid = false;
@@ -198,11 +199,14 @@ class Unit{
 
   counterAttack = (unitToAttack) => {
     let modifiedDamage = this.damage * this.hp/10 < 1? 1 : this.damage * this.hp/10;
+    if(unitToAttack.isVehicle == 1) modifiedDamage = modifiedDamage * this.vehicleAttackModifier/100;
     unitToAttack.takeDamage(modifiedDamage, 1);
   }
 
   takeDamage = (damage, counter = 0) => {
-    this.hp -= damage - this.defense * damage / 100 - counter * this.counterModifier * damage /100;
+    let modifiedDamage= damage - this.defense * damage / 100 - counter * this.counterDefense * damage /100;
+    modifiedDamage = modifiedDamage < 0 ? 0 : modifiedDamage;
+    this.hp -= modifiedDamage;
     this.hp = Math.round(this.hp);
   }
 

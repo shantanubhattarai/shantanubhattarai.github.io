@@ -6,13 +6,15 @@ class Cruiser extends Unit{
     this.damage = 10;
     this.counterModifier = 50;
     this.defense = 20;
+    this.range = 5;
+    this.vehicle = 1;
     this.spritePos = {
-      red: {x: 3, y: 104},
-      blue: {x: 392, y: 104},
+      red: {x: 3, y: 560},
+      blue: {x: 392, y: 560},
       green: {x: 3, y: 672},
       yellow: {x: 392, y: 672},
-      redInactive: {x: 339,y: 104},
-      blueInactive: {x: 728,y: 104},
+      redInactive: {x: 339,y: 560},
+      blueInactive: {x: 728,y: 560},
       greenInactive: {x: 339,y: 672},
       yellowInactive: {x: 728, y: 672}
     }

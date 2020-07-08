@@ -12,8 +12,28 @@ class Player{
         newUnit = new Infantry(tileX, tileY, this.color);
         break;
       }
+      case 'mech': {
+        newUnit = new Mech(tileX, tileY, this.color);
+        break;
+      }
+      case 'recon': {
+        newUnit = new Recon(tileX, tileY, this.color);
+        break;
+      }
+      case 'artillery': {
+        newUnit = new Artillery(tileX, tileY, this.color);
+        break;
+      }
       case 'cruiser': {
         newUnit = new Cruiser(tileX, tileY, this.color);
+        break;
+      }
+      case 'tank': {
+        newUnit = new Tank(tileX, tileY, this.color);
+        break;
+      }
+      case 'mdtank': {
+        newUnit = new MDTank(tileX, tileY, this.color);
         break;
       }
     }
