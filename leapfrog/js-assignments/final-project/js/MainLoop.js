@@ -132,17 +132,18 @@ class MainGameLoop{
       if(selectedUnit !== undefined && selectedUnit.actionState.current == selectedUnit.actionState.selectingAction){
         if(mainMap.getTileIsBuilding(selectedUnit.tileX-1, selectedUnit.tileY-1)){
           actionMenuCapture.style.display = 'block';
+          //check if building is already captured by this player
         }else{
           actionMenuCapture.style.display = 'none';
+        }
+        if(selectedUnit !== undefined && selectedUnit.movementPath.length == 0){
+          actionMenuMove.style.display = 'block';
+        }else{
+          actionMenuMove.style.display = 'none';
         }
         actionMenu.style.display = 'block';
       }else{
         actionMenu.style.display = 'none';
-      }
-      if(selectedUnit !== undefined && selectedUnit.movementPath.length == 0){
-        actionMenuMove.style.display = 'block';
-      }else{
-        actionMenuMove.style.display = 'none';
       }
     }
   }

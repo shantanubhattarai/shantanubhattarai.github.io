@@ -75,7 +75,7 @@ const mainMap = {
     // let normalWalk = []; fill these with tiles representing each, then just array includes below
     let slowWalk = [2,3];
     // let oneWalk = [];
-    // let water = [];
+    let water = [111,112,113,155,156,157,137,120, 122,141];
     // let air = [];
     return this.layers.reduce((res, layer, index) => {
       var tile = this.getTile(index, tileX, tileY);
@@ -86,7 +86,7 @@ const mainMap = {
           walkableLevel = 3; //air, infantry and mech, one movement max, no water
         }else if(tile == 28 || tile == 29){
           walkableLevel = 5; //air only
-        }else if(tile == 155 || tile == 134 || tile == 137 || tile == 157){
+        }else if(water.includes(tile)){
           walkableLevel = 4; //water and air only
         }
         return walkableLevel;
@@ -123,7 +123,6 @@ const mainMap = {
     }
     return isBuilding;
   },
-
 }
 
 const mainSpriteSheet = document.createElement('img');
@@ -193,6 +192,7 @@ actionMenuCapture.onclick = () => {
       }
     }
   });
+  selectedUnit.movementPath = [];
   selectedUnit.actionState.current = selectedUnit.actionState.inactive;
   window.mainGameLoop.switchToken();
 }
@@ -203,6 +203,7 @@ actionMenuAttack.onclick = () => {
 }
 
 actionMenuWait.onclick = () => {
+  selectedUnit.movementPath = [];
   selectedUnit.actionState.current = selectedUnit.actionState.inactive;
   window.mainGameLoop.switchToken();
 }

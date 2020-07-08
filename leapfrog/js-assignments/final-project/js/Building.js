@@ -15,9 +15,10 @@ class Building{
   }
 
   getCaptured(player){
-    this.capturedBy = playerList.indexOf(player);
+    this.capturedBy = window.mainGameLoop.token;
     this.color = player.color;
     this.setNewTile();
+    this.captureProgress = 0;
   }
 
   setNewTile = () => {

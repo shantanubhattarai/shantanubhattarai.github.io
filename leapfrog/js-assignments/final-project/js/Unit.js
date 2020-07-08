@@ -284,7 +284,6 @@ class Unit{
         }
         this.count = 0;
         this.nodeCount = 0;
-        // this.movementPath = [];
       }
     }
 
