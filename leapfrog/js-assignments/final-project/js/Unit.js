@@ -26,7 +26,7 @@ class Unit{
     this.toMoveTotileY = 0;
     this.walkableLevel = 5;
     this.movementPath = [];
-    this.nodeCount = 1;
+    this.nodeCount = 0;
     this.actionCount = 2;
     this.color = color;
     this.hp = 10;
@@ -300,11 +300,7 @@ class Unit{
         ){
           this.drawGrid = false;
           this.movementGrid = [];
-          if (this.actionCount == 2) this.actionState.current = this.actionState.selectingAction;
-          if (this.actionCount == 1) {
-            this.actionState.current = this.actionState.inactive;
-            window.mainGameLoop.switchToken();
-          }
+          this.actionState.current = this.actionState.selectingAction;
           this.count = 0;
           this.nodeCount = 0;
         }

@@ -53,7 +53,7 @@ class MainGameLoop{
             valueP.unitList.forEach((valueU) => {
               if(valueU.getTilePos().tileX == clickedTile.tileX && valueU.getTilePos().tileY == clickedTile.tileY){
                   valueU.generateAttackTiles();
-                  if(valueU.actionCount == 1 || valueU.enemyInAttackTiles()){
+                  if(valueU.enemyInAttackTiles()){
                     selectedUnit = valueU;
                     valueU.actionState.current = selectedUnit.actionState.selectingAction;
                   }else{
@@ -141,6 +141,11 @@ class MainGameLoop{
           actionMenuMove.style.display = 'block';
         }else{
           actionMenuMove.style.display = 'none';
+        }
+        if(selectedUnit.actionCount == 1 && selectedUnit.movementPath.length > 0){
+          actionMenuAttack.style.display=  'none';
+        }else{
+          actionMenuAttack.style.display=  'block';
         }
         actionMenu.style.display = 'block';
       }else{
