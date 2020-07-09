@@ -156,38 +156,57 @@ class MainGameLoop{
     }
   }
 
+  showCaptureIfBuilding(){
+    if(
+      mainMap.getTileIsBuilding(selectedUnit.tileX-1, selectedUnit.tileY-1)
+      && (selectedUnit.type == 'Infantry' || selectedUnit.type == 'Mech')
+    ){
+      actionMenuCapture.style.display = 'block';
+      //check if building is already captured by this player
+    }else{
+      actionMenuCapture.style.display = 'none';
+    }
+  }
+
+  showMove(){
+    if(selectedUnit !== undefined && selectedUnit.movementPath.length == 0){
+      actionMenuMove.style.display = 'block';
+    }else{
+      actionMenuMove.style.display = 'none';
+    }
+  }
+
+  hideAttack(){
+    if(selectedUnit.actionCount == 1 && selectedUnit.movementPath.length > 0){
+      actionMenuAttack.style.display=  'none';
+    }else{
+      actionMenuAttack.style.display=  'block';
+    }
+  }
+
+  updatePlayers(){
+    playerList.forEach((valueP)=>{
+      valueP.unitList.forEach((valueU) => {
+        valueU.update();
+      });
+    });
+  }
+
+  showMenu(){
+    if(selectedUnit !== undefined && selectedUnit.actionState.current == selectedUnit.actionState.selectingAction){
+      this.showCaptureIfBuilding();
+      this.showMove();
+      this.hideAttack();
+      actionMenu.style.display = 'inline-block';
+    }else{
+      actionMenu.style.display = 'none';
+    }
+  }
+
   update(){
     if(currentPlayer !== undefined){
-      playerList.forEach((valueP)=>{
-        valueP.unitList.forEach((valueU) => {
-          valueU.update();
-        });
-      });
-      if(
-        selectedUnit !== undefined && selectedUnit.actionState.current == selectedUnit.actionState.selectingAction){
-        if(
-          mainMap.getTileIsBuilding(selectedUnit.tileX-1, selectedUnit.tileY-1)
-          && (selectedUnit.type == 'Infantry' || selectedUnit.type == 'Mech')
-        ){
-          actionMenuCapture.style.display = 'block';
-          //check if building is already captured by this player
-        }else{
-          actionMenuCapture.style.display = 'none';
-        }
-        if(selectedUnit !== undefined && selectedUnit.movementPath.length == 0){
-          actionMenuMove.style.display = 'block';
-        }else{
-          actionMenuMove.style.display = 'none';
-        }
-        if(selectedUnit.actionCount == 1 && selectedUnit.movementPath.length > 0){
-          actionMenuAttack.style.display=  'none';
-        }else{
-          actionMenuAttack.style.display=  'block';
-        }
-        actionMenu.style.display = 'inline-block';
-      }else{
-        actionMenu.style.display = 'none';
-      }
+      this.updatePlayers();
+      this.showMenu();
     }
   }
 
@@ -212,21 +231,29 @@ class MainGameLoop{
     this.generateBuildings();
   }
 
-  render(){
-    this.context.clearRect(0,0, this.canvas.width, this.canvas.height);
-    this.drawLayer(0);
-    this.drawLayer(1);
+  drawUnits(){
     playerList.forEach(player => {
       player.update();
       player.unitList.forEach(unit => unit.draw(this.context));
-    })
-    this.update();
+    });
+  }
+
+  incrementFrames(){
     if(frames < 200) frames++;
     else frames = 0;
     if(frames % 8 == 0) {
       animationFrame++;
       if(animationFrame > 3) animationFrame = 0;
     };
+  }
+
+  render(){
+    this.context.clearRect(0,0, this.canvas.width, this.canvas.height);
+    this.drawLayer(0);
+    this.drawLayer(1);
+    this.drawUnits();
+    this.update();
+    this.incrementFrames();
     window.requestAnimationFrame(this.render.bind(this));
   }
 }
