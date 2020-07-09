@@ -44,6 +44,10 @@ class Player{
         newUnit = new Helicopter(tileX, tileY, this.color);
         break;
       }
+      case 'Anti Air': {
+        newUnit = new AntiAir(tileX, tileY, this.color);
+        break;
+      }
     }
     this.unitList.push(newUnit);
     return newUnit;

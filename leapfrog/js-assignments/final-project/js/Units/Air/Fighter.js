@@ -1,11 +1,11 @@
-class Helicopter extends Unit{
+class Fighter extends Unit{
   constructor(tileX, tileY, color){
     super(tileX, tileY, color);
     this.actionCount = 2;
     this.walkableLevel = 5;
 
     this.range = 4;
-    this.type='Helicopter';
+    this.type='Fighter';
     this.damageMatrix = {
       'Transport Copter': 100,
       'Helicopter': 100,

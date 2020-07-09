@@ -272,18 +272,18 @@ class MainGameLoop{
 
 let player1 = new Player('red');
 playerList.push(player1);
-player1.addUnit(10,6,'Mech');
+player1.addUnit(10,7,'Anti Air');
 
 let player2 = new Player('blue');
 playerList.push(player2);
-player2.addUnit(10,10,'Tank');
+player2.addUnit(10,11,'Anti Air');
 
 let player3 = new Player('green');
 playerList.push(player3);
-player3.addUnit(6, 6, 'MD Tank');
+player3.addUnit(6, 8, 'Anti Air');
 
 let player4 = new Player('yellow');
 playerList.push(player4);
-player4.addUnit(5, 8, 'Helicopter');
+player4.addUnit(5, 9, 'Anti Air');
 
 var mainGameLoop = new MainGameLoop();
