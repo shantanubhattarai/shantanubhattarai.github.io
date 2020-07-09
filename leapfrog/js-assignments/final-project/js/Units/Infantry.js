@@ -8,7 +8,7 @@ class Infantry extends Unit{
     this.defense = 20;
     this.vehicleAttackModifier = 20;
     this.isVehicle = 0;
-    this.type='infantry';
+    this.type='Infantry';
     this.spritePos = {
       red: {x: 3, y: 104},
       blue: {x: 392, y: 104},

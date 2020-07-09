@@ -79,7 +79,8 @@ class MainGameLoop{
               selectedUnit.attack(valueU);
               selectedUnit.actionState.current = selectedUnit.actionState.inactive;
               isUnitClicked = true;
-              window.mainGameLoop.switchToken();
+              currentPlayer.increaseCounter();
+              //window.mainGameLoop.switchToken();
             }
           }
         });
@@ -105,6 +106,7 @@ class MainGameLoop{
   }
 
   switchToken(){
+    currentPlayer.setCounter(0);
     selectedUnit = undefined;
     if(this.token < playerList.length - 1) this.token++;
     else this.token = 0;
@@ -149,8 +151,12 @@ class MainGameLoop{
           valueU.update();
         });
       });
-      if(selectedUnit !== undefined && selectedUnit.actionState.current == selectedUnit.actionState.selectingAction){
-        if(mainMap.getTileIsBuilding(selectedUnit.tileX-1, selectedUnit.tileY-1)){
+      if(
+        selectedUnit !== undefined && selectedUnit.actionState.current == selectedUnit.actionState.selectingAction){
+        if(
+          mainMap.getTileIsBuilding(selectedUnit.tileX-1, selectedUnit.tileY-1)
+          && (selectedUnit.type == 'Infantry' || selectedUnit.type == 'Mech')
+        ){
           actionMenuCapture.style.display = 'block';
           //check if building is already captured by this player
         }else{

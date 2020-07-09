@@ -9,7 +9,7 @@ class Cruiser extends Unit{
     this.defense = 20;
     this.range = 5;
     this.vehicle = 1;
-    this.type='cruiser';
+    this.type='Cruiser';
     this.spritePos = {
       red: {x: 3, y: 560},
       blue: {x: 392, y: 560},

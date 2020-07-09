@@ -9,7 +9,7 @@ class MDTank extends Unit{
     this.vehicleAttackModifier = 110;
     this.defense = 60;
     this.range = 4;
-    this.type='mdtank';
+    this.type='MD Tank';
     this.spritePos = {
       red: {x: 3, y: 332},
       blue: {x: 392, y: 332},

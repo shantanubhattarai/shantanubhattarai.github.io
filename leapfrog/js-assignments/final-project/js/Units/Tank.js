@@ -9,7 +9,7 @@ class Tank extends Unit{
     this.vehicleAttackModifier = 100;
     this.defense = 40;
     this.range = 4;
-    this.type='tank';
+    this.type='Tank';
     this.spritePos = {
       red: {x: 3, y: 313},
       blue: {x: 392, y: 313},

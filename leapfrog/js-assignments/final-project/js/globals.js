@@ -205,7 +205,8 @@ actionMenuCapture.onclick = () => {
   });
   selectedUnit.movementPath = [];
   selectedUnit.actionState.current = selectedUnit.actionState.inactive;
-  window.mainGameLoop.switchToken();
+  currentPlayer.increaseCounter();
+  //window.mainGameLoop.switchToken();
 }
 
 actionMenuAttack.onclick = () => {
@@ -216,7 +217,8 @@ actionMenuAttack.onclick = () => {
 actionMenuWait.onclick = () => {
   selectedUnit.movementPath = [];
   selectedUnit.actionState.current = selectedUnit.actionState.inactive;
-  window.mainGameLoop.switchToken();
+  currentPlayer.increaseCounter();
+  //window.mainGameLoop.switchToken();
 }
 
 actionMenuCancel.onclick = () => {

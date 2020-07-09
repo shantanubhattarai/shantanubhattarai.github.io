@@ -1,14 +1,14 @@
 const attackMatrix = {
-  'infantry':['infantry','mech','tank','mdtank','artillery','recon','helicopter','antiair','missile','rocket'],
-  'mech':['infantry','mech','tank','mdtank','artillery','recon','helicopter','antiair','missile','rocket'],
-  'tank':['infantry','mech','tank','mdtank','artillery','recon','helicopter','antiair','missile','rocket'],
-  'mdtank':['infantry','mech','tank','mdtank','artillery','recon','helicopter','antiair','missile','rocket'],
-  'recon':['infantry','mech','tank','mdtank','artillery','recon','helicopter','antiair','missile','rocket'],
-  'artillery':['infantry','mech','tank','mdtank','artillery','recon','helicopter','antiair','missile','rocket'],
-  'helicopter':['infantry','mech','tank','mdtank','artillery','recon','helicopter','fighter','bomber','antiair','missile','rocket'],
-  'cruiser':['infantry', 'cruiser'],
-  'fighter':['fighter', 'helicopter', 'bomber'],
-  'bomber':['infantry','mech','tank','mdtank','artillery','recon','antiair','missile','rocket'],
+  'Infantry':['Infantry','Mech','Tank','MD Tank','Artillery','Recon','Helicopter','Anti Air','Missile Launcher','Rocket Launcher'],
+  'Mech':['Infantry','Mech','Tank','MD Tank','Artillery','Recon','Helicopter','Anti Air','Missile Launcher','Rocket Launcher'],
+  'Tank':['Infantry','Mech','Tank','MD Tank','Artillery','Recon','Helicopter','Anti Air','Missile Launcher','Rocket Launcher'],
+  'MD Tank':['Infantry','Mech','Tank','MD Tank','Artillery','Recon','Helicopter','Anti Air','Missile Launcher','Rocket Launcher'],
+  'Recon':['Infantry','Mech','Tank','MD Tank','Artillery','Recon','Helicopter','Anti Air','Missile Launcher','Rocket Launcher'],
+  'Artillery':['Infantry','Mech','Tank','MD Tank','Artillery','Recon','Helicopter','Anti Air','Missile Launcher','Rocket Launcher'],
+  'Helicopter':['Infantry','Mech','Tank','MD Tank','Artillery','Recon','Helicopter','fighter','Bomber','Anti Air','Missile Launcher','Rocket Launcher'],
+  'Cruiser':['Infantry', 'Cruiser'],
+  'Fighter':['Fighter', 'Helicopter', 'Bomber'],
+  'Bomber':['Infantry','Mech','Tank','MD Tank','Artillery','Recon','Anti Air','Missile Launcher','Rocket Launcher'],
 };
 
 class Unit{
@@ -287,10 +287,10 @@ class Unit{
       let distanceX = (this.movementPath[this.nodeCount].x-1) * mainMap.tsize - this.x;
       let distanceY = (this.movementPath[this.nodeCount].y-1) * mainMap.tsize - this.y;
       let distance = Math.abs(distanceX + distanceY);
-
+      console.log(distanceX, distanceY, distance);
       if(this.x !== (this.movementPath[this.nodeCount].x-1) * mainMap.tsize || this.y !== (this.movementPath[this.nodeCount].y-1) * mainMap.tsize){
-        this.x += distance == 0 ? 0 :distanceX/distance;
-        this.y += distance == 0 ? 0 :distanceY/distance;
+        this.x += distance == 0 ? 1 :distanceX/distance;
+        this.y += distance == 0 ? 1 :distanceY/distance;
       }else{
         this.tileX += newPos.x;
         this.tileY += newPos.y;

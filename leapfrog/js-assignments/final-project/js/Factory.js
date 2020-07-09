@@ -17,6 +17,7 @@ class Factory extends Building{
     console.log(newUnit);
     newUnit.actionState.current = actionState.inactive;
     unitMenu.style.display = 'none';
-    window.mainGameLoop.switchToken();
+    currentPlayer.increaseCounter();
+    //window.mainGameLoop.switchToken();
   }
 }

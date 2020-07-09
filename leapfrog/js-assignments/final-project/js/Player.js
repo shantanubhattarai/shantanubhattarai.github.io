@@ -3,6 +3,8 @@ class Player{
     this.unitList = [];
     this.active = true;
     this.color = color;
+    this.actions = 5;
+    this.actionCounter = 0;
   }
 
   addUnit(tileX, tileY, unitType){
@@ -51,7 +53,19 @@ class Player{
         let indexToRemove = this.unitList.indexOf(valueU);
         this.unitList.splice(indexToRemove, 1);
       };
-    })
+    });
+    if(this.actionCounter == this.actions){
+      window.mainGameLoop.switchToken();
+    }
+  }
+
+  increaseCounter(){
+    selectedUnit = undefined;
+    this.actionCounter++;
+  }
+
+  setCounter(count){
+    this.actionCounter = 0;
   }
 
   isUnitOnTile(tileX, tileY){

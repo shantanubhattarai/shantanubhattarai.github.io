@@ -9,7 +9,7 @@ class Artillery extends Unit{
     this.vehicleAttackModifier = 100;
     this.defense = 10;
     this.range = 4;
-    this.type='artillery';
+    this.type='Artillery';
     this.spritePos = {
       red: {x: 3, y: 408},
       blue: {x: 392, y: 408},
