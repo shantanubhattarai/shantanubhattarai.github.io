@@ -279,6 +279,3 @@ actionMenuLoad.onclick = () => {
     selectedUnit.actionState.current = selectedUnit.actionState.prepareLoad;
   }
 }
-
-//if in drop unit state, onclick, go to APC.dropUnit();
-

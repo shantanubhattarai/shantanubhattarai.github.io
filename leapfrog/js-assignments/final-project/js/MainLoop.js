@@ -203,7 +203,7 @@ class MainGameLoop{
   }
 
   hideAttack(){
-    if(selectedUnit.actionCount == 1 && selectedUnit.movementPath.length > 0){
+    if((selectedUnit.actionCount == 1 && selectedUnit.movementPath.length > 0) || selectedUnit.attack == -1){
       actionMenuAttack.style.display=  'none';
     }else{
       actionMenuAttack.style.display=  'block';
