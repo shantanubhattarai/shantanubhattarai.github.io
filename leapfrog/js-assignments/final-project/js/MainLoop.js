@@ -26,7 +26,7 @@ class MainGameLoop{
       };
 
       if((selectedUnit == undefined || selectedUnit.actionState == actionState.inactive || selectedUnit.actionState == actionState.idle)
-      && mainMap.getTileIsBuilding(clickedTile.tileX-1, clickedTile.tileY-1) && !mainMap.getTileHasPlayer(clickedTile.tileX, clickedTile.tileY)){
+      && mainMap.getTileIsBuilding(clickedTile.tileX-1, clickedTile.tileY-1) && !mainMap.getTileHasUnit(clickedTile.tileX, clickedTile.tileY)){
         buildingsList.forEach((building) => {
           if((building.capturedBy == this.token && building.tileX == clickedTile.tileX && building.tileY == clickedTile.tileY)){
             selectedFactory = building;
@@ -42,7 +42,7 @@ class MainGameLoop{
         selectedUnit.moveTo(clickedTile.tileX, clickedTile.tileY);
       }else if(selectedUnit !== undefined && selectedUnit.actionState.current == selectedUnit.actionState.prepareFire){
         let isUnitClicked = this.checkIfClickedOnEnemy(clickedTile);
-
+        console.log(isUnitClicked);
         if(!isUnitClicked){
           selectedUnit.drawAttackGrid = false;
           selectedUnit.attackGrid = [];
@@ -51,7 +51,24 @@ class MainGameLoop{
         }
       }else if(selectedUnit == undefined || selectedUnit.actionState.current == selectedUnit.actionState.idle){
         this.selectClickedUnit(clickedTile);
+      }else if(selectedUnit !== undefined && selectedUnit.actionState.current == selectedUnit.actionState.prepareLoad){
+          if(selectedUnit.isArrayinArray(selectedUnit.loadGrid, [clickedTile.tileX, clickedTile.tileY])){
+            let clickedUnit = mainMap.getTileHasPlayerUnit(clickedTile.tileX, clickedTile.tileY)
+            if(clickedUnit !== undefined && clickedUnit !== selectedUnit){
+            selectedUnit.loadUnit(clickedUnit);
+          }
+        }else{
+          selectedUnit.loadGrid = [];
+          selectedUnit.actionState.current = selectedUnit.actionState.selectingAction;
+        }
+      }else if(selectedUnit !== undefined && selectedUnit.actionState.current == selectedUnit.actionState.prepareDrop){
+        if(selectedUnit.isArrayinArray(selectedUnit.dropGrid, [clickedTile.tileX, clickedTile.tileY])){
+          selectedUnit.dropUnit(clickedTile);
+        }else{
+        selectedUnit.dropGrid = [];
+        selectedUnit.actionState.current = selectedUnit.actionState.selectingAction;
       }
+    }
     });
   }
 
@@ -82,6 +99,7 @@ class MainGameLoop{
       if(!valueP.active){
         valueP.unitList.forEach((valueU) => {
           if(valueU.getTilePos().tileX == clickedTile.tileX && valueU.getTilePos().tileY == clickedTile.tileY){
+            console.log(valueU.type);
             if(attackMatrix[selectedUnit.type].includes(valueU.type)){
               selectedUnit.attack(valueU);
               selectedUnit.actionState.current = selectedUnit.actionState.inactive;
@@ -129,6 +147,10 @@ class MainGameLoop{
         valueP.unitList.forEach((valueU) => {
           valueU.actionState.current = valueU.actionState.idle;
           valueU.actionState.currentState = 'idle';
+          valueU.movementPath = [];
+          if(valueU.loadedUnit !== undefined && valueU.loadedUnit !== ''){
+            valueU.loadedUnit.currentState = valueU.loadedUnit.inactive;
+          }
         });
       }
     });
@@ -188,14 +210,6 @@ class MainGameLoop{
     }
   }
 
-  // showDrop(){
-  //   if(selectedUnit.loadedUnit !== undefined){
-  //     actionMenuDrop.style.display = 'block';
-  //   }else{
-  //     actionMenuDrop.style.display = 'none';
-  //   }
-  // }
-
   updatePlayers(){
     playerList.forEach((valueP)=>{
       valueP.unitList.forEach((valueU) => {
@@ -204,9 +218,25 @@ class MainGameLoop{
     });
   }
 
+  showLoadDrop(){
+    if(selectedUnit.loadedUnit !== undefined && selectedUnit.loadedUnit == ''){
+      actionMenuLoad.style.display = 'block';
+    }else{
+      actionMenuLoad.style.display = 'none';
+    }
+
+    if(selectedUnit.loadedUnit !== undefined && selectedUnit.loadedUnit !== ''){
+      actionMenuDrop.style.display = 'block';
+    }else{
+      actionMenuDrop.style.display = 'none';
+    }
+
+  }
+
   showMenu(){
     if(selectedUnit !== undefined && selectedUnit.actionState.current == selectedUnit.actionState.selectingAction){
       this.showCaptureIfBuilding();
+      this.showLoadDrop();
       this.showMove();
       this.hideAttack();
       actionMenu.style.display = 'inline-block';
@@ -272,18 +302,20 @@ class MainGameLoop{
 
 let player1 = new Player('red');
 playerList.push(player1);
-player1.addUnit(10,7,'Anti Air');
+player1.addUnit(10,8,'Infantry');
+player1.addUnit(11,10,'APC');
+player1.addUnit(10,12,'Infantry');
 
 let player2 = new Player('blue');
 playerList.push(player2);
-player2.addUnit(10,11,'Anti Air');
+player2.addUnit(10,11,'Helicopter');
 
-let player3 = new Player('green');
-playerList.push(player3);
-player3.addUnit(6, 8, 'Anti Air');
+// let player3 = new Player('green');
+// playerList.push(player3);
+// player3.addUnit(6, 8, 'Artillery');
 
-let player4 = new Player('yellow');
-playerList.push(player4);
-player4.addUnit(5, 9, 'Anti Air');
+// let player4 = new Player('yellow');
+// playerList.push(player4);
+// player4.addUnit(5, 9, 'Anti Air');
 
 var mainGameLoop = new MainGameLoop();

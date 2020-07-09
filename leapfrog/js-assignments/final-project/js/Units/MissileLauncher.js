@@ -1,7 +1,7 @@
 class MissileLauncher extends Unit{
   constructor(tileX, tileY, color){
     super(tileX, tileY, color);
-    this.actionCount = 1;
+    this.actionCount = 2;
     this.walkableLevel = 1;
     this.range = 3;
     this.type='Missile Launcher';
@@ -78,7 +78,17 @@ class MissileLauncher extends Unit{
   generateAttackTiles(){
     // 3 to 5 for missiles
     this.attackGrid = [];
-    let xyOffsets = [[1,1],[-1,-1],[-1,1],[1,-1],[-1,-2],[-1,2],[1,-2],[1,2],[-2, 0], [2,0], [0, -2], [0,2],[-2,1],[2,1],[-2,-1],[2,-1],[-3, 0], [3,0], [0, -3], [0,3]];
+    let xyOffsets = [
+      [5,0],[-5,0],[0,5],[0,-5],
+      [4,0],[-4,0],[0,4],[0,-4],
+      [4,1],[-4,1],[1,4],[1,-4],
+      [4,-1],[-4,-1],[-1,4],[-1,-4],
+      [3,0],[-3,0],[0,3],[0,-3],
+      [3,1],[-3,1],[1,3],[1,-3],
+      [3,2],[-3,2],[2,3],[2,-3],
+      [3,-1],[-3,-1],[-1,3],[-1,-3],
+      [3,-2],[-3,-2],[-2,3],[-2,-3],
+    ];
     let i = 0;
     let j = 0;
     xyOffsets.forEach((value) => {

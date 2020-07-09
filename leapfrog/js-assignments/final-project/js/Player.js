@@ -48,6 +48,14 @@ class Player{
         newUnit = new AntiAir(tileX, tileY, this.color);
         break;
       }
+      case 'Missile Launcher': {
+        newUnit = new MissileLauncher(tileX, tileY, this.color);
+        break;
+      }
+      case 'APC': {
+        newUnit = new APC(tileX, tileY, this.color);
+        break;
+      }
     }
     this.unitList.push(newUnit);
     return newUnit;
@@ -55,7 +63,7 @@ class Player{
 
   getActiveFactories(){
     this.activeFactories = this.capturedFactories.filter((factory) => {
-      return !mainMap.getTileHasPlayer(factory.tileX, factory.tileY);
+      return !mainMap.getTileHasUnit(factory.tileX, factory.tileY);
     });
   }
 
@@ -69,7 +77,7 @@ class Player{
         this.unitList.splice(indexToRemove, 1);
       };
     });
-    if(this.actionCounter == this.actions){
+    if(this.actionCounter >= this.actions){
       window.mainGameLoop.switchToken();
     }
   }

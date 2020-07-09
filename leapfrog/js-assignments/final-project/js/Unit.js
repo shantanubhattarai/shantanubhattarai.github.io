@@ -8,7 +8,12 @@ const attackMatrix = {
   'Helicopter':['Infantry','Mech','Tank','MD Tank','Artillery','Recon','Helicopter','fighter','Bomber','Anti Air','Missile Launcher','Rocket Launcher'],
   'Cruiser':['Infantry', 'Cruiser'],
   'Fighter':['Fighter', 'Helicopter', 'Bomber'],
-  'Bomber':['Infantry','Mech','Tank','MD Tank','Artillery','Recon','Anti Air','Missile Launcher','Rocket Launcher'],
+  'Bomber':['Infantry','Mech','Tank','MD Tank','Artillery','Recon','Anti Air','Missile Launcher','Rocket Launcher', 'Cruiser', 'Battleship'],
+  'Missile Launcher': ['Transport Copter', 'Helicopter', 'Fighter', 'Bomber'],
+  'Anti Air': ['Infantry','Mech','Tank','MD Tank','Artillery','Recon','Helicopter','Anti Air','Missile Launcher','Rocket Launcher', 'APC', 'Transport Copter', 'Fighter', 'Bomber'],
+  'Rocket Launcher': ['Infantry','Mech','Tank','MD Tank','Artillery','Recon','Anti Air','Missile Launcher','Rocket Launcher','APC','Cruiser', 'Battleship'],
+  'APC': [],
+  'Transport Copter': []
 };
 let frames = 0;
 let animationFrame = 0;
@@ -43,7 +48,9 @@ class Unit{
       selectingAction: 4,
       prepareFire: 5,
       fire: 6,
-      inactive: 7,
+      prepareLoad: 7,
+      prepareDrop: 8,
+      inactive: 9,
       currentState: 'idle'
     };
   }
@@ -177,6 +184,18 @@ class Unit{
         this.drawAttackTiles(value[0], value[1], context);
       });
     }
+
+    if(this.loadGrid !== undefined && this.loadGrid.length > 0){
+      this.loadGrid.forEach((value)=>{
+        this.drawLoadTiles(value[0], value[1], context);
+      });
+    }
+    if(this.dropGrid !== undefined && this.dropGrid.length > 0){
+      this.dropGrid.forEach((value)=>{
+        this.drawDropTiles(value[0], value[1], context);
+      });
+    }
+
     if(this.actionState.current == this.actionState.inactive) {
       context.drawImage(mainSpriteSheet, this.spritePos[this.color + 'Inactive'].x, this.spritePos[this.color + 'Inactive'].y, mainMap.sourceSize-1, mainMap.sourceSize-1, this.x, this.y, mainMap.tsize, mainMap.tsize);
     }else{

@@ -124,7 +124,7 @@ const mainMap = {
     }
     return isBuilding;
   },
-  getTileHasPlayer(tileX, tileY){
+  getTileHasUnit(tileX, tileY){
     let hasCollided = false;
     playerList.forEach(valueP => {
         valueP.unitList.forEach(valueU => {
@@ -134,6 +134,15 @@ const mainMap = {
         });
     });
     return hasCollided;
+  },
+  getTileHasPlayerUnit(tileX, tileY){
+    let playerUnit = undefined;
+    currentPlayer.unitList.forEach(valueU => {
+      if((tileX) == valueU.tileX && (tileY) == valueU.tileY){
+        playerUnit = valueU;
+      }
+    });
+    return playerUnit;
   }
 }
 
@@ -177,6 +186,12 @@ let actionMenuList = document.createElement('ul');
 let actionMenuMove = document.createElement('li');
 actionMenuMove.innerHTML = 'Move';
 actionMenuList.appendChild(actionMenuMove);
+let actionMenuLoad = document.createElement('li');
+actionMenuLoad.innerHTML = 'Load';
+actionMenuList.appendChild(actionMenuLoad);
+let actionMenuDrop = document.createElement('li');
+actionMenuDrop.innerHTML = 'Drop';
+actionMenuList.appendChild(actionMenuDrop);
 let actionMenuCapture = document.createElement('li');
 actionMenuCapture.innerHTML = 'Capture';
 actionMenuList.appendChild(actionMenuCapture);
@@ -221,7 +236,13 @@ actionMenuAttack.onclick = () => {
 }
 
 actionMenuWait.onclick = () => {
+  let oldSelectedUnit = selectedUnit;
   selectedUnit.movementPath = [];
+  if(selectedUnit.loadedUnit !== undefined && selectedUnit.loadedUnit !== ''){
+    currentPlayer.increaseCounter();
+    selectedUnit = oldSelectedUnit;
+  }
+
   selectedUnit.actionState.current = selectedUnit.actionState.inactive;
   selectedUnit.actionState.currentState = 'inactive';
   currentPlayer.increaseCounter();
@@ -247,26 +268,17 @@ unitMenuListItems.forEach((unitMenuListItem) => {
 })
 unitMenu.style.display = 'none';
 
-// actionMenuDrop.onclick  = () => {
-//   selectedUnit.generateDropTiles();
-// }
+actionMenuDrop.onclick  = () => {
+  selectedUnit.actionState.current = selectedUnit.actionState.prepareDrop;
+  selectedUnit.generateDropTiles();
+}
 
-// actionMenuLoad.onclick = () => {
-//   selectedUnit.generateLoadTiles();
-// }
-
-// if in load unit state, if clicked tile = friendly unit, someUnit = friendlyUnit, go to APC.loadUnit();
-
-//APC.loadUnit(){
-//   selectedUnit.loadUnit(someUnit);
-//   selectedUnit.loadedUnit.setDraw(false);
-//}
+actionMenuLoad.onclick = () => {
+  if(selectedUnit.loadedUnit !== undefined && selectedUnit.loadedUnit == ''){
+    selectedUnit.generateLoadTiles();
+    selectedUnit.actionState.current = selectedUnit.actionState.prepareLoad;
+  }
+}
 
 //if in drop unit state, onclick, go to APC.dropUnit();
 
-//APC.dropUnit(){
-//  if clickedTile in dropTiles, if clickedTile doesn't have friendly or enemy Units
-//    if clickedTile walkable != 4, 5 and is less than loadedUnit.walkableLevel
-//      loadedUnit position = clickedTile
-//      loadoedUnit drawFlag true
-//}
