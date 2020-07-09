@@ -14,7 +14,6 @@ class Factory extends Building{
 
   spawnUnit(unitType){
     let newUnit = currentPlayer.addUnit(this.tileX, this.tileY, unitType);
-    console.log(newUnit);
     newUnit.actionState.current = actionState.inactive;
     unitMenu.style.display = 'none';
     currentPlayer.increaseCounter();

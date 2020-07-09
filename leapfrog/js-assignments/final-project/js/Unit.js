@@ -287,7 +287,6 @@ class Unit{
       let distanceX = (this.movementPath[this.nodeCount].x-1) * mainMap.tsize - this.x;
       let distanceY = (this.movementPath[this.nodeCount].y-1) * mainMap.tsize - this.y;
       let distance = Math.abs(distanceX + distanceY);
-      console.log(distanceX, distanceY, distance);
       if(this.x !== (this.movementPath[this.nodeCount].x-1) * mainMap.tsize || this.y !== (this.movementPath[this.nodeCount].y-1) * mainMap.tsize){
         this.x += distance == 0 ? 1 :distanceX/distance;
         this.y += distance == 0 ? 1 :distanceY/distance;

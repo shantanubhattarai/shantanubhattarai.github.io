@@ -29,7 +29,7 @@ class MainGameLoop{
         buildingsList.forEach((building) => {
           if(building.capturedBy == this.token && building.tileX == clickedTile.tileX && building.tileY == clickedTile.tileY) {
             selectedFactory = building;
-            unitMenu.style.display = 'block';
+            unitMenu.style.display = 'inline-block';
           }
         });
       }
@@ -172,7 +172,7 @@ class MainGameLoop{
         }else{
           actionMenuAttack.style.display=  'block';
         }
-        actionMenu.style.display = 'block';
+        actionMenu.style.display = 'inline-block';
       }else{
         actionMenu.style.display = 'none';
       }

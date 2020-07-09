@@ -170,6 +170,7 @@ let selectedUnit;
 let currentPlayer;
 let selectedFactory;
 const actionMenu = document.createElement('div');
+actionMenu.className = 'action-menu';
 let actionMenuList = document.createElement('ul');
 let actionMenuMove = document.createElement('li');
 actionMenuMove.innerHTML = 'Move';

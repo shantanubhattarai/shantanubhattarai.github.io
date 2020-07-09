@@ -1,0 +1,11 @@
+canvas {
+  display: inline-block;
+}
+
+div.unit-menu{
+  display: inline-block;
+}
+
+div.action-menu{
+  display: inline-block;
+}
