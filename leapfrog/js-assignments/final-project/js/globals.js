@@ -143,7 +143,8 @@ mainSpriteSheet.src='./img/UnitMap.png';
 const mainHUDSheet = document.createElement('img');
 mainHUDSheet.src='./img/HUD.png';
 
-
+const playerList = [];
+const buildingsList = [];
 
 const hudPos = {
   1: {x: 166, y: 23},
@@ -194,6 +195,7 @@ actionMenuCapture.style.display= 'none';
 actionMenuMove.onclick = () => {
   selectedUnit.startMovement();
   selectedUnit.actionState.current = selectedUnit.actionState.prepareMove;
+  selectedUnit.actionState.currentState = 'idle';
 }
 
 actionMenuCapture.onclick = () => {
@@ -207,18 +209,21 @@ actionMenuCapture.onclick = () => {
   });
   selectedUnit.movementPath = [];
   selectedUnit.actionState.current = selectedUnit.actionState.inactive;
+  selectedUnit.actionState.currentState = 'inactive';
   currentPlayer.increaseCounter();
   //window.mainGameLoop.switchToken();
 }
 
 actionMenuAttack.onclick = () => {
   selectedUnit.actionState.current = selectedUnit.actionState.prepareFire;
+  selectedUnit.actionState.currentState = 'idle';
   selectedUnit.startAttack();
 }
 
 actionMenuWait.onclick = () => {
   selectedUnit.movementPath = [];
   selectedUnit.actionState.current = selectedUnit.actionState.inactive;
+  selectedUnit.actionState.currentState = 'inactive';
   currentPlayer.increaseCounter();
   //window.mainGameLoop.switchToken();
 }
@@ -237,6 +242,7 @@ let unitMenuListItems = Array.from(document.querySelectorAll('.unit-menu-list > 
 unitMenuListItems.forEach((unitMenuListItem) => {
   unitMenuListItem.onclick = () => {
     selectedFactory.spawnUnit(unitMenuListItem.textContent);
+    selectedFactory == undefined;
   };
 })
 unitMenu.style.display = 'none';

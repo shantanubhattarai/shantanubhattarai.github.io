@@ -11,6 +11,9 @@ const attackMatrix = {
   'Bomber':['Infantry','Mech','Tank','MD Tank','Artillery','Recon','Anti Air','Missile Launcher','Rocket Launcher'],
 };
 
+let frames = 0;
+let animationFrame = 0;
+
 class Unit{
   constructor(tileX, tileY, color){
     this.tileX = tileX;
@@ -42,8 +45,9 @@ class Unit{
       selectingAction: 4,
       prepareFire: 5,
       fire: 6,
-      inactive: 7
-    }
+      inactive: 7,
+      currentState: 'idle'
+    };
   }
 
   isArrayinArray(arr, item){
@@ -138,8 +142,10 @@ class Unit{
     }
     this.movementPath = [];
     this.actionState.current = this.actionState.idle;
+    this.actionState.currentState = 'idle';
     this.x = (this.tileX - 1) * mainMap.tsize;
     this.y = (this.tileY - 1) * mainMap.tsize;
+    selectedUnit = undefined;
   }
 
   enemyInAttackTiles(){
@@ -160,6 +166,7 @@ class Unit{
   }
 
   draw(context){
+
     if(this.drawGrid == true){
       this.movementGrid.forEach((value) => {
         this.drawMovementTiles(value[0], value[1], context);
@@ -170,11 +177,10 @@ class Unit{
         this.drawAttackTiles(value[0], value[1], context);
       });
     }
-
     if(this.actionState.current == this.actionState.inactive) {
       context.drawImage(mainSpriteSheet, this.spritePos[this.color + 'Inactive'].x, this.spritePos[this.color + 'Inactive'].y, mainMap.sourceSize-1, mainMap.sourceSize-1, this.x, this.y, mainMap.tsize, mainMap.tsize);
     }else{
-      context.drawImage(mainSpriteSheet, this.spritePos[this.color].x, this.spritePos[this.color].y, mainMap.sourceSize-1, mainMap.sourceSize-1, this.x, this.y, mainMap.tsize, mainMap.tsize);
+      context.drawImage(mainSpriteSheet, this.spritePos[this.color][this.actionState.currentState][animationFrame].x, this.spritePos[this.color][this.actionState.currentState][animationFrame].y, mainMap.sourceSize-1, mainMap.sourceSize-1, this.x, this.y, mainMap.tsize, mainMap.tsize);
     }
     if(this.hp < 10 && this.hp > 0) context.drawImage(mainHUDSheet, hudPos[this.hp].x, hudPos[this.hp].y,8,8,this.x + mainMap.tsize - 12, this.y + mainMap.tsize - 12, 12, 12);
   }
@@ -199,6 +205,7 @@ class Unit{
       this.attackGrid = [];
       this.movementPath = [];
       this.actionState.current = this.actionState.selectingAction;
+      this.actionState.currentState = 'idle';
       return;
     }
     let modifiedDamage = this.damage * this.hp/10 < 1? 1 : this.damage * this.hp/10;
@@ -209,6 +216,7 @@ class Unit{
     this.attackGrid = [];
     this.movementPath = [];
     this.actionState.current = this.actionState.inactive;
+    this.actionState.currentState = 'inactive';
   }
 
   counterAttack = (unitToAttack) => {
@@ -288,8 +296,8 @@ class Unit{
       let distanceY = (this.movementPath[this.nodeCount].y-1) * mainMap.tsize - this.y;
       let distance = Math.abs(distanceX + distanceY);
       if(this.x !== (this.movementPath[this.nodeCount].x-1) * mainMap.tsize || this.y !== (this.movementPath[this.nodeCount].y-1) * mainMap.tsize){
-        this.x += distance == 0 ? 1 :distanceX/distance;
-        this.y += distance == 0 ? 1 :distanceY/distance;
+        this.x += distance == 0 ? 2 :distanceX/distance * 2;
+        this.y += distance == 0 ? 2 :distanceY/distance * 2;
       }else{
         this.tileX += newPos.x;
         this.tileY += newPos.y;
@@ -305,6 +313,7 @@ class Unit{
           this.drawGrid = false;
           this.movementGrid = [];
           this.actionState.current = this.actionState.selectingAction;
+          this.actionState.currentState = 'idle';
           this.count = 0;
           this.nodeCount = 0;
         }
@@ -323,12 +332,14 @@ class Unit{
       this.movementGrid = [];
       this.count = 0;
       this.actionState.current = this.actionState.idle;
+      this.actionState.currentState = 'idle';
       return;
     }
 
     this.toMoveTotileX = tileX;
     this.toMoveTotileY = tileY;
     this.actionState.current = this.actionState.move;
+    this.actionState.currentState = 'move';
     this.pathfinder();
   }
 }

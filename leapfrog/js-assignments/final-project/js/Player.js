@@ -5,6 +5,8 @@ class Player{
     this.color = color;
     this.actions = 5;
     this.actionCounter = 0;
+    this.capturedFactories = [];
+    this.activeFactories = [];
   }
 
   addUnit(tileX, tileY, unitType){
@@ -47,8 +49,17 @@ class Player{
     return newUnit;
   }
 
+  getActiveFactories(){
+    this.activeFactories = this.capturedFactories.filter((factory) => {
+      return !mainMap.getTileHasPlayer(factory.tileX, factory.tileY);
+    });
+  }
+
   update(){
-    this.unitList.forEach((valueU) => {
+    this.getActiveFactories();
+    if(this.unitList.length + this.activeFactories.length < 5)
+      this.actions = this.unitList.length + this.activeFactories.length;
+      this.unitList.forEach((valueU) => {
       if(valueU.hp <= 0) {
         let indexToRemove = this.unitList.indexOf(valueU);
         this.unitList.splice(indexToRemove, 1);

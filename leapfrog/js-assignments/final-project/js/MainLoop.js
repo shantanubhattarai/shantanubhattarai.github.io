@@ -25,13 +25,17 @@ class MainGameLoop{
         tileY: Math.floor(mousePos.y / mainMap.tsize) + 1
       };
 
-      if(mainMap.getTileIsBuilding(clickedTile.tileX-1, clickedTile.tileY-1) && !mainMap.getTileHasPlayer(clickedTile.tileX, clickedTile.tileY)){
+      if((selectedUnit == undefined || selectedUnit.actionState == actionState.inactive || selectedUnit.actionState == actionState.idle)
+      && mainMap.getTileIsBuilding(clickedTile.tileX-1, clickedTile.tileY-1) && !mainMap.getTileHasPlayer(clickedTile.tileX, clickedTile.tileY)){
         buildingsList.forEach((building) => {
-          if(building.capturedBy == this.token && building.tileX == clickedTile.tileX && building.tileY == clickedTile.tileY) {
+          if((building.capturedBy == this.token && building.tileX == clickedTile.tileX && building.tileY == clickedTile.tileY)){
             selectedFactory = building;
             unitMenu.style.display = 'inline-block';
           }
         });
+      }else{
+        selectedFactory = undefined;
+        unitMenu.style.display = 'none';
       }
 
       if(selectedUnit !== undefined && selectedUnit.actionState.current == selectedUnit.actionState.prepareMove){
@@ -43,6 +47,7 @@ class MainGameLoop{
           selectedUnit.drawAttackGrid = false;
           selectedUnit.attackGrid = [];
           selectedUnit.actionState.current = selectedUnit.actionState.selectingAction;
+          selectedUnit.actionState.currentState = 'idle';
         }
       }else if(selectedUnit == undefined || selectedUnit.actionState.current == selectedUnit.actionState.idle){
         this.selectClickedUnit(clickedTile);
@@ -60,10 +65,12 @@ class MainGameLoop{
           if(valueU.enemyInAttackTiles()){
             selectedUnit = valueU;
             valueU.actionState.current = selectedUnit.actionState.selectingAction;
+            valueU.actionState.currentState = 'idle';
           }else{
             valueU.startMovement();
             selectedUnit = valueU;
             selectedUnit.actionState.current = selectedUnit.actionState.prepareMove;
+            selectedUnit.actionState.currentState = 'idle';
           }
       }
     });
@@ -78,6 +85,7 @@ class MainGameLoop{
             if(attackMatrix[selectedUnit.type].includes(valueU.type)){
               selectedUnit.attack(valueU);
               selectedUnit.actionState.current = selectedUnit.actionState.inactive;
+              selectedUnit.actionState.currentState = 'inactive';
               isUnitClicked = true;
               currentPlayer.increaseCounter();
               //window.mainGameLoop.switchToken();
@@ -100,6 +108,7 @@ class MainGameLoop{
         currentPlayer = valueP;
         valueP.unitList.forEach((valueU) => {
           valueU.actionState.current = valueU.actionState.idle;
+          valueU.actionState.currentState = 'idle';
         });
       }
     });
@@ -107,6 +116,7 @@ class MainGameLoop{
 
   switchToken(){
     currentPlayer.setCounter(0);
+
     selectedUnit = undefined;
     if(this.token < playerList.length - 1) this.token++;
     else this.token = 0;
@@ -118,9 +128,11 @@ class MainGameLoop{
         currentPlayer = valueP;
         valueP.unitList.forEach((valueU) => {
           valueU.actionState.current = valueU.actionState.idle;
+          valueU.actionState.currentState = 'idle';
         });
       }
     });
+
   }
 
   drawLayer(layer){
@@ -209,28 +221,30 @@ class MainGameLoop{
       player.unitList.forEach(unit => unit.draw(this.context));
     })
     this.update();
+    if(frames < 200) frames++;
+    else frames = 0;
+    if(frames % 8 == 0) {
+      animationFrame++;
+      if(animationFrame > 3) animationFrame = 0;
+    };
     window.requestAnimationFrame(this.render.bind(this));
   }
 }
 
-const playerList = [];
-const buildingsList = [];
 let player1 = new Player('red');
 playerList.push(player1);
 player1.addUnit(10,6,'Infantry');
-player1.addUnit(11,11,'Infantry');
-player1.addUnit(5,7,'Tank');
-player1.addUnit(6,8,'MD Tank');
-player1.addUnit(8,9,'Recon');
-player1.addUnit(8,10,'Artillery');
-player1.addUnit(13,14,'Cruiser');
 
 let player2 = new Player('blue');
 playerList.push(player2);
 player2.addUnit(10,23,'Infantry');
-player2.addUnit(11,14,'Tank');
-player2.addUnit(4,7,'Mech');
-player2.addUnit(5,5,'Cruiser');
-player2.addUnit(6,6,'Helicopter');
+
+let player3 = new Player('green');
+playerList.push(player3);
+player3.addUnit(20, 6, 'Infantry');
+
+let player4 = new Player('yellow');
+playerList.push(player4);
+player4.addUnit(21, 24, 'Infantry');
 
 var mainGameLoop = new MainGameLoop();

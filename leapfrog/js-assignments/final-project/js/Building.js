@@ -4,14 +4,14 @@ class Building{
     this.tileY = tileY;
     this.captureProgress = 0;
     this.capturedBy = -1;
-    this.color = 'neutral';
+    this.color = 'green';
     this.type = 'building';
     this.colorTiles = {
       'neutral' : 500,
       'red': 490,
       'blue': 534,
-      'green': 490,
-      'orange': 490
+      'green': 622,
+      'yellow': 578
     }
   }
 
