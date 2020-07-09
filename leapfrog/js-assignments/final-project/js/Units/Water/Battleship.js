@@ -1,15 +1,22 @@
-class Cruiser extends Unit{
+class Battleship extends Unit{
   constructor(tileX, tileY, color){
     super(tileX, tileY, color);
     this.actionCount = 2;
     this.walkableLevel = 4;
     this.range = 4;
-    this.type='Cruiser';
+    this.type='Battleship';
     this.damageMatrix = {
-      'Transport Copter': 100,
-      'Helicopter': 100,
-      'Fighter': 60,
-      'Bomber': 70
+      'Infantry' : 90,
+      'Mech': 90,
+      'Recon': 90,
+      'APC': 80,
+      'Anti Air': 90,
+      'Tank': 80,
+      'MD Tank': 60,
+      'Artillery': 80,
+      'Rocket Launcher': 90,
+      'Missile Launcher': 90,
+      'Battleship': 50
     };
     this.spritePos = {
       red: {

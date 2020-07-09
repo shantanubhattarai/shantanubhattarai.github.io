@@ -3,13 +3,24 @@ class MDTank extends Unit{
     super(tileX, tileY, color);
     this.actionCount = 2;
     this.walkableLevel = 1;
-    this.damage = 15;
-    this.counterDefense = 80;
-    this.isVehicle = 1;
-    this.vehicleAttackModifier = 110;
-    this.defense = 60;
-    this.range = 4;
+    this.range = 3;
     this.type='MD Tank';
+    this.damageMatrix = {
+      'Infantry' : 100,
+      'Mech': 90,
+      'Recon': 100,
+      'APC': 100,
+      'Anti Air': 100,
+      'Tank': 90,
+      'MD Tank': 60,
+      'Artillery': 100,
+      'Rocket Launcher': 100,
+      'Missile Launcher': 100,
+      'Transport Copter': 50,
+      'Helicopter': 20,
+      'Cruiser': 45,
+      'Battleship': 10
+    };
     this.spritePos = {
       red: {
         idle: {

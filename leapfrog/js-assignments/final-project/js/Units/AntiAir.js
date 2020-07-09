@@ -1,24 +1,25 @@
-class Tank extends Unit{
+class AntiAir extends Unit{
   constructor(tileX, tileY, color){
     super(tileX, tileY, color);
     this.actionCount = 2;
     this.walkableLevel = 1;
     this.range = 4;
-    this.type='Tank';
+    this.type='Anti Air';
     this.damageMatrix = {
-      'Infantry' : 80,
-      'Mech': 70,
-      'Recon': 90,
-      'APC': 80,
-      'Anti Air': 70,
-      'Tank': 60,
-      'MD Tank': 20,
-      'Artillery': 70,
-      'Rocket Launcher': 80,
-      'Missile Launcher': 80,
-      'Transport Copter': 40,
-      'Helicopter': 10,
-      'Cruiser': 10
+      'Infantry' : 100,
+      'Mech': 100,
+      'Recon': 60,
+      'APC': 50,
+      'Anti Air': 50,
+      'Tank': 30,
+      'MD Tank': 10,
+      'Artillery': 50,
+      'Rocket Launcher': 60,
+      'Missile Launcher': 60,
+      'Transport Copter': 100,
+      'Helicopter': 100,
+      'Fighter': 100,
+      'Bomber': 100
     };
     this.spritePos = {
       red: {

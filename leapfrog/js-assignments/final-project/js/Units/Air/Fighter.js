@@ -7,20 +7,10 @@ class Helicopter extends Unit{
     this.range = 4;
     this.type='Helicopter';
     this.damageMatrix = {
-      'Infantry' : 80,
-      'Mech': 80,
-      'Recon': 60,
-      'APC': 60,
-      'Anti Air': 30,
-      'Tank': 60,
-      'MD Tank': 30,
-      'Artillery': 70,
-      'Rocket Launcher': 70,
-      'Missile Launcher': 70,
-      'Transport Copter': 90,
-      'Helicopter': 70,
-      'Cruiser': 60,
-      'Battleship': 30
+      'Transport Copter': 100,
+      'Helicopter': 100,
+      'Fighter': 60,
+      'Bomber': 100
     };
     this.spritePos = {
       red: {

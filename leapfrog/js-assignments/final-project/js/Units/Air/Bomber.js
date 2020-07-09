@@ -1,26 +1,23 @@
-class Helicopter extends Unit{
+class Bomber extends Unit{
   constructor(tileX, tileY, color){
     super(tileX, tileY, color);
     this.actionCount = 2;
     this.walkableLevel = 5;
-
     this.range = 4;
     this.type='Helicopter';
     this.damageMatrix = {
-      'Infantry' : 80,
-      'Mech': 80,
-      'Recon': 60,
-      'APC': 60,
-      'Anti Air': 30,
-      'Tank': 60,
-      'MD Tank': 30,
-      'Artillery': 70,
-      'Rocket Launcher': 70,
-      'Missile Launcher': 70,
-      'Transport Copter': 90,
-      'Helicopter': 70,
-      'Cruiser': 60,
-      'Battleship': 30
+      'Infantry' : 100,
+      'Mech': 100,
+      'Recon': 100,
+      'APC': 105,
+      'Anti Air': 90,
+      'Tank': 100,
+      'MD Tank': 90,
+      'Artillery': 100,
+      'Rocket Launcher': 100,
+      'Missile Launcher': 100,
+      'Cruiser': 90,
+      'Battleship': 80
     };
     this.spritePos = {
       red: {

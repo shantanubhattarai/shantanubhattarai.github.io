@@ -3,12 +3,22 @@ class Infantry extends Unit{
     super(tileX, tileY, color);
     this.actionCount = 2;
     this.walkableLevel = 3;
-    this.damage = 6;
-    this.counterDefense = 50;
-    this.defense = 20;
+    this.range = 3;
     this.vehicleAttackModifier = 20;
-    this.isVehicle = 0;
-    this.type='Infantry';
+    this.damageMatrix = {
+      'Infantry' : 60,
+      'Mech': 50,
+      'Recon': 10,
+      'APC': 20,
+      'Anti Air': 10,
+      'Tank': 10,
+      'MD Tank': 1,
+      'Artillery': 20,
+      'Rocket Launcher': 30,
+      'Missile Launcher': 30,
+      'Transport Copter': 30,
+      'Helicopter': 10
+    };
     this.spritePos = {
       red: {
         idle: {

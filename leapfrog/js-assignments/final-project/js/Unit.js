@@ -1,5 +1,5 @@
 const attackMatrix = {
-  'Infantry':['Infantry','Mech','Tank','MD Tank','Artillery','Recon','Helicopter','Anti Air','Missile Launcher','Rocket Launcher'],
+  'Infantry':['Infantry','Mech','Tank','MD Tank','Artillery','Recon','Helicopter','Anti Air','Missile Launcher','Rocket Launcher', 'APC', 'Transport Copter'],
   'Mech':['Infantry','Mech','Tank','MD Tank','Artillery','Recon','Helicopter','Anti Air','Missile Launcher','Rocket Launcher'],
   'Tank':['Infantry','Mech','Tank','MD Tank','Artillery','Recon','Helicopter','Anti Air','Missile Launcher','Rocket Launcher'],
   'MD Tank':['Infantry','Mech','Tank','MD Tank','Artillery','Recon','Helicopter','Anti Air','Missile Launcher','Rocket Launcher'],
@@ -10,7 +10,6 @@ const attackMatrix = {
   'Fighter':['Fighter', 'Helicopter', 'Bomber'],
   'Bomber':['Infantry','Mech','Tank','MD Tank','Artillery','Recon','Anti Air','Missile Launcher','Rocket Launcher'],
 };
-
 let frames = 0;
 let animationFrame = 0;
 
@@ -33,10 +32,9 @@ class Unit{
     this.actionCount = 2;
     this.color = color;
     this.hp = 10;
-    this.damage = 10;
-    this.counterDefense = 20;
-    this.defense = 10;
+    this.maxHP = 10;
     this.type = 'generic';
+    this.drawState = true;
     this.actionState = {
       current: 1,
       idle: 1,
@@ -166,7 +164,9 @@ class Unit{
   }
 
   draw(context){
-
+    if(!this.drawState){
+      return;
+    }
     if(this.drawGrid == true){
       this.movementGrid.forEach((value) => {
         this.drawMovementTiles(value[0], value[1], context);
@@ -208,8 +208,10 @@ class Unit{
       this.actionState.currentState = 'idle';
       return;
     }
-    let modifiedDamage = this.damage * this.hp/10 < 1? 1 : this.damage * this.hp/10;
-    if(unitToAttack.isVehicle == 1) modifiedDamage = modifiedDamage * this.vehicleAttackModifier/100;
+    let modifiedDamage = this.damageMatrix[unitToAttack.type] * this.hp/10 < 1? 1 : this.damageMatrix[unitToAttack.type] * this.hp/10;
+    modifiedDamage = modifiedDamage / 100 * unitToAttack.maxHP;
+    console.log(modifiedDamage);
+
     unitToAttack.takeDamage(modifiedDamage);
     unitToAttack.counterAttack(this);
     this.drawAttackGrid = false;
@@ -220,19 +222,19 @@ class Unit{
   }
 
   counterAttack = (unitToAttack) => {
-    if(this.attackGrid.length == 0) this.generateAttackTiles();
+    this.generateAttackTiles();
+    console.log(this.attackGrid, [unitToAttack.tileX, unitToAttack.tileY]);
     if(!this.isArrayinArray(this.attackGrid, [unitToAttack.tileX, unitToAttack.tileY])){
       return;
     }
-    let modifiedDamage = this.damage * this.hp/10 < 1? 1 : this.damage * this.hp/10;
-    if(unitToAttack.isVehicle == 1) modifiedDamage = modifiedDamage * this.vehicleAttackModifier/100;
-    unitToAttack.takeDamage(modifiedDamage, 1);
+    let modifiedDamage = this.damageMatrix[unitToAttack.type] * this.hp/10 < 1? 1 : this.damageMatrix[unitToAttack.type] * this.hp/10;
+    modifiedDamage = modifiedDamage / 100 * unitToAttack.maxHP;
+    console.log(modifiedDamage);
+    unitToAttack.takeDamage(modifiedDamage);
   }
 
-  takeDamage = (damage, counter = 0) => {
-    let modifiedDamage= damage - this.defense * damage / 100 - counter * this.counterDefense * damage /100;
-    modifiedDamage = modifiedDamage < 0 ? 0 : modifiedDamage;
-    this.hp -= modifiedDamage;
+  takeDamage = (damage) => {
+    this.hp -= damage;
     this.hp = Math.round(this.hp);
   }
 
@@ -284,6 +286,10 @@ class Unit{
         }
       });
     }
+  }
+
+  setDraw = (drawState) => {
+    this.draw = drawState;
   }
 
   update = () => {

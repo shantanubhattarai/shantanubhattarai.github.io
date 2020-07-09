@@ -3,13 +3,24 @@ class Recon extends Unit{
     super(tileX, tileY, color);
     this.actionCount = 2;
     this.walkableLevel = 1;
-    this.damage = 10;
-    this.counterDefense = 50;
-    this.isVehicle = 0;
-    this.vehicleAttackModifier = 100;
-    this.defense = 10;
-    this.range = 5;
+    this.range = 6;
     this.type='Recon';
+    this.damageMatrix = {
+      'Infantry' : 70,
+      'Mech': 70,
+      'Recon': 40,
+      'APC': 50,
+      'Anti Air': 1,
+      'Tank': 1,
+      'MD Tank': 1,
+      'Artillery': 50,
+      'Rocket Launcher': 60,
+      'Missile Launcher': 30,
+      'Transport Copter': 40,
+      'Helicopter': 10
+    };
+
+
     this.spritePos = {
       red: {
         idle: {

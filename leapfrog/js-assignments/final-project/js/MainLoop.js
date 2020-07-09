@@ -188,6 +188,14 @@ class MainGameLoop{
     }
   }
 
+  // showDrop(){
+  //   if(selectedUnit.loadedUnit !== undefined){
+  //     actionMenuDrop.style.display = 'block';
+  //   }else{
+  //     actionMenuDrop.style.display = 'none';
+  //   }
+  // }
+
   updatePlayers(){
     playerList.forEach((valueP)=>{
       valueP.unitList.forEach((valueU) => {
@@ -264,18 +272,18 @@ class MainGameLoop{
 
 let player1 = new Player('red');
 playerList.push(player1);
-player1.addUnit(10,6,'Infantry');
+player1.addUnit(10,6,'Mech');
 
 let player2 = new Player('blue');
 playerList.push(player2);
-player2.addUnit(10,23,'Infantry');
+player2.addUnit(10,10,'Tank');
 
 let player3 = new Player('green');
 playerList.push(player3);
-player3.addUnit(20, 6, 'Infantry');
+player3.addUnit(6, 6, 'MD Tank');
 
 let player4 = new Player('yellow');
 playerList.push(player4);
-player4.addUnit(21, 24, 'Infantry');
+player4.addUnit(5, 8, 'Helicopter');
 
 var mainGameLoop = new MainGameLoop();

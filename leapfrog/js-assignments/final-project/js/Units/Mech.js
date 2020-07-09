@@ -2,13 +2,23 @@ class Mech extends Unit{
   constructor(tileX, tileY, color){
     super(tileX, tileY, color);
     this.actionCount = 2;
+    this.range = 2;
     this.walkableLevel = 3;
-    this.damage = 6;
-    this.counterDefense = 50;
-    this.defense = 20;
-    this.vehicleAttackModifier = 130;
-    this.isVehicle = 0;
     this.type='Mech';
+    this.damageMatrix = {
+      'Infantry' : 70,
+      'Mech': 60,
+      'Recon': 90,
+      'APC': 80,
+      'Anti Air': 70,
+      'Tank': 50,
+      'MD Tank': 20,
+      'Artillery': 70,
+      'Rocket Launcher': 90,
+      'Missile Launcher': 90,
+      'Transport Copter': 40,
+      'Helicopter': 10
+    };
     this.spritePos = {
       red: {
         idle: {

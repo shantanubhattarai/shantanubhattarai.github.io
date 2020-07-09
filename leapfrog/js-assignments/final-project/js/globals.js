@@ -247,3 +247,26 @@ unitMenuListItems.forEach((unitMenuListItem) => {
 })
 unitMenu.style.display = 'none';
 
+// actionMenuDrop.onclick  = () => {
+//   selectedUnit.generateDropTiles();
+// }
+
+// actionMenuLoad.onclick = () => {
+//   selectedUnit.generateLoadTiles();
+// }
+
+// if in load unit state, if clicked tile = friendly unit, someUnit = friendlyUnit, go to APC.loadUnit();
+
+//APC.loadUnit(){
+//   selectedUnit.loadUnit(someUnit);
+//   selectedUnit.loadedUnit.setDraw(false);
+//}
+
+//if in drop unit state, onclick, go to APC.dropUnit();
+
+//APC.dropUnit(){
+//  if clickedTile in dropTiles, if clickedTile doesn't have friendly or enemy Units
+//    if clickedTile walkable != 4, 5 and is less than loadedUnit.walkableLevel
+//      loadedUnit position = clickedTile
+//      loadoedUnit drawFlag true
+//}

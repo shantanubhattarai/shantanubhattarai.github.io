@@ -1,23 +1,15 @@
-class Artillery extends Unit{
+class MissileLauncher extends Unit{
   constructor(tileX, tileY, color){
     super(tileX, tileY, color);
     this.actionCount = 1;
     this.walkableLevel = 1;
     this.range = 3;
-    this.type='Artillery';
+    this.type='Missile Launcher';
     this.damageMatrix = {
-      'Infantry' : 90,
-      'Mech': 90,
-      'Recon': 80,
-      'APC': 70,
-      'Anti Air': 80,
-      'Tank': 70,
-      'MD Tank': 50,
-      'Artillery': 80,
-      'Rocket Launcher': 80,
-      'Missile Launcher': 80,
-      'Cruiser': 70,
-      'Battleship': 40
+      'Transport Copter': 100,
+      'Helicopter': 100,
+      'Fighter': 100,
+      'Bomber': 100
     };
     this.spritePos = {
       red: {
@@ -84,7 +76,7 @@ class Artillery extends Unit{
   }
 
   generateAttackTiles(){
-    // add more offsets for different ranges
+    // 3 to 5 for missiles
     this.attackGrid = [];
     let xyOffsets = [[1,1],[-1,-1],[-1,1],[1,-1],[-1,-2],[-1,2],[1,-2],[1,2],[-2, 0], [2,0], [0, -2], [0,2],[-2,1],[2,1],[-2,-1],[2,-1],[-3, 0], [3,0], [0, -3], [0,3]];
     let i = 0;
