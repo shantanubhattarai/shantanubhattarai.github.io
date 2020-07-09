@@ -5,6 +5,7 @@ class Building{
     this.captureProgress = 0;
     this.capturedBy = -1;
     this.color = 'neutral';
+    this.type = 'building';
     this.colorTiles = {
       'neutral' : 500,
       'red': 490,

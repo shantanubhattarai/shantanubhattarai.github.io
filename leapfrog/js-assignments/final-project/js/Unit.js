@@ -214,8 +214,6 @@ class Unit{
   counterAttack = (unitToAttack) => {
     if(this.attackGrid.length == 0) this.generateAttackTiles();
     if(!this.isArrayinArray(this.attackGrid, [unitToAttack.tileX, unitToAttack.tileY])){
-      console.log(this.attackGrid);
-      console.log('here');
       return;
     }
     let modifiedDamage = this.damage * this.hp/10 < 1? 1 : this.damage * this.hp/10;

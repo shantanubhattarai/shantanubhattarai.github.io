@@ -123,6 +123,17 @@ const mainMap = {
     }
     return isBuilding;
   },
+  getTileHasPlayer(tileX, tileY){
+    let hasCollided = false;
+    playerList.forEach(valueP => {
+        valueP.unitList.forEach(valueU => {
+          if((tileX) == valueU.tileX && (tileY) == valueU.tileY){
+            hasCollided = true;
+          }
+        });
+    });
+    return hasCollided;
+  }
 }
 
 const mainSpriteSheet = document.createElement('img');
@@ -157,7 +168,7 @@ const actionState = {
 }
 let selectedUnit;
 let currentPlayer;
-
+let selectedFactory;
 const actionMenu = document.createElement('div');
 let actionMenuList = document.createElement('ul');
 let actionMenuMove = document.createElement('li');
@@ -215,4 +226,14 @@ actionMenuCancel.onclick = () => {
 actionMenu.appendChild(actionMenuList);
 document.body.appendChild(actionMenu);
 actionMenu.style.display = 'none';
+
+const unitMenu = document.querySelector('.unit-menu');
+let unitMenuList = document.querySelector('.unit-menu-list');
+let unitMenuListItems = Array.from(document.querySelectorAll('.unit-menu-list > li'));
+unitMenuListItems.forEach((unitMenuListItem) => {
+  unitMenuListItem.onclick = () => {
+    selectedFactory.spawnUnit(unitMenuListItem.textContent);
+  };
+})
+unitMenu.style.display = 'none';
 

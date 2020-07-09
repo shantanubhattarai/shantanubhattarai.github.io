@@ -25,6 +25,15 @@ class MainGameLoop{
         tileY: Math.floor(mousePos.y / mainMap.tsize) + 1
       };
 
+      if(mainMap.getTileIsBuilding(clickedTile.tileX-1, clickedTile.tileY-1) && !mainMap.getTileHasPlayer(clickedTile.tileX, clickedTile.tileY)){
+        buildingsList.forEach((building) => {
+          if(building.capturedBy == this.token && building.tileX == clickedTile.tileX && building.tileY == clickedTile.tileY) {
+            selectedFactory = building;
+            unitMenu.style.display = 'block';
+          }
+        });
+      }
+
       if(selectedUnit !== undefined && selectedUnit.actionState.current == selectedUnit.actionState.prepareMove){
         selectedUnit.moveTo(clickedTile.tileX, clickedTile.tileY);
       }else if(selectedUnit !== undefined && selectedUnit.actionState.current == selectedUnit.actionState.prepareFire){
@@ -44,7 +53,10 @@ class MainGameLoop{
   selectClickedUnit = (clickedTile) => {
     currentPlayer.unitList.forEach((valueU) => {
       if(valueU.getTilePos().tileX == clickedTile.tileX && valueU.getTilePos().tileY == clickedTile.tileY){
-          valueU.generateAttackTiles();
+        if(valueU.actionState.current == valueU.actionState.inactive){
+          return;
+        }
+        valueU.generateAttackTiles();
           if(valueU.enemyInAttackTiles()){
             selectedUnit = valueU;
             valueU.actionState.current = selectedUnit.actionState.selectingAction;
@@ -199,20 +211,20 @@ const playerList = [];
 const buildingsList = [];
 let player1 = new Player('red');
 playerList.push(player1);
-player1.addUnit(10,6,'infantry');
-player1.addUnit(11,11,'infantry');
-player1.addUnit(5,7,'tank');
-player1.addUnit(6,8,'mdtank');
-player1.addUnit(8,9,'recon');
-player1.addUnit(8,10,'artillery');
-player1.addUnit(13,14,'cruiser');
+player1.addUnit(10,6,'Infantry');
+player1.addUnit(11,11,'Infantry');
+player1.addUnit(5,7,'Tank');
+player1.addUnit(6,8,'MD Tank');
+player1.addUnit(8,9,'Recon');
+player1.addUnit(8,10,'Artillery');
+player1.addUnit(13,14,'Cruiser');
 
 let player2 = new Player('blue');
 playerList.push(player2);
-player2.addUnit(11,13,'infantry');
-player2.addUnit(11,14,'tank');
-player2.addUnit(4,7,'mech');
-player2.addUnit(5,5,'cruiser');
-player2.addUnit(6,6,'helicopter');
+player2.addUnit(10,23,'Infantry');
+player2.addUnit(11,14,'Tank');
+player2.addUnit(4,7,'Mech');
+player2.addUnit(5,5,'Cruiser');
+player2.addUnit(6,6,'Helicopter');
 
 var mainGameLoop = new MainGameLoop();
