@@ -162,7 +162,11 @@ class MainGameLoop{
       && (selectedUnit.type == 'Infantry' || selectedUnit.type == 'Mech')
     ){
       actionMenuCapture.style.display = 'block';
-      //check if building is already captured by this player
+      buildingsList.forEach((building) => {
+        if((building.capturedBy == this.token && building.tileX == selectedUnit.tileX && building.tileY == selectedUnit.tileY)){
+          actionMenuCapture.style.display = 'none';
+        }
+      });
     }else{
       actionMenuCapture.style.display = 'none';
     }

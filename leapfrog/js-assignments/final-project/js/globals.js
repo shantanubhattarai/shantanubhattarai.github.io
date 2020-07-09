@@ -118,7 +118,7 @@ const mainMap = {
   },
   getTileIsBuilding(tileX, tileY){
     let isBuilding = false;
-    let buildingTiles = [500, 501, 490, 534, 491, 535];
+    let buildingTiles = [500, 501, 490, 534, 491, 535, 622, 578, 623, 579];
     if(buildingTiles.includes(this.getTile(1, tileX, tileY))){
       isBuilding = true;
     }
