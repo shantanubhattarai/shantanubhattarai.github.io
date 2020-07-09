@@ -130,10 +130,10 @@ class MainGameLoop{
         if (tile !== 0){
           this.context.drawImage(
             this.mapTilesImage,
-            (tile > 22) ? (tile % 22 - 1) * mainMap.tsize : (tile - 1) * mainMap.tsize,
-            (tile > 22) ? Math.floor(tile/22) * mainMap.tsize : 0,
-            mainMap.tsize,
-            mainMap.tsize,
+            (tile > 22) ? ((tile % 22 - 1) * mainMap.sourceSize)+1 : (tile - 1) * mainMap.sourceSize + 1,
+            (tile > 22) ? (Math.floor(tile/22) * mainMap.sourceSize)+1 : 1,
+            mainMap.sourceSize-1,
+            mainMap.sourceSize-1,
             c * (mainMap.tsize),
             r * (mainMap.tsize),
             mainMap.tsize,

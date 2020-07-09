@@ -172,11 +172,11 @@ class Unit{
     }
 
     if(this.actionState.current == this.actionState.inactive) {
-      context.drawImage(mainSpriteSheet, this.spritePos[this.color + 'Inactive'].x, this.spritePos[this.color + 'Inactive'].y, mainMap.tsize-1, mainMap.tsize-1, this.x, this.y, mainMap.tsize, mainMap.tsize);
+      context.drawImage(mainSpriteSheet, this.spritePos[this.color + 'Inactive'].x, this.spritePos[this.color + 'Inactive'].y, mainMap.sourceSize-1, mainMap.sourceSize-1, this.x, this.y, mainMap.tsize, mainMap.tsize);
     }else{
-      context.drawImage(mainSpriteSheet, this.spritePos[this.color].x, this.spritePos[this.color].y, mainMap.tsize-1, mainMap.tsize-1, this.x, this.y, mainMap.tsize, mainMap.tsize);
+      context.drawImage(mainSpriteSheet, this.spritePos[this.color].x, this.spritePos[this.color].y, mainMap.sourceSize-1, mainMap.sourceSize-1, this.x, this.y, mainMap.tsize, mainMap.tsize);
     }
-    if(this.hp < 10 && this.hp > 0) context.drawImage(mainHUDSheet, hudPos[this.hp].x, hudPos[this.hp].y,8,8,this.x + mainMap.tsize - 8, this.y + mainMap.tsize - 8, 8, 8);
+    if(this.hp < 10 && this.hp > 0) context.drawImage(mainHUDSheet, hudPos[this.hp].x, hudPos[this.hp].y,8,8,this.x + mainMap.tsize - 12, this.y + mainMap.tsize - 12, 12, 12);
   }
 
   getTilePos(){

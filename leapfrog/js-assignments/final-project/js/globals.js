@@ -1,7 +1,8 @@
 const mainMap = {
   cols: 32,
   rows: 28,
-  tsize: 17,
+  tsize: 26,
+  sourceSize: 17,
   gap: 1,
   layers: [
     [
