@@ -34,6 +34,12 @@ class Infantry extends Unit{
           1: {x: 86, y: 111},
           2: {x: 112, y: 112},
           3: {x: 86, y: 111}
+        },
+        capture:{
+          0: {x: 1, y: 1},
+          1: {x: 18, y: 1},
+          2: {x: 35, y: 1},
+          3: {x: 18, y: 1}
         }
       },
       blue: {
@@ -48,6 +54,12 @@ class Infantry extends Unit{
           1: {x: 475, y: 111},
           2: {x: 499, y: 112},
           3: {x: 475, y: 111}
+        },
+        capture:{
+          0: {x: 1, y: 28},
+          1: {x: 18, y: 28},
+          2: {x: 35, y: 28},
+          3: {x: 18, y: 28}
         }
       },
       green: {
@@ -62,6 +74,12 @@ class Infantry extends Unit{
           1: {x: 86, y: 679},
           2: {x: 112, y: 680},
           3: {x: 86, y: 679}
+        },
+        capture:{
+          0: {x: 1, y: 82},
+          1: {x: 18, y: 82},
+          2: {x: 35, y: 82},
+          3: {x: 18, y: 82}
         }
       },
       yellow: {
@@ -76,6 +94,12 @@ class Infantry extends Unit{
           1: {x: 475, y: 679},
           2: {x: 499, y: 680},
           3: {x: 475, y: 679}
+        },
+        capture:{
+          0: {x: 1, y: 55},
+          1: {x: 18, y: 55},
+          2: {x: 35, y: 55},
+          3: {x: 18, y: 55}
         }
       },
       redInactive: {x: 339,y: 104},

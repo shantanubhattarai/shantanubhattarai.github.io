@@ -18,6 +18,7 @@ const attackMatrix = {
 };
 let frames = 0;
 let animationFrame = 0;
+let fadeId = 0;
 class Unit{
   constructor(tileX, tileY, color){
     this.tileX = tileX;
@@ -40,6 +41,8 @@ class Unit{
     this.maxHP = 10;
     this.type = 'generic';
     this.drawState = true;
+    this.captureCounter = 0;
+    this.captureAnimFrame = 0;
     this.actionState = {
       current: 1,
       idle: 1,
@@ -172,6 +175,22 @@ class Unit{
     return enemyFound;
   }
 
+  startCaptureAnimate = () => {
+    capturingUnit = this;
+    fadeId = setInterval(this.captureAnimate, 10);
+  }
+
+  captureAnimate = () => {
+    this.captureCounter += 1;
+    if(this.captureCounter % 8 == 0) this.captureAnimFrame++;
+    if(this.captureAnimFrame > 3) this.captureAnimFrame = 0;
+    if(this.captureCounter >= 114){
+      clearInterval(fadeId);
+      capturingUnit = undefined;
+      this.captureCounter = 0;
+    }
+  }
+
   draw(context){
     if(!this.drawState){
       return;
@@ -186,7 +205,6 @@ class Unit{
         this.drawAttackTiles(value[0], value[1], context);
       });
     }
-
     if(this.loadGrid !== undefined && this.loadGrid.length > 0){
       this.loadGrid.forEach((value)=>{
         this.drawLoadTiles(value[0], value[1], context);
@@ -205,6 +223,14 @@ class Unit{
     if(this.hp < 10 && this.hp > 0) context.drawImage(mainHUDSheet, hudPos[this.hp].x, hudPos[this.hp].y,8,8,this.x + mainMap.tsize - 12, this.y + mainMap.tsize - 12, 12, 12);
     if(this.loadedUnit !== undefined && this.loadedUnit !== '') {
       context.drawImage(mainHUDSheet, 157,59,8,8,this.x, this.y + mainMap.tsize - 12, 12, 12);
+    }
+
+  }
+
+  drawCapture(){
+    if(this.captureCounter > 0){
+      context.drawImage(captBG,240,200,240,300);
+      context.drawImage(captAnimSheet, this.spritePos[this.color]['capture'][this.captureAnimFrame].x, this.spritePos[this.color]['capture'][this.captureAnimFrame].y, 16,24,260,220,200,280);
     }
   }
 

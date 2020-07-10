@@ -256,6 +256,12 @@ class MainGameLoop{
       player.update();
       player.unitList.forEach(unit => unit.draw(this.context));
     });
+    if(capturingUnit !== undefined){
+      if(capturingUnit.captureCounter > 0){
+        this.context.drawImage(captBG,240,200,240,300);
+        this.context.drawImage(captAnimSheet, capturingUnit.spritePos[capturingUnit.color]['capture'][capturingUnit.captureAnimFrame].x, capturingUnit.spritePos[capturingUnit.color]['capture'][capturingUnit.captureAnimFrame].y, 16,24,260,220,200,260);
+      }
+    }
   }
 
   incrementFrames(){
@@ -295,6 +301,7 @@ player1.addUnit(14, 13, 'Battleship');
 let player2 = new Player('blue');
 playerList.push(player2);
 player2.addUnit(10,11,'Rocket Launcher');
+player2.addUnit(10,20,'Infantry');
 // player2.addUnit(8,13,'Bomber');
 // player2.addUnit(8,14,'MD Tank');
 player2.addUnit(14, 15, 'Battleship');

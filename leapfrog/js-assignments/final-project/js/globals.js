@@ -163,12 +163,19 @@ mainSpriteSheet.src='./img/UnitMap.png';
 const mainHUDSheet = document.createElement('img');
 mainHUDSheet.src='./img/HUD.png';
 
+const captBG = document.createElement('img');
+captBG.src = './img/backgroundTile.png';
+
+const captAnimSheet = document.createElement('img');
+captAnimSheet.src = './img/CaptureAnim.png';
+
+
 const logo = document.createElement('img');
 logo.src = './img/logo.png';
 
 let playerList = [];
 let buildingsList = [];
-
+let capturingUnit;
 const hudPos = {
   1: {x: 166, y: 23},
   2: {x: 175, y: 23},

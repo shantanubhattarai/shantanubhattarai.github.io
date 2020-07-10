@@ -63,6 +63,7 @@ class UIManager{
     this.actionMenuCapture.onclick = () => {
       buildingsList.forEach((building) => {
         if(building.tileX == selectedUnit.tileX && building.tileY == selectedUnit.tileY){
+          selectedUnit.startCaptureAnimate();
           building.captureProgress += 50;
           if(building.captureProgress == 100){
             building.getCaptured(currentPlayer);
