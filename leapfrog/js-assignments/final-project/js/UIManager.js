@@ -15,6 +15,10 @@ class UIManager{
     this.actionMenuWait = document.querySelector('li#wait');
     this.actionMenuCancel = document.querySelector('li#cancel');
     this.endTurnButton = document.querySelector('.end-turn');
+    this.unitName = document.querySelector('.unit-name');
+    this.unitRange = document.querySelector('#range');
+    this.unitAttack = document.querySelector('#attacktype');
+    this.unitMovementLevel = document.querySelector('#movementLevel');
     this.initEndTurn();
     this.initActionMenu();
     this.turnColors = {
@@ -22,7 +26,20 @@ class UIManager{
       'blue': '#4070f8',
       'green': '#38c028',
       'yellow': '#c0b800'
-    }
+    };
+    this.attackTypes = {
+      'none': 'Cannot attack. Load a friendly unit by moving next to them.',
+      'normal': 'Short-range. One tile from unit.',
+      'artillery': 'Mid-range. 2 to 3 tiles away from unit. Can not attack if close.',
+      'long': 'Long-rage. 3 to 5 tiles away from unit. Cannot attack if close.'
+    };
+    this.walkableLevels = {
+      1: 'Can walk on grass and road. Cannot go through forests, hills and mountains.',
+      2: 'Can walk through forests. Cannot go through hills and mountains.',
+      3: 'Can walk through forests and on hills. Cannot go throguh mountains.',
+      4: 'Can only move on water',
+      5: 'Can fly. Can move over any terrain'
+    };
   }
 
   initEndTurn(){
@@ -199,11 +216,26 @@ class UIManager{
     this.actionsText.textContent = actionsText;
   }
 
+  displayUnitInfo(){
+    if(showInfoUnit == undefined){
+      this.unitName.textContent = 'No unit selected.';
+      this.unitRange.textContent = '';
+      this.unitAttack.textContent = '';
+      this.unitMovementLevel.textContent = '';
+    }else{
+      this.unitName.textContent = showInfoUnit.type;
+      this.unitRange.textContent = 'Movement Range: ' + showInfoUnit.range;
+      this.unitAttack.textContent = 'Attack Type: ' + this.attackTypes[showInfoUnit.attackType];
+      this.unitMovementLevel.textContent = 'Movement Type: ' + this.walkableLevels[showInfoUnit.walkableLevel];
+    }
+  }
+
   update(){
     if(currentPlayer !== undefined) {
       this.showMenu();
       this.displayTurn();
       this.displayActions();
+      this.displayUnitInfo();
     }
   }
 }

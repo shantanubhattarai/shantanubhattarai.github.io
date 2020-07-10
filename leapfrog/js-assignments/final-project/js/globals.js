@@ -135,6 +135,17 @@ const mainMap = {
     });
     return hasCollided;
   },
+  getUnitOnTile(tileX, tileY){
+    let unitOnTile = undefined;
+    playerList.forEach(valueP => {
+        valueP.unitList.forEach(valueU => {
+          if((tileX) == valueU.tileX && (tileY) == valueU.tileY){
+            unitOnTile = valueU;
+          }
+        });
+    });
+    return unitOnTile;
+  },
   getTileHasPlayerUnit(tileX, tileY){
     let playerUnit = undefined;
     currentPlayer.unitList.forEach(valueU => {
@@ -170,3 +181,4 @@ const hudPos = {
 let selectedUnit;
 let currentPlayer;
 let selectedFactory;
+let showInfoUnit;

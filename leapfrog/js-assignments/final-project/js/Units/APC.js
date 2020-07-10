@@ -9,6 +9,7 @@ class APC extends Unit{
     this.loadGrid = [];
     this.dropGrid = [];
     this.loadedUnit = '';
+    this.attackType = 'none';
     this.damageMatrix = {
     };
     this.spritePos = {

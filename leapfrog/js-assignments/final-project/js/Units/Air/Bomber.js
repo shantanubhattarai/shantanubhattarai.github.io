@@ -4,6 +4,7 @@ class Bomber extends Unit{
     this.actionCount = 2;
     this.walkableLevel = 5;
     this.range = 4;
+    this.attackType = 'normal';
     this.type='Bomber';
     this.damageMatrix = {
       'Infantry' : 100,

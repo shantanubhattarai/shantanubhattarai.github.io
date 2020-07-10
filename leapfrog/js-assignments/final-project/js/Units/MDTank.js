@@ -3,6 +3,7 @@ class MDTank extends Unit{
     super(tileX, tileY, color);
     this.actionCount = 2;
     this.walkableLevel = 1;
+    this.attackType = 'normal';
     this.range = 3;
     this.type='MD Tank';
     this.damageMatrix = {

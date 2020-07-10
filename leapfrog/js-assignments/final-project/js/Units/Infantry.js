@@ -5,6 +5,7 @@ class Infantry extends Unit{
     this.walkableLevel = 3;
     this.range = 3;
     this.vehicleAttackModifier = 20;
+    this.attackType = 'normal';
     this.type = 'Infantry';
     this.damageMatrix = {
       'Infantry' : 60,

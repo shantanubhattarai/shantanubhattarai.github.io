@@ -5,6 +5,7 @@ class AntiAir extends Unit{
     this.walkableLevel = 1;
     this.range = 4;
     this.type='Anti Air';
+    this.attackType = 'normal';
     this.damageMatrix = {
       'Infantry' : 100,
       'Mech': 100,

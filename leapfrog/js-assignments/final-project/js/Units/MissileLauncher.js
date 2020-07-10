@@ -5,6 +5,7 @@ class MissileLauncher extends Unit{
     this.walkableLevel = 1;
     this.range = 3;
     this.type='Missile Launcher';
+    this.attackType = 'long';
     this.damageMatrix = {
       'Transport Copter': 100,
       'Helicopter': 100,

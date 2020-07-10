@@ -29,7 +29,7 @@ div.unit-menu, div.action-menu{
   display: inline-block;
 }
 
-ul{
+.action-menu ul{
   list-style: none;
   background-color: #f8e8c0;
   border: 2px black solid;
@@ -42,11 +42,11 @@ li{
   margin-bottom: 4px;
 }
 
-li:hover, .end-turn:hover{
+.action-menu li:hover, .unit-menu li:hover .end-turn:hover{
   cursor: pointer;
 }
 
-div.turn-indicator, div.end-turn{
+div.turn-indicator, div.end-turn, div.unit-info{
   margin: 8px 8px 8px 8px;
   color: black;
   border: 2px black solid;
@@ -56,7 +56,7 @@ div.turn-indicator, div.end-turn{
   border-radius: 3px;
 }
 
-.turn-indicator{
+.turn-indicator, .unit-info{
   width: 836px;
 }
 

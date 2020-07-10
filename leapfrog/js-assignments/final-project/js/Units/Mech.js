@@ -4,6 +4,7 @@ class Mech extends Unit{
     this.actionCount = 2;
     this.range = 2;
     this.walkableLevel = 3;
+    this.attackType = 'normal';
     this.type='Mech';
     this.damageMatrix = {
       'Infantry' : 70,

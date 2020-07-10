@@ -3,6 +3,7 @@ class Cruiser extends Unit{
     super(tileX, tileY, color);
     this.actionCount = 2;
     this.walkableLevel = 4;
+    this.attackType = 'normal';
     this.range = 4;
     this.type='Cruiser';
     this.damageMatrix = {

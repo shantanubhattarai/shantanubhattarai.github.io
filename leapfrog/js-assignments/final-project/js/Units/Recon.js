@@ -3,6 +3,7 @@ class Recon extends Unit{
     super(tileX, tileY, color);
     this.actionCount = 2;
     this.walkableLevel = 1;
+    this.attackType = 'normal';
     this.range = 6;
     this.type='Recon';
     this.damageMatrix = {

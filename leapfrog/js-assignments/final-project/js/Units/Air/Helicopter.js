@@ -3,7 +3,7 @@ class Helicopter extends Unit{
     super(tileX, tileY, color);
     this.actionCount = 2;
     this.walkableLevel = 5;
-
+    this.attackType = 'normal';
     this.range = 4;
     this.type='Helicopter';
     this.damageMatrix = {

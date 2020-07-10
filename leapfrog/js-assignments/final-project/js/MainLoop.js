@@ -24,6 +24,10 @@ class MainGameLoop{
         tileX: Math.floor(mousePos.x / mainMap.tsize) + 1,
         tileY: Math.floor(mousePos.y / mainMap.tsize) + 1
       };
+      let clickedUnit = mainMap.getUnitOnTile(clickedTile.tileX, clickedTile.tileY);
+      if(clickedUnit !== undefined){
+        showInfoUnit = clickedUnit;
+      }
 
       if((selectedUnit == undefined || selectedUnit.actionState == selectedUnit.actionState.inactive || selectedUnit.actionState == selectedUnit.actionState.idle)
       && mainMap.getTileIsBuilding(clickedTile.tileX-1, clickedTile.tileY-1) && !mainMap.getTileHasUnit(clickedTile.tileX, clickedTile.tileY)){

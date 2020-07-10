@@ -5,6 +5,7 @@ class RocketLauncher extends Unit{
     this.walkableLevel = 1;
     this.range = 3;
     this.type='Rocket Launcher';
+    this.attackType = 'long';
     this.damageMatrix = {
       'Infantry' : 100,
       'Mech': 90,

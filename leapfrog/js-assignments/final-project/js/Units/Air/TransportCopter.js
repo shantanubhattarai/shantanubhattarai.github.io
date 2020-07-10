@@ -5,6 +5,7 @@ class TransportCopter extends Unit{
     this.walkableLevel = 5;
     this.range = 3;
     this.type = 'Transport Copter';
+    this.attackType = 'normal';
     this.attack = -1;
     this.loadGrid = [];
     this.dropGrid = [];

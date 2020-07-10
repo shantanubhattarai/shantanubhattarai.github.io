@@ -5,6 +5,7 @@ class Artillery extends Unit{
     this.walkableLevel = 1;
     this.range = 3;
     this.type='Artillery';
+    this.attackType = 'artillery';
     this.damageMatrix = {
       'Infantry' : 90,
       'Mech': 90,
