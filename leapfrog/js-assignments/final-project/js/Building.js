@@ -26,4 +26,10 @@ class Building{
     mainMap.setTile(1, this.tileX-1, this.tileY-1, this.colorTiles[this.color]);
   }
 
+  draw(context){
+    if(this.captureProgress == 50) {
+      context.drawImage(mainHUDSheet, 139, 59, 8, 8, this.tileX * mainMap.tsize - 12, this.tileY * mainMap.tsize - 12, 12, 12);
+    }
+  }
+
 }

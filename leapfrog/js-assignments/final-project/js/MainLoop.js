@@ -289,11 +289,16 @@ class MainGameLoop{
     };
   }
 
+  drawBuildings(){
+    buildingsList.forEach((building) => {building.draw(this.context);} );
+  }
+
   render(){
     this.context.clearRect(0,0, this.canvas.width, this.canvas.height);
     this.drawLayer(0);
     this.drawLayer(1);
     this.drawUnits();
+    this.drawBuildings();
     this.update();
     this.incrementFrames();
     window.requestAnimationFrame(this.render.bind(this));
@@ -304,7 +309,7 @@ let player1 = new Player('red');
 playerList.push(player1);
 player1.addUnit(10,8,'Rocket Launcher');
 player1.addUnit(11,10,'Fighter');
-player1.addUnit(10,12,'Infantry');
+player1.addUnit(12,10,'Infantry');
 
 let player2 = new Player('blue');
 playerList.push(player2);
