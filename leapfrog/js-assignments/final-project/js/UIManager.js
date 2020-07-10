@@ -13,7 +13,21 @@ class UIManager{
     this.actionMenuAttack = document.querySelector('li#attack');
     this.actionMenuWait = document.querySelector('li#wait');
     this.actionMenuCancel = document.querySelector('li#cancel');
+    this.endTurnButton = document.querySelector('.end-turn-button');
+    this.initEndTurn();
     this.initActionMenu();
+    this.turnColors = {
+      'red': '#f84848',
+      'blue': '#4070f8',
+      'green': '#38c028',
+      'yellow': '#c0b800'
+    }
+  }
+
+  initEndTurn(){
+    this.endTurnButton.onclick = () => {
+      window.mainGameLoop.switchToken();
+    }
   }
 
   initMoveClick(){
@@ -174,7 +188,7 @@ class UIManager{
     let turnText = currentPlayer.color + ' Turn';
     turnText = turnText.toUpperCase();
     this.turnTextElement.textContent = turnText;
-    this.turnIndicator.style.backgroundColor = currentPlayer.color;
+    this.turnIndicator.style.backgroundColor = this.turnColors[currentPlayer.color];
   }
 
   displayActions(){
