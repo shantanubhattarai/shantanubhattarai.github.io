@@ -85,15 +85,14 @@ class Player{
 
   update(){
     this.getActiveFactories();
-    if(this.unitList.length + this.activeFactories.length < 5)
-      this.actions = this.unitList.length + this.activeFactories.length;
-      this.unitList.forEach((valueU) => {
+    if(this.unitList.length + this.activeFactories.length < 5) this.actions = this.unitList.length + this.activeFactories.length;
+    this.unitList.forEach((valueU) => {
       if(valueU.hp <= 0) {
         let indexToRemove = this.unitList.indexOf(valueU);
         this.unitList.splice(indexToRemove, 1);
       };
     });
-    if(this.actionCounter >= this.actions){
+    if(this.unitList.length > 0 && this.actionCounter >= this.actions){
       window.mainGameLoop.switchToken();
     }
   }

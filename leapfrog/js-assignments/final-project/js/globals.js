@@ -152,8 +152,8 @@ mainSpriteSheet.src='./img/UnitMap.png';
 const mainHUDSheet = document.createElement('img');
 mainHUDSheet.src='./img/HUD.png';
 
-const playerList = [];
-const buildingsList = [];
+let playerList = [];
+let buildingsList = [];
 
 const hudPos = {
   1: {x: 166, y: 23},

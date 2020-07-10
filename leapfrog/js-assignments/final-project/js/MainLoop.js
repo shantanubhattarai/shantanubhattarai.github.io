@@ -42,7 +42,6 @@ class MainGameLoop{
         selectedUnit.moveTo(clickedTile.tileX, clickedTile.tileY);
       }else if(selectedUnit !== undefined && selectedUnit.actionState.current == selectedUnit.actionState.prepareFire){
         let isUnitClicked = this.checkIfClickedOnEnemy(clickedTile);
-        console.log(isUnitClicked);
         if(!isUnitClicked){
           selectedUnit.drawAttackGrid = false;
           selectedUnit.attackGrid = [];
@@ -99,7 +98,6 @@ class MainGameLoop{
       if(!valueP.active){
         valueP.unitList.forEach((valueU) => {
           if(valueU.getTilePos().tileX == clickedTile.tileX && valueU.getTilePos().tileY == clickedTile.tileY){
-            console.log(valueU.type);
             if(attackMatrix[selectedUnit.type].includes(valueU.type)){
               selectedUnit.attack(valueU);
               selectedUnit.actionState.current = selectedUnit.actionState.inactive;
@@ -134,7 +132,6 @@ class MainGameLoop{
 
   switchToken(){
     currentPlayer.setCounter(0);
-
     selectedUnit = undefined;
     if(this.token < playerList.length - 1) this.token++;
     else this.token = 0;
@@ -190,6 +187,9 @@ class MainGameLoop{
     if(currentPlayer !== undefined){
       this.updatePlayers();
       uiManager.update();
+      if(currentPlayer.unitList.length <= 0){
+        this.switchToken();
+      }
     }
   }
 
@@ -250,7 +250,7 @@ let player1 = new Player('red');
 playerList.push(player1);
 player1.addUnit(10,8,'Rocket Launcher');
 player1.addUnit(11,10,'Bomber');
-player1.addUnit(12,10,'Infantry');
+player1.addUnit(12,10,'Fighter');
 player1.addUnit(12,11,'Infantry');
 player1.addUnit(12,12,'APC');
 
@@ -258,8 +258,8 @@ player1.addUnit(12,12,'APC');
 let player2 = new Player('blue');
 playerList.push(player2);
 player2.addUnit(10,11,'Rocket Launcher');
-player2.addUnit(8,13,'Bomber');
-player2.addUnit(8,14,'MD Tank');
+// player2.addUnit(8,13,'Bomber');
+// player2.addUnit(8,14,'MD Tank');
 
 let player3 = new Player('green');
 playerList.push(player3);
