@@ -14,11 +14,15 @@ body{
   font-size: 28px;
 }
 
-canvas {
+.canvas-container {
+  font-size: 0px;
   margin: 0px 8px;
   vertical-align: top;
+  border: 2px black solid;
   display: inline-block;
+  border-radius: 3px;
 }
+
 
 div.unit-menu, div.action-menu{
   vertical-align: top;
@@ -41,7 +45,7 @@ li{
 button{
   font-family: 'AW2';
   font-size: 28px;
-  padding: 2px 4px;
+  padding: 3px 4px;
   margin: 8px 8px 0px 8px;
   background-color: #f8e8c0;
   border: 2px black solid;
@@ -60,7 +64,7 @@ div.turn-indicator{
   box-shadow: 2px 2px 0px #333;
   margin-bottom: 4px;
   background-color: #f8e8c0;
-  width: 833px;
+  width: 836px;
   padding: 4px;
   border-radius: 3px;
 }
