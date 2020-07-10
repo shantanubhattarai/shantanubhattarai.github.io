@@ -30,12 +30,12 @@ class MainGameLoop{
         buildingsList.forEach((building) => {
           if((building.capturedBy == this.token && building.tileX == clickedTile.tileX && building.tileY == clickedTile.tileY)){
             selectedFactory = building;
-            unitMenu.style.display = 'inline-block';
+            uiManager.unitMenu.style.display = 'inline-block';
           }
         });
       }else{
         selectedFactory = undefined;
-        unitMenu.style.display = 'none';
+        uiManager.unitMenu.style.display = 'none';
       }
 
       if(selectedUnit !== undefined && selectedUnit.actionState.current == selectedUnit.actionState.prepareMove){
@@ -178,38 +178,6 @@ class MainGameLoop{
     }
   }
 
-  showCaptureIfBuilding(){
-    if(
-      mainMap.getTileIsBuilding(selectedUnit.tileX-1, selectedUnit.tileY-1)
-      && (selectedUnit.type == 'Infantry' || selectedUnit.type == 'Mech')
-    ){
-      actionMenuCapture.style.display = 'block';
-      buildingsList.forEach((building) => {
-        if((building.capturedBy == this.token && building.tileX == selectedUnit.tileX && building.tileY == selectedUnit.tileY)){
-          actionMenuCapture.style.display = 'none';
-        }
-      });
-    }else{
-      actionMenuCapture.style.display = 'none';
-    }
-  }
-
-  showMove(){
-    if(selectedUnit !== undefined && selectedUnit.movementPath.length == 0){
-      actionMenuMove.style.display = 'block';
-    }else{
-      actionMenuMove.style.display = 'none';
-    }
-  }
-
-  hideAttack(){
-    if((selectedUnit.actionCount == 1 && selectedUnit.movementPath.length > 0) || selectedUnit.attack == -1){
-      actionMenuAttack.style.display=  'none';
-    }else{
-      actionMenuAttack.style.display=  'block';
-    }
-  }
-
   updatePlayers(){
     playerList.forEach((valueP)=>{
       valueP.unitList.forEach((valueU) => {
@@ -218,37 +186,10 @@ class MainGameLoop{
     });
   }
 
-  showLoadDrop(){
-    if(selectedUnit.loadedUnit !== undefined && selectedUnit.loadedUnit == ''){
-      actionMenuLoad.style.display = 'block';
-    }else{
-      actionMenuLoad.style.display = 'none';
-    }
-
-    if(selectedUnit.loadedUnit !== undefined && selectedUnit.loadedUnit !== ''){
-      actionMenuDrop.style.display = 'block';
-    }else{
-      actionMenuDrop.style.display = 'none';
-    }
-
-  }
-
-  showMenu(){
-    if(selectedUnit !== undefined && selectedUnit.actionState.current == selectedUnit.actionState.selectingAction){
-      this.showCaptureIfBuilding();
-      this.showLoadDrop();
-      this.showMove();
-      this.hideAttack();
-      actionMenu.style.display = 'inline-block';
-    }else{
-      actionMenu.style.display = 'none';
-    }
-  }
-
   update(){
     if(currentPlayer !== undefined){
       this.updatePlayers();
-      this.showMenu();
+      uiManager.update();
     }
   }
 
@@ -328,5 +269,5 @@ playerList.push(player4);
 player4.addUnit(5, 9, 'Rocket Launcher');
 player4.addUnit(4, 9, 'Bomber');
 player4.addUnit(8, 9, 'Recon');
-
+let uiManager = new UIManager();
 var mainGameLoop = new MainGameLoop();

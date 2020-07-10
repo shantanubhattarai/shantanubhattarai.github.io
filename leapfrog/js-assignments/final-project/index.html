@@ -3,10 +3,23 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./css/style.css">
   <title>Document</title>
 </head>
 <body>
+  <div class="turn-indicator">Red Turn</div>
   <canvas id="main-canvas"></canvas>
+  <div class="action-menu">
+    <ul class="action-menu-list">
+      <li id="move">Move</li>
+      <li id="load">Load</li>
+      <li id="drop">Drop</li>
+      <li id="capture">Capture</li>
+      <li id="attack">Attack</li>
+      <li id="wait">Wait</li>
+      <li id="cancel">Cancel</li>
+    </ul>
+  </div>
   <div class="unit-menu">
     <ul class="unit-menu-list">
       <li>Infantry</li>
@@ -52,6 +65,7 @@
   <script src="./js/Player.js"></script>
   <script src="./js/Building.js"></script>
   <script src="./js/Factory.js"></script>
+  <script src="./js/UIManager.js"></script>
   <script src='./js/MainLoop.js'></script>
 </body>
 </html>

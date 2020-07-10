@@ -1,4 +1,11 @@
+*{
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+}
+
 canvas {
+  margin: 8px;
   display: inline-block;
 }
 
@@ -8,4 +15,13 @@ div.unit-menu{
 
 div.action-menu{
   display: inline-block;
+}
+
+div.turn-indicator{
+  margin: 0px 8px;
+  background-color: red;
+  margin-bottom: 5px;
+  color: white;
+  width: 832px;
+  padding: 4px;
 }
