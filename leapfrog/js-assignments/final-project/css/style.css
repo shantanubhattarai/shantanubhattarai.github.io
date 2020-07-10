@@ -31,42 +31,33 @@ div.unit-menu, div.action-menu{
 
 ul{
   list-style: none;
+  background-color: #f8e8c0;
+  border: 2px black solid;
+  border-radius: 3px;
+  box-shadow: 2px 2px 0px #333;
 }
 
 li{
   padding: 16px 16px;
   margin-bottom: 4px;
-  background-color: #f8e8c0;
-  border: 2px black solid;
-  border-radius: 3px;
-  box-shadow: 2px 2px 0px #333;
 }
 
-button{
-  font-family: 'AW2';
-  font-size: 28px;
-  padding: 3px 4px;
-  margin: 8px 8px 0px 8px;
-  background-color: #f8e8c0;
-  border: 2px black solid;
-  border-radius: 3px;
-  box-shadow: 2px 2px 0px #333;
-}
-
-li:hover, button:hover{
+li:hover, .end-turn:hover{
   cursor: pointer;
 }
 
-div.turn-indicator{
-  margin: 8px 8px 0px 8px;
+div.turn-indicator, div.end-turn{
+  margin: 8px 8px 8px 8px;
   color: black;
   border: 2px black solid;
   box-shadow: 2px 2px 0px #333;
-  margin-bottom: 4px;
   background-color: #f8e8c0;
-  width: 836px;
   padding: 4px;
   border-radius: 3px;
+}
+
+.turn-indicator{
+  width: 836px;
 }
 
 .turn-indicator-block{

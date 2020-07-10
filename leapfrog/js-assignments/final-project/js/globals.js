@@ -167,16 +167,6 @@ const hudPos = {
   9: {x: 238, y: 23},
 }
 
-const actionState = {
-  current: 1,
-  idle: 1,
-  prepareMove: 2,
-  move: 3,
-  selectingAction: 4,
-  prepareFire: 5,
-  fire: 6,
-  inactive: 7,
-}
 let selectedUnit;
 let currentPlayer;
 let selectedFactory;

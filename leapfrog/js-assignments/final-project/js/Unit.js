@@ -8,7 +8,7 @@ const attackMatrix = {
   'Helicopter':['Infantry','Mech','Tank','MD Tank','Artillery','Recon','Helicopter','fighter','Bomber','Anti Air','Missile Launcher','Rocket Launcher'],
   'Cruiser':['Infantry', 'Cruiser'],
   'Fighter':['Fighter', 'Helicopter', 'Bomber'],
-  'Bomber':['Infantry','Mech','Tank','MD Tank','Artillery','Recon','Anti Air','Missile Launcher','Rocket Launcher', 'Cruiser', 'Battleship'],
+  'Bomber':['Infantry','Mech','Tank','MD Tank','Artillery','Recon','Anti Air','Missile Launcher','Rocket Launcher', 'Cruiser', 'Battleship', 'APC'],
   'Missile Launcher': ['Transport Copter', 'Helicopter', 'Fighter', 'Bomber'],
   'Anti Air': ['Infantry','Mech','Tank','MD Tank','Artillery','Recon','Helicopter','Anti Air','Missile Launcher','Rocket Launcher', 'APC', 'Transport Copter', 'Fighter', 'Bomber'],
   'Rocket Launcher': ['Infantry','Mech','Tank','MD Tank','Artillery','Recon','Anti Air','Missile Launcher','Rocket Launcher','APC','Cruiser', 'Battleship'],
@@ -17,7 +17,6 @@ const attackMatrix = {
 };
 let frames = 0;
 let animationFrame = 0;
-
 class Unit{
   constructor(tileX, tileY, color){
     this.tileX = tileX;
@@ -124,9 +123,11 @@ class Unit{
 
   drawMovementTiles(x, y, context){
     context.fillStyle = 'rgba(255,255,255, 0.5)';
+    context.strokeStyle = 'rgba(255,255,255, 0.8)';
     context.beginPath();
     context.rect((x-1) * mainMap.tsize, (y-1) * mainMap.tsize, mainMap.tsize, mainMap.tsize);
     context.fill();
+    context.stroke();
     context.closePath();
   }
 
@@ -195,7 +196,6 @@ class Unit{
         this.drawDropTiles(value[0], value[1], context);
       });
     }
-
     if(this.actionState.current == this.actionState.inactive) {
       context.drawImage(mainSpriteSheet, this.spritePos[this.color + 'Inactive'].x, this.spritePos[this.color + 'Inactive'].y, mainMap.sourceSize-1, mainMap.sourceSize-1, this.x, this.y, mainMap.tsize, mainMap.tsize);
     }else{
@@ -344,11 +344,6 @@ class Unit{
         }
       }
       }
-
-
-    if(this.actionState == this.actionState.fire && selectedUnit == this){
-      //play fire animation
-    }
   }
 
   moveTo = (tileX, tileY) => {

@@ -25,7 +25,7 @@ class MainGameLoop{
         tileY: Math.floor(mousePos.y / mainMap.tsize) + 1
       };
 
-      if((selectedUnit == undefined || selectedUnit.actionState == actionState.inactive || selectedUnit.actionState == actionState.idle)
+      if((selectedUnit == undefined || selectedUnit.actionState == selectedUnit.actionState.inactive || selectedUnit.actionState == selectedUnit.actionState.idle)
       && mainMap.getTileIsBuilding(clickedTile.tileX-1, clickedTile.tileY-1) && !mainMap.getTileHasUnit(clickedTile.tileX, clickedTile.tileY)){
         buildingsList.forEach((building) => {
           if((building.capturedBy == this.token && building.tileX == clickedTile.tileX && building.tileY == clickedTile.tileY)){
@@ -274,5 +274,6 @@ playerList.push(player4);
 player4.addUnit(5, 9, 'Rocket Launcher');
 player4.addUnit(4, 9, 'Bomber');
 player4.addUnit(8, 9, 'Recon');
+
 let uiManager = new UIManager();
 var mainGameLoop = new MainGameLoop();

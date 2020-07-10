@@ -14,7 +14,7 @@ class UIManager{
     this.actionMenuAttack = document.querySelector('li#attack');
     this.actionMenuWait = document.querySelector('li#wait');
     this.actionMenuCancel = document.querySelector('li#cancel');
-    this.endTurnButton = document.querySelector('.end-turn-button');
+    this.endTurnButton = document.querySelector('.end-turn');
     this.initEndTurn();
     this.initActionMenu();
     this.turnColors = {
