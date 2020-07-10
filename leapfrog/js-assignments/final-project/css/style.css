@@ -23,10 +23,13 @@ body{
   border-radius: 3px;
 }
 
-
 div.unit-menu, div.action-menu{
-  vertical-align: top;
-  display: inline-block;
+  display: block;
+}
+
+div.unit-info{
+  width: 500px;
+  display: none;
 }
 
 .action-menu ul{
@@ -38,11 +41,12 @@ div.unit-menu, div.action-menu{
 }
 
 li{
+  display: inline-block;
   padding: 16px 16px;
   margin-bottom: 4px;
 }
 
-.action-menu li:hover, .unit-menu li:hover .end-turn:hover{
+.action-menu li:hover, .unit-menu li:hover, div.end-turn:hover{
   cursor: pointer;
 }
 
@@ -56,7 +60,11 @@ div.turn-indicator, div.end-turn, div.unit-info{
   border-radius: 3px;
 }
 
-.turn-indicator, .unit-info{
+.unit-menu, .action-menu{
+  margin: 8px;
+}
+
+.turn-indicator, .unit-menu, .action-menu{
   width: 836px;
 }
 

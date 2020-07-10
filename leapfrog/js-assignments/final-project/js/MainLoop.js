@@ -8,70 +8,82 @@ class MainGameLoop{
     this.canvas.height = mainMap.rows * mainMap.tsize;
     this.context = this.canvas.getContext('2d');
     this.context.imageSmoothingEnabled = false;
-    this.init();
-    this.render();
     this.token = 0;
     this.setToken(0);
+    this.gameState = {
+      current: 0,
+      start: 0,
+      running: 1,
+      gameOver: 2
+    }
+    this.showStartMenu();
     //use mousemove for hover
     this.canvas.addEventListener('click', (e) => {
-      let rect = self.canvas.getBoundingClientRect();
-      let mousePos = {
-        x: e.clientX - rect.left,
-        y: e.clientY - rect.top
+      if(this.gameState.current == this.gameState.start){
+        this.gameState.current = this.gameState.runnning;
+        this.init();
       }
-
-      let clickedTile = {
-        tileX: Math.floor(mousePos.x / mainMap.tsize) + 1,
-        tileY: Math.floor(mousePos.y / mainMap.tsize) + 1
-      };
-      let clickedUnit = mainMap.getUnitOnTile(clickedTile.tileX, clickedTile.tileY);
-      if(clickedUnit !== undefined){
-        showInfoUnit = clickedUnit;
-      }
-
-      if((selectedUnit == undefined || selectedUnit.actionState == selectedUnit.actionState.inactive || selectedUnit.actionState == selectedUnit.actionState.idle)
-      && mainMap.getTileIsBuilding(clickedTile.tileX-1, clickedTile.tileY-1) && !mainMap.getTileHasUnit(clickedTile.tileX, clickedTile.tileY)){
-        buildingsList.forEach((building) => {
-          if((building.capturedBy == this.token && building.tileX == clickedTile.tileX && building.tileY == clickedTile.tileY)){
-            selectedFactory = building;
-            uiManager.unitMenu.style.display = 'inline-block';
-          }
-        });
-      }else{
-        selectedFactory = undefined;
-        uiManager.unitMenu.style.display = 'none';
-      }
-
-      if(selectedUnit !== undefined && selectedUnit.actionState.current == selectedUnit.actionState.prepareMove){
-        selectedUnit.moveTo(clickedTile.tileX, clickedTile.tileY);
-      }else if(selectedUnit !== undefined && selectedUnit.actionState.current == selectedUnit.actionState.prepareFire){
-        let isUnitClicked = this.checkIfClickedOnEnemy(clickedTile);
-        if(!isUnitClicked){
-          selectedUnit.drawAttackGrid = false;
-          selectedUnit.attackGrid = [];
-          selectedUnit.actionState.current = selectedUnit.actionState.selectingAction;
-          selectedUnit.actionState.currentState = 'idle';
+      else
+      {
+        let rect = self.canvas.getBoundingClientRect();
+        let mousePos = {
+          x: e.clientX - rect.left,
+          y: e.clientY - rect.top
         }
-      }else if(selectedUnit == undefined || selectedUnit.actionState.current == selectedUnit.actionState.idle){
-        this.selectClickedUnit(clickedTile);
-      }else if(selectedUnit !== undefined && selectedUnit.actionState.current == selectedUnit.actionState.prepareLoad){
-          if(selectedUnit.isArrayinArray(selectedUnit.loadGrid, [clickedTile.tileX, clickedTile.tileY])){
-            let clickedUnit = mainMap.getTileHasPlayerUnit(clickedTile.tileX, clickedTile.tileY)
-            if(clickedUnit !== undefined && clickedUnit !== selectedUnit && clickedUnit.type == "Infantry" || clickedUnit.type == "Mech"){
-            selectedUnit.loadUnit(clickedUnit);
-          }
+
+        let clickedTile = {
+          tileX: Math.floor(mousePos.x / mainMap.tsize) + 1,
+          tileY: Math.floor(mousePos.y / mainMap.tsize) + 1
+        };
+        let clickedUnit = mainMap.getUnitOnTile(clickedTile.tileX, clickedTile.tileY);
+        if(clickedUnit !== undefined){
+          showInfoUnit = clickedUnit;
+        }
+
+        if((selectedUnit == undefined || selectedUnit.actionState == selectedUnit.actionState.inactive || selectedUnit.actionState == selectedUnit.actionState.idle)
+        && mainMap.getTileIsBuilding(clickedTile.tileX-1, clickedTile.tileY-1) && !mainMap.getTileHasUnit(clickedTile.tileX, clickedTile.tileY)){
+          buildingsList.forEach((building) => {
+            if((building.capturedBy == this.token && building.tileX == clickedTile.tileX && building.tileY == clickedTile.tileY)){
+              selectedFactory = building;
+              uiManager.unitMenu.style.display = 'block';
+            }
+          });
         }else{
-          selectedUnit.loadGrid = [];
+          selectedFactory = undefined;
+          uiManager.unitMenu.style.display = 'none';
+        }
+
+        if(selectedUnit !== undefined && selectedUnit.actionState.current == selectedUnit.actionState.prepareMove){
+          selectedUnit.moveTo(clickedTile.tileX, clickedTile.tileY);
+        }else if(selectedUnit !== undefined && selectedUnit.actionState.current == selectedUnit.actionState.prepareFire){
+          let isUnitClicked = this.checkIfClickedOnEnemy(clickedTile);
+          if(!isUnitClicked){
+            selectedUnit.drawAttackGrid = false;
+            selectedUnit.attackGrid = [];
+            selectedUnit.actionState.current = selectedUnit.actionState.selectingAction;
+            selectedUnit.actionState.currentState = 'idle';
+          }
+        }else if(selectedUnit == undefined || selectedUnit.actionState.current == selectedUnit.actionState.idle){
+          this.selectClickedUnit(clickedTile);
+        }else if(selectedUnit !== undefined && selectedUnit.actionState.current == selectedUnit.actionState.prepareLoad){
+            if(selectedUnit.isArrayinArray(selectedUnit.loadGrid, [clickedTile.tileX, clickedTile.tileY])){
+              let clickedUnit = mainMap.getTileHasPlayerUnit(clickedTile.tileX, clickedTile.tileY)
+              if(clickedUnit !== undefined && clickedUnit !== selectedUnit && clickedUnit.type == "Infantry" || clickedUnit.type == "Mech"){
+              selectedUnit.loadUnit(clickedUnit);
+            }
+          }else{
+            selectedUnit.loadGrid = [];
+            selectedUnit.actionState.current = selectedUnit.actionState.selectingAction;
+          }
+        }else if(selectedUnit !== undefined && selectedUnit.actionState.current == selectedUnit.actionState.prepareDrop){
+          if(selectedUnit.isArrayinArray(selectedUnit.dropGrid, [clickedTile.tileX, clickedTile.tileY])){
+            selectedUnit.dropUnit(clickedTile);
+          }else{
+          selectedUnit.dropGrid = [];
           selectedUnit.actionState.current = selectedUnit.actionState.selectingAction;
         }
-      }else if(selectedUnit !== undefined && selectedUnit.actionState.current == selectedUnit.actionState.prepareDrop){
-        if(selectedUnit.isArrayinArray(selectedUnit.dropGrid, [clickedTile.tileX, clickedTile.tileY])){
-          selectedUnit.dropUnit(clickedTile);
-        }else{
-        selectedUnit.dropGrid = [];
-        selectedUnit.actionState.current = selectedUnit.actionState.selectingAction;
       }
-    }
+      }
     });
   }
 
@@ -216,7 +228,24 @@ class MainGameLoop{
     }
   }
 
+  showStartMenu(){
+    this.context.clearRect(0,0, this.canvas.width, this.canvas.height);
+    this.context.beginPath();
+    this.context.fillStyle = "#13ace1";
+    this.context.rect(0,0, this.canvas.width, this.canvas.height);
+    this.context.fill();
+    this.context.closePath();
+    this.context.fillStyle = '#000000';
+    this.context.font = "48px AW2";
+    this.context.fillText("Left Click to Start", 270, 356);
+    this.context.beginPath();
+    this.context.rect(260, 370, 260, 20);
+    this.context.fill();
+    this.context.closePath();
+  }
+
   init(){
+    this.render();
     this.generateBuildings();
   }
 

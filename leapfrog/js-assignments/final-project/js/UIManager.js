@@ -15,6 +15,7 @@ class UIManager{
     this.actionMenuWait = document.querySelector('li#wait');
     this.actionMenuCancel = document.querySelector('li#cancel');
     this.endTurnButton = document.querySelector('.end-turn');
+    this.unitInfo = document.querySelector('.unit-info');
     this.unitName = document.querySelector('.unit-name');
     this.unitRange = document.querySelector('#range');
     this.unitAttack = document.querySelector('#attacktype');
@@ -43,6 +44,7 @@ class UIManager{
   }
 
   initEndTurn(){
+    this.endTurnButton.style.display = 'none';
     this.endTurnButton.onclick = () => {
       window.mainGameLoop.switchToken();
     }
@@ -149,7 +151,7 @@ class UIManager{
       this.showLoadDrop();
       this.showMove();
       this.hideAttack();
-      this.actionMenu.style.display = 'inline-block';
+      this.actionMenu.style.display = 'block';
     }else{
       this.actionMenu.style.display = 'none';
     }
@@ -160,7 +162,7 @@ class UIManager{
       mainMap.getTileIsBuilding(selectedUnit.tileX-1, selectedUnit.tileY-1)
       && (selectedUnit.type == 'Infantry' || selectedUnit.type == 'Mech')
     ){
-      this.actionMenuCapture.style.display = 'block';
+      this.actionMenuCapture.style.display = 'inline-block';
       buildingsList.forEach((building) => {
         if((building.capturedBy == this.token && building.tileX == selectedUnit.tileX && building.tileY == selectedUnit.tileY)){
           this.actionMenuCapture.style.display = 'none';
@@ -173,13 +175,13 @@ class UIManager{
 
   showLoadDrop(){
     if(selectedUnit.loadedUnit !== undefined && selectedUnit.loadedUnit == ''){
-      this.actionMenuLoad.style.display = 'block';
+      this.actionMenuLoad.style.display = 'inline-block';
     }else{
       this.actionMenuLoad.style.display = 'none';
     }
 
     if(selectedUnit.loadedUnit !== undefined && selectedUnit.loadedUnit !== ''){
-      this.actionMenuDrop.style.display = 'block';
+      this.actionMenuDrop.style.display = 'inline-block';
     }else{
       this.actionMenuDrop.style.display = 'none';
     }
@@ -188,7 +190,7 @@ class UIManager{
 
   showMove(){
     if(selectedUnit !== undefined && selectedUnit.movementPath.length == 0){
-      this.actionMenuMove.style.display = 'block';
+      this.actionMenuMove.style.display = 'inline-block';
     }else{
       this.actionMenuMove.style.display = 'none';
     }
@@ -198,7 +200,7 @@ class UIManager{
     if((selectedUnit.actionCount == 1 && selectedUnit.movementPath.length > 0) || selectedUnit.attack == -1){
       this.actionMenuAttack.style.display=  'none';
     }else{
-      this.actionMenuAttack.style.display=  'block';
+      this.actionMenuAttack.style.display=  'inline-block';
     }
   }
 
@@ -217,6 +219,7 @@ class UIManager{
   }
 
   displayUnitInfo(){
+    this.unitInfo.style.display = 'inline-block';
     if(showInfoUnit == undefined){
       this.unitName.textContent = 'No unit selected.';
       this.unitRange.textContent = '';
@@ -231,6 +234,7 @@ class UIManager{
   }
 
   update(){
+    this.endTurnButton.style.display = 'inline-block';
     if(currentPlayer !== undefined) {
       this.showMenu();
       this.displayTurn();
