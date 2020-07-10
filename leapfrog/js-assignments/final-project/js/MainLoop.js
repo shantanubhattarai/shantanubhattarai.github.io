@@ -251,6 +251,9 @@ playerList.push(player1);
 player1.addUnit(10,8,'Rocket Launcher');
 player1.addUnit(11,10,'Bomber');
 player1.addUnit(12,10,'Infantry');
+player1.addUnit(12,11,'Infantry');
+player1.addUnit(12,12,'APC');
+
 
 let player2 = new Player('blue');
 playerList.push(player2);

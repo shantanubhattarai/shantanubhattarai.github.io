@@ -1,6 +1,8 @@
 class UIManager{
   constructor(){
     this.turnIndicator = document.querySelector('.turn-indicator');
+    this.turnTextElement = document.querySelector('.turn-text');
+    this.actionsText = document.querySelector('.actions-text');
     this.unitMenu = document.querySelector('.unit-menu');
     this.addOnClickEventsToUnitMenu();
     this.actionMenu = document.querySelector('.action-menu');
@@ -171,16 +173,23 @@ class UIManager{
   displayTurn(){
     let turnText = currentPlayer.color + ' Turn';
     turnText = turnText.toUpperCase();
-    this.turnIndicator.textContent = turnText;
+    this.turnTextElement.textContent = turnText;
     this.turnIndicator.style.backgroundColor = currentPlayer.color;
+  }
+
+  displayActions(){
+    let actionsText = 'Actions left: ';
+    actionsText += currentPlayer.actions - currentPlayer.actionCounter;
+    actionsText += ' / ' + currentPlayer.actions;
+    this.actionsText.textContent = actionsText;
   }
 
   update(){
     if(currentPlayer !== undefined) {
       this.showMenu();
       this.displayTurn();
+      this.displayActions();
     }
   }
-
 }
 
