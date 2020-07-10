@@ -18,7 +18,8 @@ class Tank extends Unit{
       'Missile Launcher': 80,
       'Transport Copter': 40,
       'Helicopter': 10,
-      'Cruiser': 10
+      'Cruiser': 10,
+      'Battleship': 10
     };
     this.spritePos = {
       red: {

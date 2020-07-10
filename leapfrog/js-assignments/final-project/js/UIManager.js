@@ -32,7 +32,8 @@ class UIManager{
       'none': 'Cannot attack. Load a friendly unit by moving next to them.',
       'normal': 'Short-range. One tile from unit.',
       'artillery': 'Mid-range. 2 to 3 tiles away from unit. Can not attack if close.',
-      'long': 'Long-rage. 3 to 5 tiles away from unit. Cannot attack if close.'
+      'long': 'Long-range. 3 to 5 tiles away from unit. Cannot attack if close.',
+      'battleship': 'A powerhouse at most ranges. 2 to 6 tiles away from unit. Cannot attack if close.'
     };
     this.walkableLevels = {
       1: 'Can walk on grass and road. Cannot go through forests, hills and mountains.',

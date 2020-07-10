@@ -290,25 +290,25 @@ player1.addUnit(11,10,'Bomber');
 player1.addUnit(12,10,'Fighter');
 player1.addUnit(10,9,'Infantry');
 player1.addUnit(12,12,'APC');
-
+player1.addUnit(14, 13, 'Battleship');
 
 let player2 = new Player('blue');
 playerList.push(player2);
 player2.addUnit(10,11,'Rocket Launcher');
 // player2.addUnit(8,13,'Bomber');
 // player2.addUnit(8,14,'MD Tank');
-
+player2.addUnit(14, 15, 'Battleship');
 let player3 = new Player('green');
 playerList.push(player3);
 player3.addUnit(6, 8, 'Rocket Launcher');
 player3.addUnit(6, 9, 'Bomber');
-player3.addUnit(14, 14, 'Cruiser');
+player3.addUnit(14, 14, 'Battleship');
 
 let player4 = new Player('yellow');
 playerList.push(player4);
 player4.addUnit(5, 9, 'Rocket Launcher');
 player4.addUnit(4, 9, 'Bomber');
 player4.addUnit(8, 9, 'Recon');
-
+player4.addUnit(14, 16, 'Battleship');
 let uiManager = new UIManager();
 var mainGameLoop = new MainGameLoop();
