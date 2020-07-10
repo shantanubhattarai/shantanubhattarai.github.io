@@ -56,6 +56,18 @@ class Player{
         newUnit = new APC(tileX, tileY, this.color);
         break;
       }
+      case 'Rocket Launcher': {
+        newUnit = new RocketLauncher(tileX, tileY, this.color);
+        break;
+      }
+      case 'Transport Copter': {
+        newUnit = new TransportCopter(tileX, tileY, this.color);
+        break;
+      }
+      case 'Fighter': {
+        newUnit = new Fighter(tileX, tileY, this.color);
+        break;
+      }
     }
     this.unitList.push(newUnit);
     return newUnit;
