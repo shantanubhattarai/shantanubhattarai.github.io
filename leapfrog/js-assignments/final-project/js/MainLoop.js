@@ -228,20 +228,22 @@ class MainGameLoop{
     }
   }
 
-  showStartMenu(){
+  showStartMenu = () => {
     this.context.clearRect(0,0, this.canvas.width, this.canvas.height);
     this.context.beginPath();
     this.context.fillStyle = "#13ace1";
     this.context.rect(0,0, this.canvas.width, this.canvas.height);
     this.context.fill();
     this.context.closePath();
+    this.context.drawImage(logo, 160, 0, 500,300);
     this.context.fillStyle = '#000000';
     this.context.font = "48px AW2";
-    this.context.fillText("Left Click to Start", 270, 356);
+    this.context.fillText("LEFT CLICK TO START", 260, 356);
     this.context.beginPath();
-    this.context.rect(260, 370, 260, 20);
+    this.context.rect(250, 370, 310, 20);
     this.context.fill();
     this.context.closePath();
+    if(this.gameState.current == this.gameState.start) window.requestAnimationFrame(this.showStartMenu);
   }
 
   init(){

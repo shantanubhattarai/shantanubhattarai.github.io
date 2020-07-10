@@ -32,7 +32,7 @@ div.unit-info{
   display: none;
 }
 
-.action-menu ul{
+.action-menu ul, .unit-menu ul{
   list-style: none;
   background-color: #f8e8c0;
   border: 2px black solid;

@@ -163,6 +163,9 @@ mainSpriteSheet.src='./img/UnitMap.png';
 const mainHUDSheet = document.createElement('img');
 mainHUDSheet.src='./img/HUD.png';
 
+const logo = document.createElement('img');
+logo.src = './img/logo.png';
+
 let playerList = [];
 let buildingsList = [];
 
