@@ -231,8 +231,10 @@ class Unit{
       return;
     }
     let modifiedDamage = this.damageMatrix[unitToAttack.type] * this.hp/10 < 1? 1 : this.damageMatrix[unitToAttack.type] * this.hp/10;
-    modifiedDamage = modifiedDamage / 100 * unitToAttack.maxHP;
+    console.log(unitToAttack.type, this.damageMatrix[unitToAttack.type], this.hp/10);
 
+    modifiedDamage = modifiedDamage / 100 * unitToAttack.maxHP;
+    console.log(modifiedDamage);
     unitToAttack.takeDamage(modifiedDamage);
     unitToAttack.counterAttack(this);
     this.drawAttackGrid = false;
@@ -245,6 +247,9 @@ class Unit{
   counterAttack = (unitToAttack) => {
     this.generateAttackTiles();
     if(!this.isArrayinArray(this.attackGrid, [unitToAttack.tileX, unitToAttack.tileY])){
+      return;
+    }
+    if(this.damageMatrix[unitToAttack.type] == undefined){
       return;
     }
     let modifiedDamage = this.damageMatrix[unitToAttack.type] * this.hp/10 < 1? 1 : this.damageMatrix[unitToAttack.type] * this.hp/10;
