@@ -309,13 +309,23 @@ player1.addUnit(10,12,'Infantry');
 let player2 = new Player('blue');
 playerList.push(player2);
 player2.addUnit(10,11,'Missile Launcher');
+player2.addUnit(8,13,'Mech');
+player2.addUnit(8,14,'MD Tank');
 
-// let player3 = new Player('green');
-// playerList.push(player3);
-// player3.addUnit(6, 8, 'Artillery');
 
-// let player4 = new Player('yellow');
-// playerList.push(player4);
-// player4.addUnit(5, 9, 'Anti Air');
+
+let player3 = new Player('green');
+playerList.push(player3);
+player3.addUnit(6, 8, 'Artillery');
+player3.addUnit(6, 9, 'Tank');
+player3.addUnit(14, 14, 'Cruiser');
+
+let player4 = new Player('yellow');
+playerList.push(player4);
+player4.addUnit(5, 9, 'Anti Air');
+player4.addUnit(4, 9, 'Helicopter');
+player4.addUnit(8, 9, 'Recon');
+
+
 
 var mainGameLoop = new MainGameLoop();
