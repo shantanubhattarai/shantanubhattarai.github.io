@@ -1,6 +1,7 @@
 class UIManager{
   constructor(){
     this.turnIndicator = document.querySelector('.turn-indicator');
+    this.turnIndicatorBlock = document.querySelector('.turn-indicator-block');
     this.turnTextElement = document.querySelector('.turn-text');
     this.actionsText = document.querySelector('.actions-text');
     this.unitMenu = document.querySelector('.unit-menu');
@@ -188,7 +189,7 @@ class UIManager{
     let turnText = currentPlayer.color + ' Turn';
     turnText = turnText.toUpperCase();
     this.turnTextElement.textContent = turnText;
-    this.turnIndicator.style.backgroundColor = this.turnColors[currentPlayer.color];
+    this.turnIndicatorBlock.style.backgroundColor = this.turnColors[currentPlayer.color];
   }
 
   displayActions(){
