@@ -68,6 +68,10 @@ class Player{
         newUnit = new Fighter(tileX, tileY, this.color);
         break;
       }
+      case 'Bomber': {
+        newUnit = new Bomber(tileX, tileY, this.color);
+        break;
+      }
     }
     this.unitList.push(newUnit);
     return newUnit;
