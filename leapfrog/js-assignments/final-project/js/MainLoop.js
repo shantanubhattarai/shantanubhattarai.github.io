@@ -132,6 +132,7 @@ class MainGameLoop{
 
   switchToken(){
     currentPlayer.setCounter(0);
+    if(selectedUnit !== undefined) selectedUnit.movementGrid = [];
     selectedUnit = undefined;
     if(this.token < playerList.length - 1) this.token++;
     else this.token = 0;
@@ -145,6 +146,7 @@ class MainGameLoop{
           valueU.actionState.current = valueU.actionState.idle;
           valueU.actionState.currentState = 'idle';
           valueU.movementPath = [];
+          valueU.movementGrid = [];
           if(valueU.loadedUnit !== undefined && valueU.loadedUnit !== ''){
             valueU.loadedUnit.currentState = valueU.loadedUnit.inactive;
           }

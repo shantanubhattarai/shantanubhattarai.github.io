@@ -202,6 +202,9 @@ class Unit{
       context.drawImage(mainSpriteSheet, this.spritePos[this.color][this.actionState.currentState][animationFrame].x, this.spritePos[this.color][this.actionState.currentState][animationFrame].y, mainMap.sourceSize-1, mainMap.sourceSize-1, this.x, this.y, mainMap.tsize, mainMap.tsize);
     }
     if(this.hp < 10 && this.hp > 0) context.drawImage(mainHUDSheet, hudPos[this.hp].x, hudPos[this.hp].y,8,8,this.x + mainMap.tsize - 12, this.y + mainMap.tsize - 12, 12, 12);
+    if(this.loadedUnit !== undefined && this.loadedUnit !== '') {
+      context.drawImage(mainHUDSheet, 157,59,8,8,this.x, this.y + mainMap.tsize - 12, 12, 12);
+    }
   }
 
   getTilePos(){
