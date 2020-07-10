@@ -10,7 +10,7 @@ canvas {
   display: inline-block;
 }
 
-div.unit-menu{
+div.unit-menu, div.action-menu{
   vertical-align: top;
   display: inline-block;
 }
@@ -30,9 +30,7 @@ li:hover{
   cursor: pointer;
 }
 
-div.action-menu{
-  display: inline-block;
-}
+
 
 div.turn-indicator{
   margin: 0px 8px;

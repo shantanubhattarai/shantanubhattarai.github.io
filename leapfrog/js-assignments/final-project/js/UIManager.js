@@ -118,7 +118,7 @@ class UIManager{
     let unitMenuListItems = Array.from(document.querySelectorAll('.unit-menu-list > li'));
     unitMenuListItems.forEach((unitMenuListItem) => {
       unitMenuListItem.onclick = () => {
-        selectedFactory.spawnUnit(unitMenuListItem.textContent);
+        selectedFactory.spawnUnit(unitMenuListItem.textContent, this.unitMenu);
         selectedFactory == undefined;
       };
     });
