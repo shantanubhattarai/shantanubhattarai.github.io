@@ -119,11 +119,11 @@ class APC extends Unit{
     xyOffsets.forEach((value) => {
       i = this.tileX + value[0];
       j = this.tileY + value[1];
-      console.log(!mainMap.getTileHasUnit(i-1, j-1));
+      console.log(!mainMap.getTileHasUnit(i, j));
       if(
         (mainMap.getTileWalkable(i-1, j-1) !== 4 || mainMap.getTileWalkable(i-1, j-1) !== 5)
         && mainMap.getTileWalkable(i-1, j-1) <= this.loadedUnit.walkableLevel
-        && !mainMap.getTileHasUnit(i-1, j-1)
+        && !mainMap.getTileHasUnit(i, j)
       ){
         this.dropGrid.push([i,j]);
       }

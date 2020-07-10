@@ -80,17 +80,17 @@ const mainMap = {
     // let air = [];
     return this.layers.reduce((res, layer, index) => {
       var tile = this.getTile(index, tileX, tileY);
-        var walkableLevel = 1;
-        if(slowWalk.includes(tile)){
-          walkableLevel = 2; //air, infantry and mech, one tile less movement, no water
-        }else if(tile == 5 || tile == 7){
-          walkableLevel = 3; //air, infantry and mech, one movement max, no water
-        }else if(tile == 28 || tile == 29){
-          walkableLevel = 5; //air only
-        }else if(water.includes(tile)){
-          walkableLevel = 4; //water and air only
-        }
-        return walkableLevel;
+      var walkableLevel = 1;
+      if(slowWalk.includes(tile)){
+        walkableLevel = 2; //air, infantry and mech, one tile less movement, no water
+      }else if(tile == 5 || tile == 7){
+        walkableLevel = 3; //air, infantry and mech, one movement max, no water
+      }else if(tile == 28 || tile == 29){
+        walkableLevel = 5; //air only
+      }else if(water.includes(tile)){
+        walkableLevel = 4; //water and air only
+      }
+      return walkableLevel;
     });
   },
   getTileMoveCost(tileX, tileY){
