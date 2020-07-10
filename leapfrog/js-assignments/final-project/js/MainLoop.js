@@ -54,7 +54,7 @@ class MainGameLoop{
       }else if(selectedUnit !== undefined && selectedUnit.actionState.current == selectedUnit.actionState.prepareLoad){
           if(selectedUnit.isArrayinArray(selectedUnit.loadGrid, [clickedTile.tileX, clickedTile.tileY])){
             let clickedUnit = mainMap.getTileHasPlayerUnit(clickedTile.tileX, clickedTile.tileY)
-            if(clickedUnit !== undefined && clickedUnit !== selectedUnit){
+            if(clickedUnit !== undefined && clickedUnit !== selectedUnit && clickedUnit.type == "Infantry" || clickedUnit.type == "Mech"){
             selectedUnit.loadUnit(clickedUnit);
           }
         }else{
@@ -302,13 +302,13 @@ class MainGameLoop{
 
 let player1 = new Player('red');
 playerList.push(player1);
-player1.addUnit(10,8,'Infantry');
+player1.addUnit(10,8,'Missile Launcher');
 player1.addUnit(11,10,'APC');
 player1.addUnit(10,12,'Infantry');
 
 let player2 = new Player('blue');
 playerList.push(player2);
-player2.addUnit(10,11,'Helicopter');
+player2.addUnit(10,11,'Missile Launcher');
 
 // let player3 = new Player('green');
 // playerList.push(player3);
