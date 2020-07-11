@@ -224,7 +224,6 @@ class Unit{
     if(this.loadedUnit !== undefined && this.loadedUnit !== '') {
       context.drawImage(mainHUDSheet, 157,59,8,8,this.x, this.y + mainMap.tsize - 12, 12, 12);
     }
-
   }
 
   drawCapture(){
@@ -258,10 +257,8 @@ class Unit{
       return;
     }
     let modifiedDamage = this.damageMatrix[unitToAttack.type] * this.hp/10 < 1? 1 : this.damageMatrix[unitToAttack.type] * this.hp/10;
-    console.log(unitToAttack.type, this.damageMatrix[unitToAttack.type], this.hp/10);
-
     modifiedDamage = modifiedDamage / 100 * unitToAttack.maxHP;
-    console.log(modifiedDamage);
+    if(modifiedDamage > unitToAttack.hp) {currentPlayer.funds += 400};
     unitToAttack.takeDamage(modifiedDamage);
     unitToAttack.counterAttack(this);
     this.drawAttackGrid = false;
@@ -281,6 +278,7 @@ class Unit{
     }
     let modifiedDamage = this.damageMatrix[unitToAttack.type] * this.hp/10 < 1? 1 : this.damageMatrix[unitToAttack.type] * this.hp/10;
     modifiedDamage = modifiedDamage / 100 * unitToAttack.maxHP;
+    if(modifiedDamage > unitToAttack.hp) {currentPlayer.funds += 400};
     unitToAttack.takeDamage(modifiedDamage);
   }
 

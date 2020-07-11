@@ -41,10 +41,11 @@ class MainGameLoop{
         }
 
         if((selectedUnit == undefined || selectedUnit.actionState == selectedUnit.actionState.inactive || selectedUnit.actionState == selectedUnit.actionState.idle)
-        && mainMap.getTileIsBuilding(clickedTile.tileX-1, clickedTile.tileY-1) && !mainMap.getTileHasUnit(clickedTile.tileX, clickedTile.tileY)){
+        && mainMap.getTileIsFactory(clickedTile.tileX-1, clickedTile.tileY-1) && !mainMap.getTileHasUnit(clickedTile.tileX, clickedTile.tileY)){
           buildingsList.forEach((building) => {
             if((building.capturedBy == this.token && building.tileX == clickedTile.tileX && building.tileY == clickedTile.tileY)){
               selectedFactory = building;
+              uiManager.disableUnitMenuItems();
               uiManager.unitMenu.style.display = 'block';
             }
           });
@@ -138,6 +139,7 @@ class MainGameLoop{
       }else{
         valueP.active = true;
         currentPlayer = valueP;
+        currentPlayer.setMoney(2000);
         valueP.unitList.forEach((valueU) => {
           valueU.actionState.current = valueU.actionState.idle;
           valueU.actionState.currentState = 'idle';
@@ -158,6 +160,8 @@ class MainGameLoop{
       }else{
         valueP.active = true;
         currentPlayer = valueP;
+        let moneyToAdd = currentPlayer.capturedFactories.length * 1000 + 1000;
+        currentPlayer.increaseMoney(moneyToAdd);
         valueP.unitList.forEach((valueU) => {
           valueU.actionState.current = valueU.actionState.idle;
           valueU.actionState.currentState = 'idle';
@@ -169,7 +173,6 @@ class MainGameLoop{
         });
       }
     });
-
   }
 
   drawLayer(layer){
@@ -258,8 +261,8 @@ class MainGameLoop{
     });
     if(capturingUnit !== undefined){
       if(capturingUnit.captureCounter > 0){
-        this.context.drawImage(captBG,240,200,240,300);
-        this.context.drawImage(captAnimSheet, capturingUnit.spritePos[capturingUnit.color]['capture'][capturingUnit.captureAnimFrame].x, capturingUnit.spritePos[capturingUnit.color]['capture'][capturingUnit.captureAnimFrame].y, 16,24,260,220,200,260);
+        this.context.drawImage(captBG,280,200,120,200);
+        this.context.drawImage(captAnimSheet, capturingUnit.spritePos[capturingUnit.color]['capture'][capturingUnit.captureAnimFrame].x, capturingUnit.spritePos[capturingUnit.color]['capture'][capturingUnit.captureAnimFrame].y, 16,24,290,220,100,130);
       }
     }
   }

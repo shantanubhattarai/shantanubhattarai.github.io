@@ -140,6 +140,9 @@ class UIManager{
     let unitMenuListItems = Array.from(document.querySelectorAll('.unit-menu-list > li'));
     unitMenuListItems.forEach((unitMenuListItem) => {
       unitMenuListItem.onclick = () => {
+        if(currentPlayer.funds < selectedFactory.getPrice(unitMenuListItem.textContent)){
+          return;
+        }
         selectedFactory.spawnUnit(unitMenuListItem.textContent, this.unitMenu);
         selectedFactory == undefined;
       };
@@ -210,14 +213,17 @@ class UIManager{
     let turnText = currentPlayer.color + ' Turn';
     turnText = turnText.toUpperCase();
     this.turnTextElement.textContent = turnText;
+
     this.turnIndicatorBlock.style.backgroundColor = this.turnColors[currentPlayer.color];
   }
 
   displayActions(){
-    let actionsText = 'Actions left: ';
+    let moneyText = 'Funds: ' + currentPlayer.funds + ' - ';
+    this.actionsText.textContent = moneyText;
+    let actionsText = ' Actions left: ';
     actionsText += currentPlayer.actions - currentPlayer.actionCounter;
     actionsText += ' / ' + currentPlayer.actions;
-    this.actionsText.textContent = actionsText;
+    this.actionsText.textContent += actionsText;
   }
 
   displayUnitInfo(){
@@ -235,6 +241,17 @@ class UIManager{
     }
   }
 
+  disableUnitMenuItems = () => {
+    let unitMenuListItems = Array.from(document.querySelectorAll('.unit-menu-list > li'));
+    unitMenuListItems.forEach((unitMenuListItem) => {
+      if(currentPlayer.funds < selectedFactory.getPrice(unitMenuListItem.textContent)){
+        unitMenuListItem.classList.add('inactive-spawn');
+      }else{
+        unitMenuListItem.classList.remove('inactive-spawn');
+      }
+    });
+  }
+
   update(){
     this.endTurnButton.style.display = 'inline-block';
     if(currentPlayer !== undefined) {
@@ -242,6 +259,7 @@ class UIManager{
       this.displayTurn();
       this.displayActions();
       this.displayUnitInfo();
+      // this.disableUnitMenuItems();
     }
   }
 }

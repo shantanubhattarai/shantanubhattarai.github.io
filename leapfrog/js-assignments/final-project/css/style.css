@@ -73,6 +73,10 @@ div.turn-indicator, div.end-turn, div.unit-info{
   width: 22px;
 }
 
+.inactive-spawn{
+  color: #888888;
+}
+
 .pull-left{
   float: left;
 }

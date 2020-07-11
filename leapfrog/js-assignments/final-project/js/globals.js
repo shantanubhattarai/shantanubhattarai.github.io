@@ -124,6 +124,14 @@ const mainMap = {
     }
     return isBuilding;
   },
+  getTileIsFactory(tileX, tileY){
+    let isFactory = false;
+    let factoryTiles = [501, 491, 535, 623, 579];
+    if(factoryTiles.includes(this.getTile(1, tileX, tileY))){
+      isFactory = true;
+    }
+    return isFactory;
+  },
   getTileHasUnit(tileX, tileY){
     let hasCollided = false;
     playerList.forEach(valueP => {
@@ -176,6 +184,8 @@ logo.src = './img/logo.png';
 let playerList = [];
 let buildingsList = [];
 let capturingUnit;
+let attackingUnit;
+let defendingUnit;
 const hudPos = {
   1: {x: 166, y: 23},
   2: {x: 175, y: 23},

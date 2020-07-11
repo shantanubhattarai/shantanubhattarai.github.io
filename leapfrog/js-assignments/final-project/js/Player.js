@@ -7,6 +7,7 @@ class Player{
     this.actionCounter = 0;
     this.capturedFactories = [];
     this.activeFactories = [];
+    this.funds = 1000;
   }
 
   addUnit(tileX, tileY, unitType){
@@ -118,6 +119,14 @@ class Player{
       }
     });
     return unitOnTile;
+  }
+
+  increaseMoney(amount){
+    this.funds += amount;
+  }
+
+  setMoney(amount){
+    this.funds = amount;
   }
 
 }

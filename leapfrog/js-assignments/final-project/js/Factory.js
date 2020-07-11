@@ -10,6 +10,28 @@ class Factory extends Building{
       'green': 623,
       'yellow': 579
     };
+    this.pricesList = {
+      'Infantry': 1000,
+      'Mech': 3000,
+      'Recon': 4000,
+      'APC': 5000,
+      'Anti Air': 8000,
+      'Tank': 7000,
+      'MD Tank': 16000,
+      'Artillery': 6000,
+      'Rocket Launcher': 15000,
+      'Missile Launcher': 12000,
+      'Cruiser': 18000,
+      'Battleship': 28000,
+      'Transport Copter': 5000,
+      'Helicopter': 9000,
+      'Fighter': 20000,
+      'Bomber': 22000
+    }
+  }
+
+  getPrice = (unitType) =>{
+    return this.pricesList[unitType];
   }
 
   getCaptured(player){
