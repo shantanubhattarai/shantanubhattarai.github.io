@@ -172,7 +172,7 @@ const mainHUDSheet = document.createElement('img');
 mainHUDSheet.src='./img/HUD.png';
 
 const captBG = document.createElement('img');
-captBG.src = './img/backgroundTile.png';
+captBG.src = './img/newBG.png';
 
 const captAnimSheet = document.createElement('img');
 captAnimSheet.src = './img/CaptureAnim.png';
