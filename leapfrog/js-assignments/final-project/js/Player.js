@@ -100,6 +100,9 @@ class Player{
     if(this.unitList.length > 0 && this.actionCounter >= this.actions){
       window.mainGameLoop.switchToken();
     }
+    if(this.unitList.length <= 0){
+      if(!window.mainGameLoop.lostPlayers.includes(this.color)) window.mainGameLoop.lostPlayers.push(this.color);
+    }
   }
 
   increaseCounter(){

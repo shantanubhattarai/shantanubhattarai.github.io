@@ -9,6 +9,7 @@ class MainGameLoop{
     this.context = this.canvas.getContext('2d');
     this.context.imageSmoothingEnabled = false;
     this.token = 0;
+    this.lostPlayers = [];
     this.setToken(0);
     this.gameState = {
       current: 0,
@@ -20,10 +21,14 @@ class MainGameLoop{
     //use mousemove for hover
     this.canvas.addEventListener('click', (e) => {
       if(this.gameState.current == this.gameState.start){
-        this.gameState.current = this.gameState.runnning;
+        this.gameState.current = this.gameState.running;
+        this.init();
+      }else if(this.gameState.current == this.gameState.gameOver){
+        this.gameState.current = this.gameState.running;
+        initializePlayers();
         this.init();
       }
-      else
+      else if(this.gameState.current == this.gameState.running)
       {
         let rect = self.canvas.getBoundingClientRect();
         let mousePos = {
@@ -250,6 +255,8 @@ class MainGameLoop{
   }
 
   init(){
+    this.lostPlayers = [];
+    this.setToken(0);
     this.render();
     this.generateBuildings();
   }
@@ -280,6 +287,34 @@ class MainGameLoop{
     buildingsList.forEach((building) => {building.draw(this.context);} );
   }
 
+  showGameOverMenu = () => {
+    this.context.clearRect(0,0, this.canvas.width, this.canvas.height);
+    this.context.beginPath();
+    this.context.fillStyle = playerColors[currentPlayer.color];
+    this.context.rect(0,0, this.canvas.width, this.canvas.height);
+    this.context.fill();
+    this.context.closePath();
+    this.context.drawImage(logo, 160, 0, 500,300);
+    this.context.fillStyle = '#000000';
+    this.context.font = "48px AW2";
+    this.context.fillText("Congrats Player " + currentPlayer.color.toUpperCase(), 280, 320);
+    this.context.fillText("LEFT CLICK TO RESTART", 258, 376);
+    this.context.beginPath();
+    this.context.rect(240, 390, 365, 20);
+    this.context.fill();
+    this.context.closePath();
+    if(this.gameState.current == this.gameState.gameOver) window.requestAnimationFrame(this.showGameOverMenu);
+  }
+
+  checkGameOver = () => {
+    if(this.lostPlayers.length >= playerList.length - 1){
+      this.gameState.current = this.gameState.gameOver;
+      window.uiManager.unitInfo.style.display = 'none';
+      window.uiManager.endTurnButton.style.display = 'none';
+      this.showGameOverMenu();
+    }
+  }
+
   render(){
     this.context.clearRect(0,0, this.canvas.width, this.canvas.height);
     this.drawLayer(0);
@@ -288,37 +323,47 @@ class MainGameLoop{
     this.drawBuildings();
     this.update();
     this.incrementFrames();
-    window.requestAnimationFrame(this.render.bind(this));
+    this.checkGameOver();
+    if(this.gameState.current == this.gameState.running) window.requestAnimationFrame(this.render.bind(this));
   }
 }
 
-let player1 = new Player('red');
-playerList.push(player1);
-player1.addUnit(10,8,'Rocket Launcher');
-player1.addUnit(11,10,'Bomber');
-player1.addUnit(12,10,'Fighter');
-player1.addUnit(10,9,'Infantry');
-player1.addUnit(12,12,'APC');
-player1.addUnit(14, 13, 'Battleship');
+function initializePlayers(){
+  let player1 = new Player('red');
+  let player2 = new Player('blue');
+  let player3 = new Player('green');
+  let player4 = new Player('yellow');
+  playerList = [];
+  player1.addUnit(10,8,'Rocket Launcher');
+  player1.addUnit(11,10,'Bomber');
+  player1.addUnit(12,10,'Fighter');
+  player1.addUnit(10,9,'Infantry');
+  player1.addUnit(12,12,'APC');
+  player1.addUnit(14, 13, 'Battleship');
+  player2.addUnit(10,11,'Rocket Launcher');
+  playerList.push(player1);
+  playerList.push(player2);
+  playerList.push(player3);
+  playerList.push(player4);
+}
 
-let player2 = new Player('blue');
-playerList.push(player2);
-player2.addUnit(10,11,'Rocket Launcher');
-player2.addUnit(10,20,'Infantry');
+
+// player2.addUnit(10,20,'Infantry');
 // player2.addUnit(8,13,'Bomber');
 // player2.addUnit(8,14,'MD Tank');
-player2.addUnit(14, 15, 'Battleship');
-let player3 = new Player('green');
-playerList.push(player3);
-player3.addUnit(6, 8, 'Rocket Launcher');
-player3.addUnit(6, 9, 'Bomber');
-player3.addUnit(14, 14, 'Battleship');
+// player2.addUnit(14, 15, 'Battleship');
 
-let player4 = new Player('yellow');
-playerList.push(player4);
-player4.addUnit(5, 9, 'Rocket Launcher');
-player4.addUnit(4, 9, 'Bomber');
-player4.addUnit(8, 9, 'Recon');
-player4.addUnit(14, 16, 'Battleship');
-let uiManager = new UIManager();
+// playerList.push(player3);
+// player3.addUnit(6, 8, 'Rocket Launcher');
+// player3.addUnit(6, 9, 'Bomber');
+// player3.addUnit(14, 14, 'Battleship');
+
+
+// playerList.push(player4);
+// player4.addUnit(5, 9, 'Rocket Launcher');
+// player4.addUnit(4, 9, 'Bomber');
+// player4.addUnit(8, 9, 'Recon');
+// player4.addUnit(14, 16, 'Battleship');
+initializePlayers();
+var uiManager = new UIManager();
 var mainGameLoop = new MainGameLoop();

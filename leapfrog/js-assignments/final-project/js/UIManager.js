@@ -229,7 +229,7 @@ class UIManager{
   displayUnitInfo(){
     this.unitInfo.style.display = 'inline-block';
     if(showInfoUnit == undefined){
-      this.unitName.textContent = 'No unit selected.';
+      this.unitName.textContent = 'No unit selected. Click a unit to see their basic information.';
       this.unitRange.textContent = '';
       this.unitAttack.textContent = '';
       this.unitMovementLevel.textContent = '';
@@ -254,12 +254,13 @@ class UIManager{
 
   update(){
     this.endTurnButton.style.display = 'inline-block';
-    if(currentPlayer !== undefined) {
-      this.showMenu();
-      this.displayTurn();
-      this.displayActions();
-      this.displayUnitInfo();
-      // this.disableUnitMenuItems();
+    if(window.mainGameLoop.gameState.current == window.mainGameLoop.gameState.running){
+      if(currentPlayer !== undefined) {
+        this.showMenu();
+        this.displayTurn();
+        this.displayActions();
+        this.displayUnitInfo();
+      }
     }
   }
 }

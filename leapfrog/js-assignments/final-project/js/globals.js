@@ -165,6 +165,13 @@ const mainMap = {
   }
 }
 
+const playerColors = {
+  'red': '#f84848',
+  'blue': '#4070f8',
+  'green': '#38c028',
+  'yellow': '#c0b800'
+};
+
 const mainSpriteSheet = document.createElement('img');
 mainSpriteSheet.src='./img/UnitMap.png';
 
