@@ -328,7 +328,7 @@ class Unit{
       this.battleAnimFrame = 0;
       this.battlePhase = false;
       unitToAttack.takeDamage(modifiedDamage);
-      unitToAttack.counterAttack(this);
+      if(unitToAttack.hp > 0) unitToAttack.counterAttack(this);
     }
   }
 
