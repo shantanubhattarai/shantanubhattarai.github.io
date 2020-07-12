@@ -178,6 +178,7 @@ class MainGameLoop{
         });
       }
     });
+    currentPlayer.increaseUnitHP();
   }
 
   drawLayer(layer){

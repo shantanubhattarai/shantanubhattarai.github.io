@@ -20,6 +20,7 @@ class Building{
     this.color = player.color;
     this.setNewTile();
     this.captureProgress = 0;
+    currentPlayer.capturedBuildings.push(this);
   }
 
   setNewTile = () => {

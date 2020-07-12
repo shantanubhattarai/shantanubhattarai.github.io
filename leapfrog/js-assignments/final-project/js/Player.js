@@ -5,6 +5,7 @@ class Player{
     this.color = color;
     this.actions = 5;
     this.actionCounter = 0;
+    this.capturedBuildings = [];
     this.capturedFactories = [];
     this.activeFactories = [];
     this.funds = 1000;
@@ -130,6 +131,12 @@ class Player{
 
   setMoney(amount){
     this.funds = amount;
+  }
+
+  increaseUnitHP(){
+    this.unitList.forEach((value) => {
+      value.checkOnCapturedBuilding();
+    });
   }
 
 }

@@ -40,6 +40,7 @@ class Factory extends Building{
     this.setNewTile();
     this.captureProgress = 0;
     currentPlayer.capturedFactories.push(this);
+    currentPlayer.capturedBuildings.push(this);
   }
 
   spawnUnit(unitType, unitMenu){

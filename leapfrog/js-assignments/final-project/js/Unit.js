@@ -16,9 +16,11 @@ const attackMatrix = {
   'APC': [],
   'Transport Copter': []
 };
+
 let frames = 0;
 let animationFrame = 0;
 let fadeId = 0;
+
 class Unit{
   constructor(tileX, tileY, color){
     this.tileX = tileX;
@@ -123,6 +125,24 @@ class Unit{
       j = this.tileY + value[1];
       this.attackGrid.push([i,j]);
     });
+  }
+
+  checkOnCapturedBuilding(){
+    let capturedPositions = currentPlayer.capturedBuildings.map((value) => {
+      return [value.tileX, value.tileY];
+    });
+    if(this.isArrayinArray(capturedPositions, [this.tileX, this.tileY])){
+      this.increaseHP(2);
+    }
+  }
+
+  increaseHP(amount){
+    this.hp += amount;
+    if(this.hp > this.maxHP) this.hp = this.maxHP;
+  }
+
+  setHP(amount){
+    this.hp = amount;
   }
 
   drawMovementTiles(x, y, context){
