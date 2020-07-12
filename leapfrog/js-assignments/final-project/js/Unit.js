@@ -358,7 +358,6 @@ class Unit{
     }
     let modifiedDamage = this.damageMatrix[unitToAttack.type] * this.hp/10 < 1? 1 : this.damageMatrix[unitToAttack.type] * this.hp/10;
     modifiedDamage = modifiedDamage / 100 * unitToAttack.maxHP;
-    console.log(modifiedDamage);
     attackingUnit = this;
     defendingUnit = unitToAttack;
     counterID = setInterval(this.counterAttackAnimate, 10, modifiedDamage, unitToAttack);

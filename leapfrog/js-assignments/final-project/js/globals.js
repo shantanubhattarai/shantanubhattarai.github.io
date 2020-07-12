@@ -187,6 +187,9 @@ captAnimSheet.src = './img/CaptureAnim.png';
 const reverseSpriteSheet = document.createElement('img');
 reverseSpriteSheet.src = './img/ReverseSprites.png';
 
+const battleBG = document.createElement('img');
+battleBG.src = './img/BattleBG.png';
+
 const logo = document.createElement('img');
 logo.src = './img/logo.png';
 

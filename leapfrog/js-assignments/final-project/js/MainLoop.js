@@ -11,6 +11,7 @@ class MainGameLoop{
     this.token = 0;
     this.lostPlayers = [];
     this.setToken(0);
+    this.alphaModifier = 1;
     this.gameState = {
       current: 0,
       start: 0,
@@ -283,10 +284,12 @@ class MainGameLoop{
     if(attackingUnit !== undefined && defendingUnit !== undefined){
       this.gameState.current = this.gameState.noclick;
       this.context.beginPath();
-      this.context.fillStyle = 'rgba(0,0,0,0.5)';
+      this.context.fillStyle = 'rgba(0,0,0,1)';
       this.context.rect(0,0,this.canvas.width, this.canvas.height);
       this.context.fill();
       this.context.closePath();
+      this.context.drawImage(battleBG, 0, 0, this.canvas.width/2 - 5, this.canvas.height);
+      this.context.drawImage(battleBG, this.canvas.width/2, 0, this.canvas.width/2 + 5, this.canvas.height);
       let attackPosModifier = 50;
       let attackingUnitsXPos = 100;
       let counterAttackingUnitsXPos = 600;
@@ -320,12 +323,23 @@ class MainGameLoop{
       for(let i = 0; i < defendingUnit.hp / 2; i++){
         this.context.drawImage(defenderSprite, defendingUnit.spritePos[defendingUnit.color]['idle'][animationFrame].x, defendingUnit.spritePos[defendingUnit.color]['idle'][animationFrame].y, 16, 16, counterAttackingUnitsXPos + defenseDirectionModifier * i * 25, 300 + i * 50, 128, 128);
       }
+
       if(attackingUnit.battleCounter > 48 && attackingUnit.battleCounter < 96){
         this.context.drawImage(mainHUDSheet, attackingUnit.attackSprites[attackingDirection][attackingUnit.battleAnimFrame].x, attackingUnit.attackSprites[attackingDirection][attackingUnit.battleAnimFrame].y, 48, 48, attackingUnitsXPos + attackPosModifier, 300, 192, 192);
       }
-      if(attackingUnit.battleCounter > 0 && attackingUnit.battleCounter > 136){
+      if(attackingUnit.battleCounter > 136){
         this.context.drawImage(mainHUDSheet, defendingUnit.damageSprites[attackingUnit.battleAnimFrame].x, defendingUnit.damageSprites[attackingUnit.battleAnimFrame].y, 32, 32, counterAttackingUnitsXPos, 300, 192, 192);
       }
+      if(attackingUnit.battleCounter > 180){
+        this.alphaModifier = 1;
+      }
+      if(attackingUnit.battleCounter > 0 && attackingUnit.battleCounter <= 48){
+        this.alphaModifier -= 1/24;
+      }
+        this.context.beginPath();
+        this.context.fillStyle = 'rgba(0,0,0,' + this.alphaModifier + ')';
+        this.context.fillRect(0,0,this.canvas.width, this.canvas.height);
+        this.context.closePath();
     }else{
       this.gameState.current = this.gameState.running;
     }
