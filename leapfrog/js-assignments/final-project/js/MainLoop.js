@@ -283,13 +283,23 @@ class MainGameLoop{
     }
     if(attackingUnit !== undefined && defendingUnit !== undefined){
       this.gameState.current = this.gameState.noclick;
+      let attackingBG = {x: 0, y: 0};
+      let defendingBG = {x: 0, y: 0};
+      if(attackingUnit.walkableLevel == 4){
+        attackingBG = {x: 1033, y: 162};
+      }else if(attackingUnit.walkableLevel == 5){
+        attackingBG = {x: 1033, y: 0};
+      }
+      if(defendingUnit.walkableLevel == 4){
+        defendingBG = {x: 1033, y: 162};
+      }else if(defendingUnit.walkableLevel == 5){
+        defendingBG = {x: 1033, y: 0};
+      }
       this.context.beginPath();
       this.context.fillStyle = 'rgba(0,0,0,1)';
       this.context.rect(0,0,this.canvas.width, this.canvas.height);
       this.context.fill();
       this.context.closePath();
-      this.context.drawImage(battleBG, 0, 0, this.canvas.width/2 - 5, this.canvas.height);
-      this.context.drawImage(battleBG, this.canvas.width/2, 0, this.canvas.width/2 + 5, this.canvas.height);
       let attackPosModifier = 50;
       let attackingUnitsXPos = 100;
       let counterAttackingUnitsXPos = 600;
@@ -307,6 +317,8 @@ class MainGameLoop{
         defenderSprite = mainSpriteSheet;
         attackDirectionModifier = -1;
         defenseDirectionModifier = 1;
+        this.context.drawImage(battleBG, attackingBG.x, attackingBG.y, 130, 162, 0, 0, this.canvas.width/2 - 5, this.canvas.height);
+        this.context.drawImage(battleBG, defendingBG.x, defendingBG.y, 130, 162, this.canvas.width/2, 0, this.canvas.width/2 + 5, this.canvas.height);
       }else if(attackingUnit.counterPhase){
         attackingUnitsXPos = 600;
         attackPosModifier = -120;
@@ -316,6 +328,8 @@ class MainGameLoop{
         defenderSprite = reverseSpriteSheet;
         attackDirectionModifier = 1;
         defenseDirectionModifier = -1;
+        this.context.drawImage(battleBG, attackingBG.x, attackingBG.y, 130, 162, this.canvas.width/2, 0, this.canvas.width/2 - 5, this.canvas.height);
+        this.context.drawImage(battleBG, defendingBG.x, defendingBG.y, 130, 162, 0, 0, this.canvas.width/2 + 5, this.canvas.height);
       }
       for(let i = 0; i < attackingUnit.hp / 2; i++){
         this.context.drawImage(attackerSprite, attackingUnit.spritePos[attackingUnit.color]['idle'][animationFrame].x, attackingUnit.spritePos[attackingUnit.color]['idle'][animationFrame].y, 16, 16, attackingUnitsXPos + attackDirectionModifier * i * 25, 300 + i * 50, 128, 128);
@@ -410,8 +424,9 @@ function initializePlayers(){
   player1.addUnit(12,10,'Fighter');
   player1.addUnit(10,9,'Infantry');
   player1.addUnit(12,12,'APC');
-  player1.addUnit(14, 13, 'Battleship');
+  player1.addUnit(14, 13, 'Cruiser');
   player2.addUnit(10,11,'Rocket Launcher');
+  player2.addUnit(10,12,'Tank');
   player2.addUnit(10,20,'Infantry');
   playerList.push(player1);
   playerList.push(player2);

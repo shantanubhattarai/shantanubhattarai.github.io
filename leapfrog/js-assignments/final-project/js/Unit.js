@@ -6,7 +6,7 @@ const attackMatrix = {
   'Recon':['Infantry','Mech','Tank','MD Tank','Artillery','Recon','Helicopter','Anti Air','Missile Launcher','Rocket Launcher','APC','Transport Copter'],
   'Artillery':['Infantry','Mech','Tank','MD Tank','Artillery','Recon','Helicopter','Anti Air','Missile Launcher','Rocket Launcher','APC','Cruiser','Battleship'],
   'Helicopter':['Infantry','Mech','Tank','MD Tank','Artillery','Recon','Helicopter','Anti Air','Missile Launcher','Rocket Launcher','APC','Cruiser','Battleship','Transport Copter'],
-  'Cruiser':['Transport Copter','Helicopter','Fighter','Bomber'],
+  'Cruiser':['Transport Copter','Helicopter','Fighter','Bomber', 'Tank'],
   'Fighter':['Fighter', 'Helicopter', 'Bomber', 'Transport Copter'],
   'Bomber':['Infantry','Mech','Tank','MD Tank','Artillery','Recon','Anti Air','Missile Launcher','Rocket Launcher', 'Cruiser', 'Battleship', 'APC'],
   'Missile Launcher': ['Transport Copter', 'Helicopter', 'Fighter', 'Bomber'],
