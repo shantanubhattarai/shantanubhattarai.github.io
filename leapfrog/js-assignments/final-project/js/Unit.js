@@ -20,7 +20,8 @@ const attackMatrix = {
 let frames = 0;
 let animationFrame = 0;
 let fadeId = 0;
-
+let battleID = 0;
+let counterID = 0;
 class Unit{
   constructor(tileX, tileY, color){
     this.tileX = tileX;
@@ -44,7 +45,10 @@ class Unit{
     this.type = 'generic';
     this.drawState = true;
     this.captureCounter = 0;
+    this.battleCounter = 0;
+    this.counterAttackCounter = 0;
     this.captureAnimFrame = 0;
+    this.battleAnimFrame = 0;
     this.actionState = {
       current: 1,
       idle: 1,
@@ -58,6 +62,20 @@ class Unit{
       inactive: 9,
       currentState: 'idle'
     };
+    this.attackPhase = false;
+    this.counterPhase = false;
+    this.attackSprites = {
+      0: {x: 0, y: 394},
+      1: {x: 48, y: 394},
+      2: {x: 96, y: 394},
+      3: {x: 144, y: 394},
+    };
+    this.damageSprites = {
+      0: {x: 0, y: 444},
+      1: {x: 32, y: 444},
+      2: {x: 64, y: 444},
+      3: {x: 96, y: 444}
+    }
   }
 
   isArrayinArray(arr, item){
@@ -279,13 +297,48 @@ class Unit{
     let modifiedDamage = this.damageMatrix[unitToAttack.type] * this.hp/10 < 1? 1 : this.damageMatrix[unitToAttack.type] * this.hp/10;
     modifiedDamage = modifiedDamage / 100 * unitToAttack.maxHP;
     if(modifiedDamage > unitToAttack.hp) {currentPlayer.funds += 400};
-    unitToAttack.takeDamage(modifiedDamage);
-    unitToAttack.counterAttack(this);
+    attackingUnit = this;
+    defendingUnit = unitToAttack;
+    battleID = setInterval(this.battleAnimate, 10, modifiedDamage, unitToAttack);
     this.drawAttackGrid = false;
     this.attackGrid = [];
     this.movementPath = [];
     this.actionState.current = this.actionState.inactive;
     this.actionState.currentState = 'inactive';
+  }
+
+  battleAnimate = (modifiedDamage, unitToAttack) => {
+    this.battleCounter += 1;
+    this.battlePhase = true;
+    if(this.battleCounter % 16 == 0) this.battleAnimFrame++;
+    if(this.battleAnimFrame > 3) this.battleAnimFrame = 0;
+    if(this.battleCounter >= 184){
+      clearInterval(battleID);
+      attackingUnit = undefined;
+      defendingUnit = undefined;
+      this.battleCounter = 0;
+      this.battleAnimFrame = 0;
+      this.battlePhase = false;
+      unitToAttack.counterAttack(this);
+      unitToAttack.takeDamage(modifiedDamage);
+    }
+  }
+
+  counterAttackAnimate = (modifiedDamage, unitToAttack) => {
+    this.battleCounter += 1;
+    this.counterPhase = true;
+    if(this.battleCounter % 16 == 0) this.battleAnimFrame++;
+    if(this.battleAnimFrame > 3) this.battleAnimFrame = 0;
+    if(this.battleCounter >= 184){
+      clearInterval(counterID);
+      attackingUnit = undefined;
+      defendingUnit = undefined;
+      this.battleCounter = 0;
+      this.battleAnimFrame = 0;
+      this.counterPhase = false;
+      unitToAttack.takeDamage(modifiedDamage);
+
+    }
   }
 
   counterAttack = (unitToAttack) => {
@@ -298,8 +351,10 @@ class Unit{
     }
     let modifiedDamage = this.damageMatrix[unitToAttack.type] * this.hp/10 < 1? 1 : this.damageMatrix[unitToAttack.type] * this.hp/10;
     modifiedDamage = modifiedDamage / 100 * unitToAttack.maxHP;
+    attackingUnit = this;
+    defendingUnit = unitToAttack;
+    counterID = setInterval(this.counterAttackAnimate, 10, modifiedDamage, unitToAttack);
     if(modifiedDamage > unitToAttack.hp) {currentPlayer.funds += 400};
-    unitToAttack.takeDamage(modifiedDamage);
   }
 
   takeDamage = (damage) => {

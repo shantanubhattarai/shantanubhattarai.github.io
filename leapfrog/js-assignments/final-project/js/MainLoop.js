@@ -273,6 +273,34 @@ class MainGameLoop{
         this.context.drawImage(captAnimSheet, capturingUnit.spritePos[capturingUnit.color]['capture'][capturingUnit.captureAnimFrame].x, capturingUnit.spritePos[capturingUnit.color]['capture'][capturingUnit.captureAnimFrame].y, 16,24,290,220,100,130);
       }
     }
+    if(attackingUnit !== undefined && defendingUnit !== undefined){
+      this.context.beginPath();
+      this.context.fillStyle = 'rgba(0,0,0,0.5)';
+      this.context.rect(0,0,this.canvas.width, this.canvas.height);
+      this.context.fill();
+      this.context.closePath();
+      let attackingUnitsXPos = 100;
+      let counterAttackingUnitsXPos = 600;
+      if(attackingUnit.battlePhase){
+        attackingUnitsXPos = 100;
+        counterAttackingUnitsXPos = 600;
+      }else if(attackingUnit.counterPhase){
+        attackingUnitsXPos = 600;
+        counterAttackingUnitsXPos = 100;
+      }
+      for(let i = 0; i < attackingUnit.hp / 2; i++){
+        this.context.drawImage(mainSpriteSheet, attackingUnit.spritePos[attackingUnit.color]['idle'][animationFrame].x, attackingUnit.spritePos[attackingUnit.color]['idle'][animationFrame].y, 16, 16, attackingUnitsXPos + i * 25, 300 + i * 50, 128, 128);
+      }
+      for(let i = 0; i < defendingUnit.hp / 2; i++){
+        this.context.drawImage(mainSpriteSheet, defendingUnit.spritePos[defendingUnit.color]['idle'][animationFrame].x, defendingUnit.spritePos[defendingUnit.color]['idle'][animationFrame].y, 16, 16, counterAttackingUnitsXPos + i * 25, 300 + i * 50, 128, 128);
+      }
+      if(attackingUnit.battleCounter > 48 && attackingUnit.battleCounter < 96){
+        this.context.drawImage(mainHUDSheet, attackingUnit.attackSprites[attackingUnit.battleAnimFrame].x, attackingUnit.attackSprites[attackingUnit.battleAnimFrame].y, 48, 48, attackingUnitsXPos, 300, 192, 192);
+      }
+      if(attackingUnit.battleCounter > 0 && attackingUnit.battleCounter > 136){
+        this.context.drawImage(mainHUDSheet, defendingUnit.damageSprites[attackingUnit.battleAnimFrame].x, defendingUnit.damageSprites[attackingUnit.battleAnimFrame].y, 32, 32, counterAttackingUnitsXPos, 300, 192, 192);
+      }
+    }
   }
 
   incrementFrames(){
@@ -342,6 +370,7 @@ function initializePlayers(){
   player1.addUnit(12,12,'APC');
   player1.addUnit(14, 13, 'Battleship');
   player2.addUnit(10,11,'Rocket Launcher');
+  player2.addUnit(10,20,'Infantry');
   playerList.push(player1);
   playerList.push(player2);
   playerList.push(player3);
