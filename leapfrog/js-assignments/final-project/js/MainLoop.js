@@ -267,20 +267,22 @@ class MainGameLoop{
     this.generateBuildings();
   }
 
-  drawUnits(){
-    playerList.forEach(player => {
-      player.update();
-      player.unitList.forEach(unit => unit.draw(this.context));
-    });
-    if(capturingUnit !== undefined){
-      this.gameState.current = this.gameState.noclick;
-      if(capturingUnit.captureCounter > 0){
-        this.context.drawImage(captBG,280,200,120,200);
-        this.context.drawImage(captAnimSheet, capturingUnit.spritePos[capturingUnit.color]['capture'][capturingUnit.captureAnimFrame].x, capturingUnit.spritePos[capturingUnit.color]['capture'][capturingUnit.captureAnimFrame].y, 16,24,290,220,100,130);
-      }
-    }else{
-      this.gameState.current = this.gameState.running;
-    }
+  drawBattleBackground(){
+    this.context.beginPath();
+    this.context.fillStyle = 'rgba(0,0,0,1)';
+    this.context.rect(0,0,this.canvas.width, this.canvas.height);
+    this.context.fill();
+    this.context.closePath();
+  }
+
+  drawBattleOverlay(){
+    this.context.beginPath();
+    this.context.fillStyle = 'rgba(0,0,0,' + this.alphaModifier + ')';
+    this.context.fillRect(0,0,this.canvas.width, this.canvas.height);
+    this.context.closePath();
+  }
+
+  drawBattleAnimation = () => {
     if(attackingUnit !== undefined && defendingUnit !== undefined){
       this.gameState.current = this.gameState.noclick;
       let attackingBG = {x: 0, y: 0};
@@ -295,11 +297,7 @@ class MainGameLoop{
       }else if(defendingUnit.walkableLevel == 5){
         defendingBG = {x: 1033, y: 0};
       }
-      this.context.beginPath();
-      this.context.fillStyle = 'rgba(0,0,0,1)';
-      this.context.rect(0,0,this.canvas.width, this.canvas.height);
-      this.context.fill();
-      this.context.closePath();
+      this.drawBattleBackground();
       let attackPosModifier = 50;
       let attackingUnitsXPos = 100;
       let counterAttackingUnitsXPos = 600;
@@ -350,13 +348,31 @@ class MainGameLoop{
       if(attackingUnit.battleCounter > 0 && attackingUnit.battleCounter <= 48){
         this.alphaModifier -= 1/24;
       }
-        this.context.beginPath();
-        this.context.fillStyle = 'rgba(0,0,0,' + this.alphaModifier + ')';
-        this.context.fillRect(0,0,this.canvas.width, this.canvas.height);
-        this.context.closePath();
+      this.drawBattleOverlay();
     }else{
       this.gameState.current = this.gameState.running;
     }
+  }
+
+  drawCaptureAnimation(){
+    if(capturingUnit !== undefined){
+      this.gameState.current = this.gameState.noclick;
+      if(capturingUnit.captureCounter > 0){
+        this.context.drawImage(captBG,280,200,120,200);
+        this.context.drawImage(captAnimSheet, capturingUnit.spritePos[capturingUnit.color]['capture'][capturingUnit.captureAnimFrame].x, capturingUnit.spritePos[capturingUnit.color]['capture'][capturingUnit.captureAnimFrame].y, 16,24,290,220,100,130);
+      }
+    }else{
+      this.gameState.current = this.gameState.running;
+    }
+  }
+
+  drawUnits(){
+    playerList.forEach(player => {
+      player.update();
+      player.unitList.forEach(unit => unit.draw(this.context));
+    });
+
+    this.drawBattleAnimation();
   }
 
   incrementFrames(){
