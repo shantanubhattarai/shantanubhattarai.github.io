@@ -65,10 +65,18 @@ class Unit{
     this.attackPhase = false;
     this.counterPhase = false;
     this.attackSprites = {
-      0: {x: 0, y: 394},
-      1: {x: 48, y: 394},
-      2: {x: 96, y: 394},
-      3: {x: 144, y: 394},
+      left:{
+        0: {x: 0, y: 394},
+        1: {x: 48, y: 394},
+        2: {x: 96, y: 394},
+        3: {x: 144, y: 394},
+      },
+      right:{
+        0: {x: 192, y: 494},
+        1: {x: 144, y: 494},
+        2: {x: 96, y: 494},
+        3: {x: 48, y: 494},
+      }
     };
     this.damageSprites = {
       0: {x: 0, y: 444},

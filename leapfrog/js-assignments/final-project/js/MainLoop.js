@@ -290,23 +290,38 @@ class MainGameLoop{
       let attackPosModifier = 50;
       let attackingUnitsXPos = 100;
       let counterAttackingUnitsXPos = 600;
+      let attackingDirection = 'left';
+      let attackerSprite = mainSpriteSheet;
+      let defenderSprite = reverseSpriteSheet;
+      let attackDirectionModifier = -1;
+      let defenseDirectionModifier = 1;
       if(attackingUnit.battlePhase){
         attackingUnitsXPos = 100;
         attackPosModifier = 50;
+        attackingDirection = 'right';
         counterAttackingUnitsXPos = 600;
+        attackerSprite = reverseSpriteSheet;
+        defenderSprite = mainSpriteSheet;
+        attackDirectionModifier = -1;
+        defenseDirectionModifier = 1;
       }else if(attackingUnit.counterPhase){
         attackingUnitsXPos = 600;
         attackPosModifier = -120;
+        attackingDirection = 'left';
         counterAttackingUnitsXPos = 100;
+        attackerSprite = mainSpriteSheet;
+        defenderSprite = reverseSpriteSheet;
+        attackDirectionModifier = 1;
+        defenseDirectionModifier = -1;
       }
       for(let i = 0; i < attackingUnit.hp / 2; i++){
-        this.context.drawImage(mainSpriteSheet, attackingUnit.spritePos[attackingUnit.color]['idle'][animationFrame].x, attackingUnit.spritePos[attackingUnit.color]['idle'][animationFrame].y, 16, 16, attackingUnitsXPos + i * 25, 300 + i * 50, 128, 128);
+        this.context.drawImage(attackerSprite, attackingUnit.spritePos[attackingUnit.color]['idle'][animationFrame].x, attackingUnit.spritePos[attackingUnit.color]['idle'][animationFrame].y, 16, 16, attackingUnitsXPos + attackDirectionModifier * i * 25, 300 + i * 50, 128, 128);
       }
       for(let i = 0; i < defendingUnit.hp / 2; i++){
-        this.context.drawImage(mainSpriteSheet, defendingUnit.spritePos[defendingUnit.color]['idle'][animationFrame].x, defendingUnit.spritePos[defendingUnit.color]['idle'][animationFrame].y, 16, 16, counterAttackingUnitsXPos + i * 25, 300 + i * 50, 128, 128);
+        this.context.drawImage(defenderSprite, defendingUnit.spritePos[defendingUnit.color]['idle'][animationFrame].x, defendingUnit.spritePos[defendingUnit.color]['idle'][animationFrame].y, 16, 16, counterAttackingUnitsXPos + defenseDirectionModifier * i * 25, 300 + i * 50, 128, 128);
       }
       if(attackingUnit.battleCounter > 48 && attackingUnit.battleCounter < 96){
-        this.context.drawImage(mainHUDSheet, attackingUnit.attackSprites[attackingUnit.battleAnimFrame].x, attackingUnit.attackSprites[attackingUnit.battleAnimFrame].y, 48, 48, attackingUnitsXPos + attackPosModifier, 300, 192, 192);
+        this.context.drawImage(mainHUDSheet, attackingUnit.attackSprites[attackingDirection][attackingUnit.battleAnimFrame].x, attackingUnit.attackSprites[attackingDirection][attackingUnit.battleAnimFrame].y, 48, 48, attackingUnitsXPos + attackPosModifier, 300, 192, 192);
       }
       if(attackingUnit.battleCounter > 0 && attackingUnit.battleCounter > 136){
         this.context.drawImage(mainHUDSheet, defendingUnit.damageSprites[attackingUnit.battleAnimFrame].x, defendingUnit.damageSprites[attackingUnit.battleAnimFrame].y, 32, 32, counterAttackingUnitsXPos, 300, 192, 192);
