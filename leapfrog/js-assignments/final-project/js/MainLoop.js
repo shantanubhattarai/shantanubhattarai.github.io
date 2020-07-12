@@ -15,12 +15,16 @@ class MainGameLoop{
       current: 0,
       start: 0,
       running: 1,
-      gameOver: 2
+      gameOver: 2,
+      noclick: 3
     }
     this.showStartMenu();
     //use mousemove for hover
     this.canvas.addEventListener('click', (e) => {
-      if(this.gameState.current == this.gameState.start){
+      if(this.gameState.current == this.gameState.noclick){
+        return;
+      }
+      else if(this.gameState.current == this.gameState.start){
         this.gameState.current = this.gameState.running;
         this.init();
       }else if(this.gameState.current == this.gameState.gameOver){
@@ -268,12 +272,16 @@ class MainGameLoop{
       player.unitList.forEach(unit => unit.draw(this.context));
     });
     if(capturingUnit !== undefined){
+      this.gameState.current = this.gameState.noclick;
       if(capturingUnit.captureCounter > 0){
         this.context.drawImage(captBG,280,200,120,200);
         this.context.drawImage(captAnimSheet, capturingUnit.spritePos[capturingUnit.color]['capture'][capturingUnit.captureAnimFrame].x, capturingUnit.spritePos[capturingUnit.color]['capture'][capturingUnit.captureAnimFrame].y, 16,24,290,220,100,130);
       }
+    }else{
+      this.gameState.current = this.gameState.running;
     }
     if(attackingUnit !== undefined && defendingUnit !== undefined){
+      this.gameState.current = this.gameState.noclick;
       this.context.beginPath();
       this.context.fillStyle = 'rgba(0,0,0,0.5)';
       this.context.rect(0,0,this.canvas.width, this.canvas.height);
@@ -303,6 +311,8 @@ class MainGameLoop{
       if(attackingUnit.battleCounter > 0 && attackingUnit.battleCounter > 136){
         this.context.drawImage(mainHUDSheet, defendingUnit.damageSprites[attackingUnit.battleAnimFrame].x, defendingUnit.damageSprites[attackingUnit.battleAnimFrame].y, 32, 32, counterAttackingUnitsXPos, 300, 192, 192);
       }
+    }else{
+      this.gameState.current = this.gameState.running;
     }
   }
 
@@ -356,7 +366,7 @@ class MainGameLoop{
     this.update();
     this.incrementFrames();
     this.checkGameOver();
-    if(this.gameState.current == this.gameState.running) window.requestAnimationFrame(this.render.bind(this));
+    if(this.gameState.current == this.gameState.running || this.gameState.current == this.gameState.noclick) window.requestAnimationFrame(this.render.bind(this));
   }
 }
 
