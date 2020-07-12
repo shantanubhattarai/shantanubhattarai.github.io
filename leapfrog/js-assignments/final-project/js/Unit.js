@@ -319,8 +319,8 @@ class Unit{
       this.battleCounter = 0;
       this.battleAnimFrame = 0;
       this.battlePhase = false;
-      unitToAttack.counterAttack(this);
       unitToAttack.takeDamage(modifiedDamage);
+      unitToAttack.counterAttack(this);
     }
   }
 
@@ -337,7 +337,6 @@ class Unit{
       this.battleAnimFrame = 0;
       this.counterPhase = false;
       unitToAttack.takeDamage(modifiedDamage);
-
     }
   }
 
@@ -351,6 +350,7 @@ class Unit{
     }
     let modifiedDamage = this.damageMatrix[unitToAttack.type] * this.hp/10 < 1? 1 : this.damageMatrix[unitToAttack.type] * this.hp/10;
     modifiedDamage = modifiedDamage / 100 * unitToAttack.maxHP;
+    console.log(modifiedDamage);
     attackingUnit = this;
     defendingUnit = unitToAttack;
     counterID = setInterval(this.counterAttackAnimate, 10, modifiedDamage, unitToAttack);
