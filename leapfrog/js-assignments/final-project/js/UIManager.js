@@ -190,7 +190,7 @@ class UIManager{
     ){
       this.actionMenuCapture.style.display = 'inline-block';
       buildingsList.forEach((building) => {
-        if((building.capturedBy == this.token && building.tileX == selectedUnit.tileX && building.tileY == selectedUnit.tileY)){
+        if((building.capturedBy == window.mainGameLoop.token && building.tileX == selectedUnit.tileX && building.tileY == selectedUnit.tileY)){
           this.actionMenuCapture.style.display = 'none';
         }
       });
