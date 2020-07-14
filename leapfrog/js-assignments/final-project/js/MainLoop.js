@@ -238,9 +238,13 @@ class MainGameLoop{
   }
 
   generateBuildings(){
+    let factoryTiles = [501, 491, 535, 623, 579];
+    let buildingTiles = [500, 501, 490, 534, 491, 535, 622, 578, 623, 579];
     for(let c = 0; c < mainMap.cols; c++){
       for (let r = 0; r < mainMap.rows; r++){
         var tile = mainMap.getTile(1, c, r);
+        if(factoryTiles.includes(tile)) mainMap.setTile(1, c, r, 501);
+        else if (buildingTiles.includes(tile)) mainMap.setTile(1,c,r,500);
         if (tile !== 0){
           if(tile == 500){
             let newBuilding = new Building(c+1, r+1);
