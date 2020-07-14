@@ -139,15 +139,27 @@ class UIManager{
   addOnClickEventsToUnitMenu(){
     let unitMenuListItems = Array.from(document.querySelectorAll('.unit-menu-list > li'));
     unitMenuListItems.forEach((unitMenuListItem) => {
+      let unitMenuListItemName = unitMenuListItem.querySelector('.unit-menu-name');
       unitMenuListItem.onclick = () => {
-        if(currentPlayer.funds < selectedFactory.getPrice(unitMenuListItem.textContent)){
-          return;
+        if(currentPlayer.funds < selectedFactory.getPrice(unitMenuListItemName.textContent)){
+          soundManager.playWrongSelect();
+        }else{
+          selectedFactory.spawnUnit(unitMenuListItemName.textContent, this.unitMenu);
+          selectedFactory == undefined;
         }
-        selectedFactory.spawnUnit(unitMenuListItem.textContent, this.unitMenu);
-        selectedFactory == undefined;
+
       };
     });
     this.unitMenu.style.display = 'none';
+  }
+
+  setPrices(){
+    let unitMenuListItems = Array.from(document.querySelectorAll('.unit-menu-list > li'));
+    unitMenuListItems.forEach((unitMenuListItem) => {
+      let unitMenuListItemName = unitMenuListItem.querySelector('.unit-menu-name');
+      let unitMenuListItemPrice = unitMenuListItem.querySelector('.unit-menu-price');
+      unitMenuListItemPrice.textContent = '('+selectedFactory.getPrice(unitMenuListItemName.textContent)+')';
+    });
   }
 
   showMenu(){
@@ -244,7 +256,8 @@ class UIManager{
   disableUnitMenuItems = () => {
     let unitMenuListItems = Array.from(document.querySelectorAll('.unit-menu-list > li'));
     unitMenuListItems.forEach((unitMenuListItem) => {
-      if(currentPlayer.funds < selectedFactory.getPrice(unitMenuListItem.textContent)){
+      let unitMenuListItemName = unitMenuListItem.querySelector('.unit-menu-name');
+      if(currentPlayer.funds < selectedFactory.getPrice(unitMenuListItemName.textContent)){
         unitMenuListItem.classList.add('inactive-spawn');
       }else{
         unitMenuListItem.classList.remove('inactive-spawn');

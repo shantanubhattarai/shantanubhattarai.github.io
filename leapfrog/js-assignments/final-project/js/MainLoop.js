@@ -59,6 +59,7 @@ class MainGameLoop{
           buildingsList.forEach((building) => {
             if((building.capturedBy == this.token && building.tileX == clickedTile.tileX && building.tileY == clickedTile.tileY)){
               selectedFactory = building;
+              uiManager.setPrices();
               soundManager.playSelect();
               uiManager.disableUnitMenuItems();
               uiManager.unitMenu.style.display = 'block';
@@ -391,7 +392,7 @@ class MainGameLoop{
       player.update();
       player.unitList.forEach(unit => unit.draw(this.context));
     });
-
+    this.drawCaptureAnimation();
     this.drawBattleAnimation();
   }
 
