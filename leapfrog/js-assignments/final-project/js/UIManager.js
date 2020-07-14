@@ -47,12 +47,14 @@ class UIManager{
   initEndTurn(){
     this.endTurnButton.style.display = 'none';
     this.endTurnButton.onclick = () => {
+      soundManager.playSelect();
       window.mainGameLoop.switchToken();
     }
   }
 
   initMoveClick(){
     this.actionMenuMove.onclick = () => {
+      soundManager.playSelect();
       selectedUnit.startMovement();
       selectedUnit.actionState.current = selectedUnit.actionState.prepareMove;
       selectedUnit.actionState.currentState = 'idle';
@@ -63,6 +65,7 @@ class UIManager{
     this.actionMenuCapture.onclick = () => {
       buildingsList.forEach((building) => {
         if(building.tileX == selectedUnit.tileX && building.tileY == selectedUnit.tileY){
+          soundManager.playSelect();
           selectedUnit.startCaptureAnimate();
           building.captureProgress += 50;
           if(building.captureProgress == 100){
@@ -80,6 +83,7 @@ class UIManager{
 
   initAttackClick(){
     this.actionMenuAttack.onclick = () => {
+      soundManager.playSelect();
       selectedUnit.actionState.current = selectedUnit.actionState.prepareFire;
       selectedUnit.actionState.currentState = 'idle';
       selectedUnit.startAttack();
@@ -88,6 +92,7 @@ class UIManager{
 
   initWaitClick(){
     this.actionMenuWait.onclick = () => {
+      soundManager.playSelect();
       let oldSelectedUnit = selectedUnit;
       selectedUnit.movementPath = [];
       if(selectedUnit.loadedUnit !== undefined && selectedUnit.loadedUnit !== ''){
@@ -104,12 +109,14 @@ class UIManager{
 
   initCancelClick(){
     this.actionMenuCancel.onclick = () => {
+      soundManager.playSelect();
       selectedUnit.revertMove();
     }
   }
 
   initLoadClick(){
     this.actionMenuLoad.onclick = () => {
+      soundManager.playSelect();
       if(selectedUnit.loadedUnit !== undefined && selectedUnit.loadedUnit == ''){
         selectedUnit.generateLoadTiles();
         selectedUnit.actionState.current = selectedUnit.actionState.prepareLoad;
@@ -119,6 +126,7 @@ class UIManager{
 
   initDropClick(){
     this.actionMenuDrop.onclick  = () => {
+      soundManager.playSelect();
       selectedUnit.actionState.current = selectedUnit.actionState.prepareDrop;
       selectedUnit.generateDropTiles();
     }
@@ -144,6 +152,7 @@ class UIManager{
         if(currentPlayer.funds < selectedFactory.getPrice(unitMenuListItemName.textContent)){
           soundManager.playWrongSelect();
         }else{
+          soundManager.playSelect();
           selectedFactory.spawnUnit(unitMenuListItemName.textContent, this.unitMenu);
           selectedFactory == undefined;
         }

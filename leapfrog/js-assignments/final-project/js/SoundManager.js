@@ -5,6 +5,8 @@ class SoundManager{
     this.initWrongSelectSound();
     this.initAttackSound();
     this.initDamageSound();
+    this.initCaputureSound();
+    this.initCaputureCompleteSound();
   }
 
   initMusic = () => {
@@ -68,6 +70,30 @@ class SoundManager{
     this.damageAudio.load();
   }
 
+  initCaputureSound(){
+    let captureAudio = document.createElement("audio");
+    captureAudio.setAttribute("preload", "auto");
+    captureAudio.setAttribute("controls", "none");
+    captureAudio.style.display = "none";
+    captureAudio.volume = 0.1;
+    document.body.appendChild(captureAudio);
+    captureAudio.src = 'audio/capture.wav';
+    this.captureAudio = captureAudio;
+    this.captureAudio.load();
+  }
+
+  initCaputureCompleteSound(){
+    let captureCompleteAudio = document.createElement("audio");
+    captureCompleteAudio.setAttribute("preload", "auto");
+    captureCompleteAudio.setAttribute("controls", "none");
+    captureCompleteAudio.style.display = "none";
+    captureCompleteAudio.volume = 0.1;
+    document.body.appendChild(captureCompleteAudio);
+    captureCompleteAudio.src = 'audio/capturecomplete.wav';
+    this.captureCompleteAudio = captureCompleteAudio;
+    this.captureCompleteAudio.load();
+  }
+
   startMusic = () => {
     this.bgAudio.play();
   }
@@ -86,6 +112,14 @@ class SoundManager{
 
   playDamage = () => {
     this.damageAudio.play();
+  }
+
+  playCapture = () => {
+    this.captureAudio.play();
+  }
+
+  playCaptureComplete = () => {
+    this.captureCompleteAudio.play();
   }
 
   setVolume(volume){

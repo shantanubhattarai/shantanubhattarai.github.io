@@ -16,6 +16,7 @@ class Building{
   }
 
   getCaptured(player){
+    soundManager.playCaptureComplete();
     this.capturedBy = window.mainGameLoop.token;
     this.color = player.color;
     this.setNewTile();
