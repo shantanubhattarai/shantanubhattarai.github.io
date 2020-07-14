@@ -30,10 +30,16 @@ class Factory extends Building{
     }
   }
 
+  /** Gets price of any unit
+   * @param unitType unit to get price of, string
+   */
   getPrice = (unitType) =>{
     return this.pricesList[unitType];
   }
 
+  /** Get caputred by selected player
+   * @param player player to get captured by
+   */
   getCaptured(player){
     soundManager.playCaptureComplete();
     this.capturedBy = window.mainGameLoop.token;
@@ -44,6 +50,10 @@ class Factory extends Building{
     currentPlayer.capturedBuildings.push(this);
   }
 
+  /** Spawns a unit
+   * @param unitType uni ttype to spawn, string
+   * @param unitMenu menu to disable after spawning
+   */
   spawnUnit(unitType, unitMenu){
     let newUnit = currentPlayer.addUnit(this.tileX, this.tileY, unitType);
     newUnit.actionState.current = newUnit.actionState.inactive;

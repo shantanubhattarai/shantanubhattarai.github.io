@@ -110,6 +110,12 @@ class Battleship extends Unit{
     });
   }
 
+  /** Generates Movement Tiles only on water
+   * @param startX starting x position of selected unit
+   * @param startY starting y position of selected unit
+   * @param count range of unit from tile
+   * @param moveCost movemencost to move on this tile
+   */
   generateMovementTiles(startX, startY, count, moveCost){
     let xyOffsets = [[0,0], [-1, 0], [1,0], [0, -1], [0,1]];
     let i = 0;

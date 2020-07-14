@@ -76,6 +76,9 @@ class APC extends Unit{
     }
   }
 
+  /**
+   * Generates tiles to represent range for carrying other units
+   */
   generateLoadTiles = () => {
     this.loadGrid = [];
     let xyOffsets = [[-1, 0], [1,0], [0, -1], [0,1]];
@@ -88,6 +91,12 @@ class APC extends Unit{
     });
   }
 
+  /**
+   * Draws rectangles to indicate load tiles
+   * @param x x position to draw tile on
+   * @param y y position to draw tile on
+   * @param context context to draw in
+   */
   drawLoadTiles(x, y, context){
     context.fillStyle = 'rgba(180,120,0, 0.4)';
     context.strokeStyle = 'rgba(180,180,0,0.8)';
@@ -98,6 +107,9 @@ class APC extends Unit{
     context.closePath();
   }
 
+  /** loads unit into this unit
+   * @param unitToLoad - unit to carry in this unit
+   */
   loadUnit(unitToLoad){
     this.loadedUnit = unitToLoad;
     this.loadedUnit.drawState = false;
@@ -112,6 +124,9 @@ class APC extends Unit{
     currentPlayer.increaseCounter();
   }
 
+  /**
+   * Generates tiles to represent where loaded unit can be dropped
+   */
   generateDropTiles = () => {
     this.dropGrid = [];
     let xyOffsets = [[-1, 0], [1,0], [0, -1], [0,1]];
@@ -131,6 +146,11 @@ class APC extends Unit{
     });
   }
 
+  /** Draws generated drop tiles
+   * @param x  x position to draw tile in
+   * @param y y position to draw tile in
+   * @param context context to draw tile in
+   */
   drawDropTiles(x, y, context){
     context.fillStyle = 'rgba(180,120,0, 0.4)';
     context.strokeStyle = 'rgba(180,180,0,0.8)';
@@ -141,6 +161,9 @@ class APC extends Unit{
     context.closePath();
   }
 
+  /** Drops unit at clicked Tile
+   * @param clickedTile position of clicked tile
+   */
   dropUnit(clickedTile){
     this.dropGrid = [];
     this.loadedUnit.tileX = clickedTile.tileX;

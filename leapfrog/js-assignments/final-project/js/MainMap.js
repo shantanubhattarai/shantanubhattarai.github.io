@@ -1,3 +1,4 @@
+/** Defines the main map for the game */
 const mainMap = {
   cols: 32,
   rows: 28,
@@ -65,13 +66,30 @@ const mainMap = {
     113 ,2   ,2   ,0   ,2   ,2   ,7   ,2   ,29  ,29  ,29  ,0   ,500 ,500 ,501 ,2   ,2   ,2   ,29  ,27  ,2   ,0   ,0   ,0   ,2   ,2   ,2   ,2   ,2   ,2   ,2   ,111 ,
     120 ,113 ,0   ,2   ,5   ,5   ,28  ,5   ,28  ,28  ,28  ,2   ,2   ,2   ,2   ,2   ,2   ,5   ,28  ,28  ,5   ,2   ,2   ,2   ,2   ,5   ,5   ,5   ,2   ,2   ,111 ,141
   ]
-],
+  ],
+  /** Gets tile at given position and layer
+   * @param layer layer to find tile on
+   * @param col column to find tile on
+   * @param row row to find tile on
+   */
   getTile: function(layer, col,row){
     return this.layers[layer][row * this.cols + col];
   },
+  /**
+   * Sets tile at given position
+   * @param layer layer to set new tile on
+   * @param col column to set new tile on
+   * @param row row to set new tile on
+   * @param newTile tile to set at given col,row
+   */
   setTile: function(layer, col, row, newTile){
     this.layers[layer][row * this.cols + col] = newTile;
   },
+  /** Get how walkable a tile is
+   * increasing value denotes lower walkability
+   * @param tileX x position of tile
+   * @param tileY y postion of tile
+   */
   getTileWalkable(tileX, tileY){
     // let normalWalk = []; fill these with tiles representing each, then just array includes below
     let slowWalk = [2,3];
@@ -93,6 +111,10 @@ const mainMap = {
       return walkableLevel;
     });
   },
+  /** Gets how much range one tile counts as
+   * @param tileX x position of tile
+   * @param tileY y position of tile
+   */
   getTileMoveCost(tileX, tileY){
     //for setting to 1, return 9 and check for 9 then reduce count to 1.
     return this.layers.reduce(() => {
@@ -103,6 +125,10 @@ const mainMap = {
       }
     });
   },
+  /**Get if tile has players from opposing teams
+   * @param tileX x position of tile
+   * @param tileY y position of tile
+   */
   getTileHasOpposingPlayer(tileX, tileY){
     let hasCollided = false;
     playerList.forEach(valueP => {
@@ -116,6 +142,10 @@ const mainMap = {
     });
     return hasCollided;
   },
+  /** Gets if tile is buidling
+   * @param tileX x position of tile
+   * @param tileY y position of tile
+   */
   getTileIsBuilding(tileX, tileY){
     let isBuilding = false;
     let buildingTiles = [500, 501, 490, 534, 491, 535, 622, 578, 623, 579];
@@ -124,6 +154,10 @@ const mainMap = {
     }
     return isBuilding;
   },
+  /** Gets if tile is factory
+   * @param tileX x position of tile
+   * @param tileY y position of tile
+   */
   getTileIsFactory(tileX, tileY){
     let isFactory = false;
     let factoryTiles = [501, 491, 535, 623, 579];
@@ -132,6 +166,10 @@ const mainMap = {
     }
     return isFactory;
   },
+  /** Gets if tile has unit
+   * @param tileX x position of tile
+   * @param tileY y position of tile
+   */
   getTileHasUnit(tileX, tileY){
     let hasCollided = false;
     playerList.forEach(valueP => {
@@ -143,6 +181,10 @@ const mainMap = {
     });
     return hasCollided;
   },
+  /** Gets which unit the tile has
+   * @param tileX x position of tile
+   * @param tileY y position of tile
+   */
   getUnitOnTile(tileX, tileY){
     let unitOnTile = undefined;
     playerList.forEach(valueP => {
@@ -154,6 +196,10 @@ const mainMap = {
     });
     return unitOnTile;
   },
+  /** get if tile has units of current active player
+   * @param tileX xposition of tile
+   * @param tileY yposition of tile
+   */
   getTileHasPlayerUnit(tileX, tileY){
     let playerUnit = undefined;
     currentPlayer.unitList.forEach(valueU => {

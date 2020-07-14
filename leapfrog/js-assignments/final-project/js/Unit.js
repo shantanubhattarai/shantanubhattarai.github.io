@@ -1,3 +1,4 @@
+/** Defines which units can attack each other */
 const attackMatrix = {
   'Infantry':['Infantry','Mech','Tank','MD Tank','Artillery','Recon','Helicopter','Anti Air','Missile Launcher','Rocket Launcher', 'APC', 'Transport Copter'],
   'Mech':['Infantry','Mech','Tank','MD Tank','Artillery','Recon','Helicopter','Anti Air','Missile Launcher','Rocket Launcher', 'APC', 'Transport Copter'],
@@ -17,11 +18,18 @@ const attackMatrix = {
   'Transport Copter': []
 };
 
+/** Variables for idle, capture and battle animations */
 let frames = 0;
 let animationFrame = 0;
 let fadeId = 0;
 let battleID = 0;
 let counterID = 0;
+
+/** Declares a unit - interactable characters for each player
+ * @param tileX which tile to spawn in  - X tile number
+ * @param tileY which tile to spawn in - Y tile number
+ * @param color which player to spawn for - takes 'red', 'blue', 'green' and 'yellow'
+ */
 class Unit{
   constructor(tileX, tileY, color){
     this.tileX = tileX;
@@ -86,6 +94,10 @@ class Unit{
     }
   }
 
+  /** returns true if array is inside another array
+   * @param arr - array to search inside
+   * @param item - array to search for in arr
+   */
   isArrayinArray(arr, item){
     var itemAsString = JSON.stringify(item);
     var contains = arr.some((value) => {
@@ -94,6 +106,11 @@ class Unit{
     return contains;
   }
 
+
+  /** returns true if possible movement from already generated tile is greater than this  new tile
+   * @param arr - array of already generated tiles
+   * @param item - new tile to generate
+   */
   isCountGreaterThanExisting(arr, item){
     var itemAsString = JSON.stringify([item[0], item[1]]);
     for(let i = 0; i < arr.length; i++){
@@ -104,6 +121,13 @@ class Unit{
     return false;
   }
 
+  /**
+   * Generates possible movement tiles for selected unit
+   * @param startX starting X tile of selected unit
+   * @param startY starting Y tile of selected unit
+   * @param count number of moves left from tile
+   * @param moveCost movement cost for this unit on this tile
+   */
   generateMovementTiles(startX, startY, count, moveCost){
     let xyOffsets = [[0,0], [-1, 0], [1,0], [0, -1], [0,1]];
     let i = 0;
@@ -140,6 +164,7 @@ class Unit{
     }
   }
 
+  /** Generates attack tiles for selected unit */
   generateAttackTiles(){
     // add more offsets for different ranges
     this.attackGrid = [];
@@ -153,6 +178,7 @@ class Unit{
     });
   }
 
+  /** Checks if selected unit is standing on a self captured building */
   checkOnCapturedBuilding(){
     let capturedPositions = currentPlayer.capturedBuildings.map((value) => {
       return [value.tileX, value.tileY];
@@ -162,15 +188,26 @@ class Unit{
     }
   }
 
+  /**Increases unit's HP
+   * @param amount amount to increase HP by
+   */
   increaseHP(amount){
     this.hp += amount;
     if(this.hp > this.maxHP) this.hp = this.maxHP;
   }
 
+    /**Sets unit's HP
+   * @param amount amount to set HP to
+   */
   setHP(amount){
     this.hp = amount;
   }
 
+  /** Draw rectangles to represent movement tiles
+   * @param x x position to start drawing in
+   * @param y y position to start drawing in
+   * @param context context to draw in
+   */
   drawMovementTiles(x, y, context){
     context.fillStyle = 'rgba(255,255,255, 0.5)';
     context.strokeStyle = 'rgba(255,255,255, 0.8)';
@@ -181,6 +218,11 @@ class Unit{
     context.closePath();
   }
 
+  /** Draw rectangles to represent attack tiles
+   * @param x x position to start drawing in
+   * @param y y position to start drawing in
+   * @param context context to draw in
+   */
   drawAttackTiles(x, y, context){
     context.fillStyle = 'rgba(255,0,0, 0.4)';
     context.strokeStyle = 'rgba(255,0,0,0.8)';
@@ -191,6 +233,7 @@ class Unit{
     context.closePath();
   }
 
+  /** Revert movement to starting position */
   revertMove(){
     if(this.movementPath.length > 0){
       this.tileX = this.movementPath[0].x;
@@ -204,6 +247,7 @@ class Unit{
     selectedUnit = undefined;
   }
 
+  /** Detect if there is enemy in selected unit's attack tiles */
   enemyInAttackTiles(){
     var enemyFound = false;
     this.attackGrid.forEach((valueT) => {
@@ -221,11 +265,13 @@ class Unit{
     return enemyFound;
   }
 
+  /**Starts capture animation */
   startCaptureAnimate = () => {
     capturingUnit = this;
     fadeId = setInterval(this.captureAnimate, 10);
   }
 
+  /** Defines capture animation Timings*/
   captureAnimate = () => {
     this.captureCounter += 1;
     soundManager.playCapture();
@@ -238,6 +284,7 @@ class Unit{
     }
   }
 
+  /** Draw necessary sprites for this unit, includes movement grid, attack grid, load grid, drop grid, idle animation */
   draw(context){
     if(!this.drawState){
       return;
@@ -273,6 +320,7 @@ class Unit{
     }
   }
 
+  /** Defines Capture animation sprites */
   drawCapture(){
     if(this.captureCounter > 0){
       context.drawImage(captBG,240,200,240,300);
@@ -280,20 +328,27 @@ class Unit{
     }
   }
 
+  /** Returns tile position of this unit */
   getTilePos(){
     return {tileX: this.tileX, tileY: this.tileY};
   }
 
+
+  /** starts movement */
   startMovement = () => {
     this.drawGrid = true;
     this.generateMovementTiles(this.tileX, this.tileY, this.range, 0);
   }
 
+  /** starts attack */
   startAttack = () => {
     this.drawAttackGrid = true;
     this.generateAttackTiles();
   }
 
+  /** attack clicked unit
+   * @param unitToAttack which unit to attack
+  */
   attack = (unitToAttack) => {
     if(!this.isArrayinArray(this.attackGrid, [unitToAttack.tileX, unitToAttack.tileY])){
       this.drawAttackGrid = false;
@@ -316,6 +371,10 @@ class Unit{
     this.actionState.currentState = 'inactive';
   }
 
+  /** start battle animation
+   * @param modifiedDamage amount of damage to inflict
+   * @param unitToAttack which unit to attack
+  */
   battleAnimate = (modifiedDamage, unitToAttack) => {
     this.battleCounter += 1;
     this.battlePhase = true;
@@ -333,6 +392,10 @@ class Unit{
     }
   }
 
+  /** start counter attack animation
+   * @param modifiedDamage amount of damage to inflict
+   * @param unitToAttack which unit to counter attack
+  */
   counterAttackAnimate = (modifiedDamage, unitToAttack) => {
     this.battleCounter += 1;
     this.counterPhase = true;
@@ -349,6 +412,9 @@ class Unit{
     }
   }
 
+  /** inflict counter attack damage
+   * @param unitToAttack which unit to attack
+   */
   counterAttack = (unitToAttack) => {
     this.generateAttackTiles();
     if(!this.isArrayinArray(this.attackGrid, [unitToAttack.tileX, unitToAttack.tileY])){
@@ -365,15 +431,26 @@ class Unit{
     if(modifiedDamage > unitToAttack.hp) {currentPlayer.funds += 400};
   }
 
+  /** Take damage
+   * @param damage reduce unit's hp by damage
+   */
   takeDamage = (damage) => {
     this.hp -= damage;
     this.hp = Math.round(this.hp);
   }
 
+  /**
+   * Heuristic function for pathfinding
+   * @param tileX - x position of tile to find heuristics for
+   * @param tileY - y position of tile to find heuristics for
+   */
   heuristic = (tileX, tileY) => {
     return Math.abs(tileX - this.toMoveTotileX) + Math.abs(tileY - this.toMoveTotileY);
   }
 
+  /** Get neighbouring tiles from current tile
+   * @param current - current tile
+   */
   getNeighbours = (current) =>{
     let results = [
       [current.x + 1, current.y], [current.x, current.y-1],
@@ -385,9 +462,13 @@ class Unit{
     results = results.filter((value) => {
       return !mainMap.getTileHasOpposingPlayer(value[0], value[1]) && mainMap.getTileWalkable(value[0]-1, value[1]-1) <= this.walkableLevel;
     });
+    results = results.filter((value) => {
+      return this.isArrayinArray(this.movementGrid, value);
+    });
     return results;
   }
 
+  /** Finds path for player to walk on based on movement grid */
   pathfinder = () => {
     let frontier = new PriorityQueue();
     let start = {
@@ -420,10 +501,14 @@ class Unit{
     }
   }
 
+  /** Sets if the unit is to be drawn or not
+   * @param drawState bool, true to draw unit, false to stop drawing unit
+  */
   setDraw = (drawState) => {
     this.draw = drawState;
   }
 
+  /** Updates unit position */
   update = () => {
     if(this.actionState.current == this.actionState.move && selectedUnit == this){
       var newPos = {
@@ -459,6 +544,10 @@ class Unit{
       }
   }
 
+  /** sets which tile to move to
+   * @param tileX x position of tile to move to
+   * @param tileY y position of tile to move to
+   */
   moveTo = (tileX, tileY) => {
     if(!this.isArrayinArray(this.movementGrid, [tileX, tileY]) || currentPlayer.isUnitOnTile(tileX, tileY)){
       soundManager.playWrongSelect();
