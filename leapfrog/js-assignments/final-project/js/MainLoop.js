@@ -12,6 +12,7 @@ class MainGameLoop{
     this.lostPlayers = [];
     this.setToken(0);
     this.alphaModifier = 1;
+    this.xModifier = 0;
     this.gameState = {
       current: 0,
       start: 0,
@@ -330,23 +331,26 @@ class MainGameLoop{
         this.context.drawImage(battleBG, defendingBG.x, defendingBG.y, 130, 162, 0, 0, this.canvas.width/2 + 5, this.canvas.height);
       }
       for(let i = 0; i < attackingUnit.hp / 2; i++){
-        this.context.drawImage(attackerSprite, attackingUnit.spritePos[attackingUnit.color]['idle'][animationFrame].x, attackingUnit.spritePos[attackingUnit.color]['idle'][animationFrame].y, 16, 16, attackingUnitsXPos + attackDirectionModifier * i * 25, 300 + i * 50, 128, 128);
+        this.context.drawImage(attackerSprite, attackingUnit.spritePos[attackingUnit.color]['idle'][animationFrame].x, attackingUnit.spritePos[attackingUnit.color]['idle'][animationFrame].y, 16, 16, this.xModifier + attackingUnitsXPos + attackDirectionModifier * i * 25, 200 + i * 50, 128, 128);
       }
       for(let i = 0; i < defendingUnit.hp / 2; i++){
-        this.context.drawImage(defenderSprite, defendingUnit.spritePos[defendingUnit.color]['idle'][animationFrame].x, defendingUnit.spritePos[defendingUnit.color]['idle'][animationFrame].y, 16, 16, counterAttackingUnitsXPos + defenseDirectionModifier * i * 25, 300 + i * 50, 128, 128);
+        this.context.drawImage(defenderSprite, defendingUnit.spritePos[defendingUnit.color]['idle'][animationFrame].x, defendingUnit.spritePos[defendingUnit.color]['idle'][animationFrame].y, 16, 16, counterAttackingUnitsXPos + defenseDirectionModifier * i * 25 - this.xModifier, 200 + i * 50, 128, 128);
       }
-
+      //draw attack animation
       if(attackingUnit.battleCounter > 48 && attackingUnit.battleCounter < 96){
-        this.context.drawImage(mainHUDSheet, attackingUnit.attackSprites[attackingDirection][attackingUnit.battleAnimFrame].x, attackingUnit.attackSprites[attackingDirection][attackingUnit.battleAnimFrame].y, 48, 48, attackingUnitsXPos + attackPosModifier, 300, 192, 192);
+        this.context.drawImage(mainHUDSheet, attackingUnit.attackSprites[attackingDirection][attackingUnit.battleAnimFrame].x, attackingUnit.attackSprites[attackingDirection][attackingUnit.battleAnimFrame].y, 48, 48, attackingUnitsXPos + attackPosModifier, 200, 192, 192);
       }
+      //draw damage animation
       if(attackingUnit.battleCounter > 136){
-        this.context.drawImage(mainHUDSheet, defendingUnit.damageSprites[attackingUnit.battleAnimFrame].x, defendingUnit.damageSprites[attackingUnit.battleAnimFrame].y, 32, 32, counterAttackingUnitsXPos, 300, 192, 192);
+        this.context.drawImage(mainHUDSheet, defendingUnit.damageSprites[attackingUnit.battleAnimFrame].x, defendingUnit.damageSprites[attackingUnit.battleAnimFrame].y, 32, 32, counterAttackingUnitsXPos, 200, 192, 192);
       }
       if(attackingUnit.battleCounter > 180){
         this.alphaModifier = 1;
+        this.xModifier = 0;
       }
       if(attackingUnit.battleCounter > 0 && attackingUnit.battleCounter <= 48){
         this.alphaModifier -= 1/24;
+        if(attackingDirection == 'right') this.xModifier += 1;
       }
       this.drawBattleOverlay();
     }else{
