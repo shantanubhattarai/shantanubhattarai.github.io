@@ -13,6 +13,7 @@ class SoundManager{
     bgAudio.setAttribute("controls", "none");
     bgAudio.style.display = "none";
     bgAudio.volume = 0.05;
+    bgAudio.loop = true;
     document.body.appendChild(bgAudio);
     bgAudio.src = 'audio/main-battle-theme.mp3';
     this.bgAudio = bgAudio;
