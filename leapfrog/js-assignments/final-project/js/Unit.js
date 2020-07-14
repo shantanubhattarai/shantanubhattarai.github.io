@@ -460,6 +460,7 @@ class Unit{
 
   moveTo = (tileX, tileY) => {
     if(!this.isArrayinArray(this.movementGrid, [tileX, tileY]) || currentPlayer.isUnitOnTile(tileX, tileY)){
+      soundManager.playWrongSelect();
       this.drawGrid = false;
       this.movementGrid = [];
       this.count = 0;
@@ -467,7 +468,7 @@ class Unit{
       this.actionState.currentState = 'idle';
       return;
     }
-
+    soundManager.playSelect();
     this.toMoveTotileX = tileX;
     this.toMoveTotileY = tileY;
     this.actionState.current = this.actionState.move;

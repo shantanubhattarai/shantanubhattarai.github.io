@@ -13,6 +13,8 @@ class MainGameLoop{
     this.setToken(0);
     this.alphaModifier = 1;
     this.xModifier = 0;
+    this.playingAttack = false;
+    this.playingDamage = false;
     this.gameState = {
       current: 0,
       start: 0,
@@ -57,6 +59,7 @@ class MainGameLoop{
           buildingsList.forEach((building) => {
             if((building.capturedBy == this.token && building.tileX == clickedTile.tileX && building.tileY == clickedTile.tileY)){
               selectedFactory = building;
+              soundManager.playSelect();
               uiManager.disableUnitMenuItems();
               uiManager.unitMenu.style.display = 'block';
             }
@@ -67,10 +70,12 @@ class MainGameLoop{
         }
 
         if(selectedUnit !== undefined && selectedUnit.actionState.current == selectedUnit.actionState.prepareMove){
+          soundManager.playSelect();
           selectedUnit.moveTo(clickedTile.tileX, clickedTile.tileY);
         }else if(selectedUnit !== undefined && selectedUnit.actionState.current == selectedUnit.actionState.prepareFire){
           let isUnitClicked = this.checkIfClickedOnEnemy(clickedTile);
           if(!isUnitClicked){
+            soundManager.playWrongSelect();
             selectedUnit.drawAttackGrid = false;
             selectedUnit.attackGrid = [];
             selectedUnit.actionState.current = selectedUnit.actionState.selectingAction;
@@ -83,6 +88,7 @@ class MainGameLoop{
               let clickedUnit = mainMap.getTileHasPlayerUnit(clickedTile.tileX, clickedTile.tileY)
               if(clickedUnit !== undefined && clickedUnit !== selectedUnit && clickedUnit.type == "Infantry" || clickedUnit.type == "Mech"){
               selectedUnit.loadUnit(clickedUnit);
+              soundManager.playSelect();
             }
           }else{
             selectedUnit.loadGrid = [];
@@ -90,6 +96,7 @@ class MainGameLoop{
           }
         }else if(selectedUnit !== undefined && selectedUnit.actionState.current == selectedUnit.actionState.prepareDrop){
           if(selectedUnit.isArrayinArray(selectedUnit.dropGrid, [clickedTile.tileX, clickedTile.tileY])){
+            soundManager.playSelect();
             selectedUnit.dropUnit(clickedTile);
           }else{
           selectedUnit.dropGrid = [];
@@ -107,16 +114,17 @@ class MainGameLoop{
           return;
         }
         valueU.generateAttackTiles();
-          if(valueU.enemyInAttackTiles()){
-            selectedUnit = valueU;
-            valueU.actionState.current = selectedUnit.actionState.selectingAction;
-            valueU.actionState.currentState = 'idle';
-          }else{
-            valueU.startMovement();
-            selectedUnit = valueU;
-            selectedUnit.actionState.current = selectedUnit.actionState.prepareMove;
-            selectedUnit.actionState.currentState = 'idle';
-          }
+        soundManager.playSelect();
+        if(valueU.enemyInAttackTiles()){
+          selectedUnit = valueU;
+          valueU.actionState.current = selectedUnit.actionState.selectingAction;
+          valueU.actionState.currentState = 'idle';
+        }else{
+          valueU.startMovement();
+          selectedUnit = valueU;
+          selectedUnit.actionState.current = selectedUnit.actionState.prepareMove;
+          selectedUnit.actionState.currentState = 'idle';
+        }
       }
     });
   }
@@ -132,6 +140,7 @@ class MainGameLoop{
               selectedUnit.actionState.current = selectedUnit.actionState.inactive;
               selectedUnit.actionState.currentState = 'inactive';
               isUnitClicked = true;
+              soundManager.playSelect();
               currentPlayer.increaseCounter();
               //window.mainGameLoop.switchToken();
             }
@@ -339,15 +348,21 @@ class MainGameLoop{
       }
       //draw attack animation
       if(attackingUnit.battleCounter > 48 && attackingUnit.battleCounter < 96){
+        if(!this.playingAttack) soundManager.playAttack();
+        this.playingAttack = true;
         this.context.drawImage(mainHUDSheet, attackingUnit.attackSprites[attackingDirection][attackingUnit.battleAnimFrame].x, attackingUnit.attackSprites[attackingDirection][attackingUnit.battleAnimFrame].y, 48, 48, attackingUnitsXPos + attackPosModifier, 200, 192, 192);
       }
       //draw damage animation
       if(attackingUnit.battleCounter > 136){
+        if(!this.playingDamage) soundManager.playDamage();
+        this.playingDamage = true;
         this.context.drawImage(mainHUDSheet, defendingUnit.damageSprites[attackingUnit.battleAnimFrame].x, defendingUnit.damageSprites[attackingUnit.battleAnimFrame].y, 32, 32, counterAttackingUnitsXPos, 200, 192, 192);
       }
       if(attackingUnit.battleCounter > 180){
         this.alphaModifier = 1;
         this.xModifier = 0;
+        this.playingAttack = false;
+        this.playingDamage = false;
       }
       if(attackingUnit.battleCounter > 0 && attackingUnit.battleCounter <= 48){
         this.alphaModifier -= 1/24;
