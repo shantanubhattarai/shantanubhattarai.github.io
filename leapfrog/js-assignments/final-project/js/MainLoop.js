@@ -28,6 +28,7 @@ class MainGameLoop{
       }
       else if(this.gameState.current == this.gameState.start){
         this.gameState.current = this.gameState.running;
+        soundManager.startMusic();
         this.init();
       }else if(this.gameState.current == this.gameState.gameOver){
         this.gameState.current = this.gameState.running;
@@ -473,4 +474,5 @@ function initializePlayers(){
 // player4.addUnit(14, 16, 'Battleship');
 initializePlayers();
 var uiManager = new UIManager();
+var soundManager = new SoundManager();
 var mainGameLoop = new MainGameLoop();
