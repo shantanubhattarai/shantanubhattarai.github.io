@@ -102,6 +102,7 @@ class Player{
   update(){
     this.getActiveFactories();
     if(this.unitList.length + this.activeFactories.length < 5) this.actions = this.unitList.length + this.activeFactories.length;
+    else this.actions = 5;
     this.unitList.forEach((valueU) => {
       if(valueU.hp <= 0) {
         let indexToRemove = this.unitList.indexOf(valueU);

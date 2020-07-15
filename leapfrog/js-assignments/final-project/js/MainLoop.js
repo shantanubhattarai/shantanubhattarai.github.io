@@ -460,15 +460,12 @@ function initializePlayers(){
   let player3 = new Player('green');
   let player4 = new Player('yellow');
   playerList = [];
-  player1.addUnit(10,8,'Rocket Launcher');
-  player1.addUnit(11,10,'Bomber');
-  player1.addUnit(12,10,'Fighter');
-  player1.addUnit(10,9,'Infantry');
-  player1.addUnit(12,12,'APC');
-  player1.addUnit(14, 13, 'Cruiser');
-  player2.addUnit(10,11,'Rocket Launcher');
-  player2.addUnit(10,12,'Tank');
-  player2.addUnit(10,20,'Infantry');
+  player1.addUnit(9,9,'Infantry');
+  player1.addUnit(6,9,'Infantry');
+
+  player2.addUnit(10,23,'Infantry');
+  player2.addUnit(6,23,'Infantry');
+
   playerList.push(player1);
   playerList.push(player2);
   playerList.push(player3);
