@@ -8,6 +8,7 @@ class MainGameLoop{
     this.canvas.height = mainMap.rows * mainMap.tsize;
     this.context = this.canvas.getContext('2d');
     this.context.imageSmoothingEnabled = false;
+    this.canvas.style.display = 'inline-block';
     this.token = 0;
     this.lostPlayers = [];
     this.setToken(0);
@@ -463,7 +464,7 @@ function initializePlayers(){
   player1.addUnit(9,9,'Infantry');
   player1.addUnit(6,9,'Infantry');
 
-  player2.addUnit(10,23,'Infantry');
+  player2.addUnit(6,10,'Infantry');
   player2.addUnit(6,23,'Infantry');
 
   playerList.push(player1);
@@ -489,7 +490,6 @@ function initializePlayers(){
 // player4.addUnit(4, 9, 'Bomber');
 // player4.addUnit(8, 9, 'Recon');
 // player4.addUnit(14, 16, 'Battleship');
-initializePlayers();
 var uiManager = new UIManager();
 var soundManager = new SoundManager();
-var mainGameLoop = new MainGameLoop();
+// var mainGameLoop = new MainGameLoop();
