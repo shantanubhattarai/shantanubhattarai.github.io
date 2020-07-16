@@ -6,6 +6,7 @@ class LevelEditor{
     this.mapWidth = mainMap.cols * mainMap.tsize;
     this.canvas = document.querySelector('#main-canvas');
     this.context = this.canvas.getContext('2d');
+    this.context.imageSmoothingEnabled = false;
     this.canvas.style.display = 'inline-block';
     this.canvas.width = mainMap.cols * mainMap.tsize;
     this.canvas.height = 850;
@@ -15,11 +16,20 @@ class LevelEditor{
     this.canvas.addEventListener('mousemove', this.mouseMoveEventHandler);
     this.mapTilesImage = document.createElement('img');
     this.mapTilesImage.src = './img/RoadTiles.png';
-    this.tilesToDraw = [1, 27, 77, 79, 81, 10, 76, 56, 12, 2, 3, 5, 7, 28, 29, 111, 112, 113, 155, 156, 157, 137, 120, 122, 141, 134, 135, 500, 501];
+    this.tilesToDraw = [1, 27, 77, 79, 81, 10, 76, 63, 56, 12, 2, 3, 5, 7, 28, 29, 111, 112, 113, 155, 156, 157, 137, 120, 122, 141, 134, 135, 500, 501];
     this.sourceTile = 0;
+    this.sourceType = 'tile';
     this.mapTilesImage.addEventListener('load', this.render);
+    this.spawnableUnits = [];
+    this.spritePos = {
+      red: {x: 3, y: 104},
+      blue:{x: 392, y: 104},
+      green:{x: 3, y: 672},
+      yellow:{x: 392, y: 672}
+    };
     this.drawGrid();
     this.initLowerLayer();
+    this.context.imageSmoothingEnabled = false;
   }
 
   getTileFromNewMap(layer, col, row){
@@ -37,23 +47,50 @@ class LevelEditor{
       y: e.clientY - rect.top
     }
 
+    this.checkClickSourceTiles(mousePos);
+    this.checkClickUnits(mousePos);
+    this.checkClickDrawGrid(mousePos);
+  }
+
+  checkClickSourceTiles = (mousePos) => {
     if(mousePos.y > this.mapHeight + 10 && mousePos.y < (this.mapHeight + 10 + mainMap.tsize) && mousePos.x < this.tilesToDraw.length * mainMap.tsize){
       let tileX = Math.floor(mousePos.x/ mainMap.tsize);
       let tileY = Math.floor((mousePos.y - this.mapHeight - 10)/ mainMap.tsize);
       let sourceIndex = tileY * this.tilesToDraw.length + tileX;
+      this.sourceType = 'tile';
       this.sourceTile = this.tilesToDraw[sourceIndex];
     }
+  }
 
+  checkClickUnits = (mousePos) => {
+    if(mousePos.y > this.mapHeight + 50 && mousePos.y < (this.mapHeight + 50 + mainMap.tsize) && mousePos.x < 4 * mainMap.tsize){
+      let tileX = Math.floor(mousePos.x/ mainMap.tsize);
+      let tileY = Math.floor(mousePos.y/ mainMap.tsize);
+      this.sourceType = 'unit';
+      this.spawnableUnits.forEach((unit) => {
+        if(tileX == unit.tileX && tileY == unit.tileY){
+          this.sourceTile = unit;
+        }
+      });
+    }
+  }
+
+  checkClickDrawGrid = (mousePos) => {
     if(mousePos.y < this.mapHeight && mousePos.x < mainMap.cols * mainMap.tsize){
       let tileX = Math.floor(mousePos.x/ mainMap.tsize);
       let tileY = Math.floor(mousePos.y/ mainMap.tsize);
       let targetTile = tileY * mainMap.cols + tileX;
-      this.layers[1][targetTile] = this.sourceTile;
+      if(this.sourceType == 'tile') this.layers[1][targetTile] = this.sourceTile;
+      else{
+        this.sourceTile.tileX = tileX + 1;
+        this.sourceTile.tileY = tileY + 1;
+        unitsToSpawn.push(this.sourceTile);
+        this.sourceTile = 0;
+        this.sourceType = 'tile';
+      }
       this.context.clearRect(tileX * mainMap.tsize, tileY * mainMap.tsize, mainMap.tsize, mainMap.tsize);
       this.render();
     }
-
-    //replace layers[1][x] on click, x is tilePos where clicked
   }
 
   mouseMoveEventHandler = () => {
@@ -93,7 +130,8 @@ class LevelEditor{
     ];
   }
 
-  drawInteratableTiles = () => {
+  drawInteractableTiles = () => {
+    let colors = ['red', 'blue', 'green', 'yellow'];
     for(let c = 0; c < this.tilesToDraw.length; c++){
       for (let r = 0; r < 2; r++){
         var tile = this.getInteractableTiles(c,r);
@@ -112,31 +150,21 @@ class LevelEditor{
         }
       }
     }
-    for(let c = 0; c < 4; c++){
-      /*this.context.drawImage(
-        mainSpriteSheet,
-        this.spritePos[this.color].x,
-        this.spritePos[this.color].y,
-        mainMap.sourceSize-1,
-        mainMap.sourceSize-1,
-        this.x,
-        this.y,
-        mainMap.tsize,
-        mainMap.tsize
-      );*/
+    for(let i = 0; i < 4; i++){
+      let unit  = new Unit(i, Math.floor((this.mapHeight + 50)/mainMap.tsize)  + 1, colors[i]);
+      this.spawnableUnits.push(unit);
       this.context.drawImage(
         mainSpriteSheet,
-        3,
-        104,
+        this.spritePos[colors[i]].x,
+        this.spritePos[colors[i]].y,
         mainMap.sourceSize-1,
         mainMap.sourceSize-1,
-        c * (mainMap.tsize),
+        i * (mainMap.tsize),
         this.mapHeight + 50,
         mainMap.tsize,
         mainMap.tsize
       );
     }
-
   }
 
   drawLayer = (layer) => {
@@ -175,12 +203,28 @@ class LevelEditor{
     this.context.stroke();
   }
 
-  render = () => {
-    this.drawLayer(0);
-    this.drawGrid();
-    this.drawLayer(1);
-    this.drawInteratableTiles();
-    // window.requestAnimationFrame(this.render);
+  drawUnits = () => {
+    unitsToSpawn.forEach((unit) => {
+      this.context.drawImage(
+        mainSpriteSheet,
+        this.spritePos[unit.color].x,
+        this.spritePos[unit.color].y,
+        mainMap.sourceSize-1,
+        mainMap.sourceSize-1,
+        (unit.tileX - 1) * mainMap.tsize,
+        (unit.tileY - 1) * mainMap.tsize,
+        mainMap.tsize,
+        mainMap.tsize
+      );
+    });
   }
 
+  render = () => {
+    this.drawLayer(0);
+    this.drawLayer(1);
+    this.drawUnits();
+    this.drawGrid();
+    this.drawInteractableTiles();
+    // window.requestAnimationFrame(this.render);
+  }
 }

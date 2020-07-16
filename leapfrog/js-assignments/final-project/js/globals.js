@@ -5,6 +5,8 @@ const playerColors = {
   'yellow': '#c0b800'
 };
 
+let unitsToSpawn = [];
+
 const mainSpriteSheet = document.createElement('img');
 mainSpriteSheet.src='./img/UnitMap.png';
 
