@@ -17,9 +17,9 @@ class LevelEditor{
     this.mapTilesImage.src = './img/RoadTiles.png';
     this.tilesToDraw = [1, 27, 77, 79, 81, 10, 76, 56, 12, 2, 3, 5, 7, 28, 29, 111, 112, 113, 155, 156, 157, 137, 120, 122, 141, 134, 135, 500, 501];
     this.sourceTile = 0;
+    this.mapTilesImage.addEventListener('load', this.render);
     this.drawGrid();
     this.initLowerLayer();
-    this.render();
   }
 
   getTileFromNewMap(layer, col, row){
@@ -49,6 +49,8 @@ class LevelEditor{
       let tileY = Math.floor(mousePos.y/ mainMap.tsize);
       let targetTile = tileY * mainMap.cols + tileX;
       this.layers[1][targetTile] = this.sourceTile;
+      this.context.clearRect(tileX * mainMap.tsize, tileY * mainMap.tsize, mainMap.tsize, mainMap.tsize);
+      this.render();
     }
 
     //replace layers[1][x] on click, x is tilePos where clicked
@@ -178,7 +180,7 @@ class LevelEditor{
     this.drawGrid();
     this.drawLayer(1);
     this.drawInteratableTiles();
-    window.requestAnimationFrame(this.render);
+    // window.requestAnimationFrame(this.render);
   }
 
 }
