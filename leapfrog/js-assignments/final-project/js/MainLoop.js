@@ -1,6 +1,5 @@
 class MainGameLoop{
   constructor(){
-    let self = this;
     this.mapTilesImage = document.createElement('img');
     this.mapTilesImage.src = './img/RoadTiles.png';
     this.canvas = document.querySelector('canvas');
@@ -24,89 +23,90 @@ class MainGameLoop{
       noclick: 3
     }
     this.showStartMenu();
-    //use mousemove for hover
-    this.canvas.addEventListener('click', (e) => {
-      if(this.gameState.current == this.gameState.noclick){
-        return;
+    this.canvas.addEventListener('click', this.mainClickHandler);
+  }
+
+  mainClickHandler = (e) => {
+    if(this.gameState.current == this.gameState.noclick){
+      return;
+    }
+    else if(this.gameState.current == this.gameState.start){
+      this.gameState.current = this.gameState.running;
+      soundManager.startMusic();
+      this.init();
+    }else if(this.gameState.current == this.gameState.gameOver){
+      this.gameState.current = this.gameState.running;
+      initializePlayers();
+      this.init();
+    }
+    else if(this.gameState.current == this.gameState.running)
+    {
+      let rect = this.canvas.getBoundingClientRect();
+      let mousePos = {
+        x: e.clientX - rect.left,
+        y: e.clientY - rect.top
       }
-      else if(this.gameState.current == this.gameState.start){
-        this.gameState.current = this.gameState.running;
-        soundManager.startMusic();
-        this.init();
-      }else if(this.gameState.current == this.gameState.gameOver){
-        this.gameState.current = this.gameState.running;
-        initializePlayers();
-        this.init();
+
+      let clickedTile = {
+        tileX: Math.floor(mousePos.x / mainMap.tsize) + 1,
+        tileY: Math.floor(mousePos.y / mainMap.tsize) + 1
+      };
+      let clickedUnit = mainMap.getUnitOnTile(clickedTile.tileX, clickedTile.tileY);
+      if(clickedUnit !== undefined){
+        showInfoUnit = clickedUnit;
       }
-      else if(this.gameState.current == this.gameState.running)
-      {
-        let rect = self.canvas.getBoundingClientRect();
-        let mousePos = {
-          x: e.clientX - rect.left,
-          y: e.clientY - rect.top
-        }
 
-        let clickedTile = {
-          tileX: Math.floor(mousePos.x / mainMap.tsize) + 1,
-          tileY: Math.floor(mousePos.y / mainMap.tsize) + 1
-        };
-        let clickedUnit = mainMap.getUnitOnTile(clickedTile.tileX, clickedTile.tileY);
-        if(clickedUnit !== undefined){
-          showInfoUnit = clickedUnit;
-        }
-
-        if((selectedUnit == undefined || selectedUnit.actionState == selectedUnit.actionState.inactive || selectedUnit.actionState == selectedUnit.actionState.idle)
-        && mainMap.getTileIsFactory(clickedTile.tileX-1, clickedTile.tileY-1) && !mainMap.getTileHasUnit(clickedTile.tileX, clickedTile.tileY)){
-          buildingsList.forEach((building) => {
-            if((building.capturedBy == this.token && building.tileX == clickedTile.tileX && building.tileY == clickedTile.tileY)){
-              selectedFactory = building;
-              uiManager.setPrices();
-              soundManager.playSelect();
-              uiManager.disableUnitMenuItems();
-              uiManager.unitMenu.style.display = 'block';
-            }
-          });
-        }else{
-          selectedFactory = undefined;
-          uiManager.unitMenu.style.display = 'none';
-        }
-
-        if(selectedUnit !== undefined && selectedUnit.actionState.current == selectedUnit.actionState.prepareMove){
-          soundManager.playSelect();
-          selectedUnit.moveTo(clickedTile.tileX, clickedTile.tileY);
-        }else if(selectedUnit !== undefined && selectedUnit.actionState.current == selectedUnit.actionState.prepareFire){
-          let isUnitClicked = this.checkIfClickedOnEnemy(clickedTile);
-          if(!isUnitClicked){
-            soundManager.playWrongSelect();
-            selectedUnit.drawAttackGrid = false;
-            selectedUnit.attackGrid = [];
-            selectedUnit.actionState.current = selectedUnit.actionState.selectingAction;
-            selectedUnit.actionState.currentState = 'idle';
-          }
-        }else if(selectedUnit == undefined || selectedUnit.actionState.current == selectedUnit.actionState.idle){
-          this.selectClickedUnit(clickedTile);
-        }else if(selectedUnit !== undefined && selectedUnit.actionState.current == selectedUnit.actionState.prepareLoad){
-            if(selectedUnit.isArrayinArray(selectedUnit.loadGrid, [clickedTile.tileX, clickedTile.tileY])){
-              let clickedUnit = mainMap.getTileHasPlayerUnit(clickedTile.tileX, clickedTile.tileY)
-              if(clickedUnit !== undefined && clickedUnit !== selectedUnit && clickedUnit.type == "Infantry" || clickedUnit.type == "Mech"){
-              selectedUnit.loadUnit(clickedUnit);
-              soundManager.playSelect();
-            }
-          }else{
-            selectedUnit.loadGrid = [];
-            selectedUnit.actionState.current = selectedUnit.actionState.selectingAction;
-          }
-        }else if(selectedUnit !== undefined && selectedUnit.actionState.current == selectedUnit.actionState.prepareDrop){
-          if(selectedUnit.isArrayinArray(selectedUnit.dropGrid, [clickedTile.tileX, clickedTile.tileY])){
+      if((selectedUnit == undefined || selectedUnit.actionState == selectedUnit.actionState.inactive || selectedUnit.actionState == selectedUnit.actionState.idle)
+      && mainMap.getTileIsFactory(clickedTile.tileX-1, clickedTile.tileY-1) && !mainMap.getTileHasUnit(clickedTile.tileX, clickedTile.tileY)){
+        buildingsList.forEach((building) => {
+          if((building.capturedBy == this.token && building.tileX == clickedTile.tileX && building.tileY == clickedTile.tileY)){
+            selectedFactory = building;
+            uiManager.setPrices();
             soundManager.playSelect();
-            selectedUnit.dropUnit(clickedTile);
-          }else{
-          selectedUnit.dropGrid = [];
+            uiManager.disableUnitMenuItems();
+            uiManager.unitMenu.style.display = 'block';
+          }
+        });
+      }else{
+        selectedFactory = undefined;
+        uiManager.unitMenu.style.display = 'none';
+      }
+
+      if(selectedUnit !== undefined && selectedUnit.actionState.current == selectedUnit.actionState.prepareMove){
+        soundManager.playSelect();
+        selectedUnit.moveTo(clickedTile.tileX, clickedTile.tileY);
+      }else if(selectedUnit !== undefined && selectedUnit.actionState.current == selectedUnit.actionState.prepareFire){
+        let isUnitClicked = this.checkIfClickedOnEnemy(clickedTile);
+        if(!isUnitClicked){
+          soundManager.playWrongSelect();
+          selectedUnit.drawAttackGrid = false;
+          selectedUnit.attackGrid = [];
+          selectedUnit.actionState.current = selectedUnit.actionState.selectingAction;
+          selectedUnit.actionState.currentState = 'idle';
+        }
+      }else if(selectedUnit == undefined || selectedUnit.actionState.current == selectedUnit.actionState.idle){
+        this.selectClickedUnit(clickedTile);
+      }else if(selectedUnit !== undefined && selectedUnit.actionState.current == selectedUnit.actionState.prepareLoad){
+          if(selectedUnit.isArrayinArray(selectedUnit.loadGrid, [clickedTile.tileX, clickedTile.tileY])){
+            let clickedUnit = mainMap.getTileHasPlayerUnit(clickedTile.tileX, clickedTile.tileY)
+            if(clickedUnit !== undefined && clickedUnit !== selectedUnit && clickedUnit.type == "Infantry" || clickedUnit.type == "Mech"){
+            selectedUnit.loadUnit(clickedUnit);
+            soundManager.playSelect();
+          }
+        }else{
+          selectedUnit.loadGrid = [];
           selectedUnit.actionState.current = selectedUnit.actionState.selectingAction;
         }
+      }else if(selectedUnit !== undefined && selectedUnit.actionState.current == selectedUnit.actionState.prepareDrop){
+        if(selectedUnit.isArrayinArray(selectedUnit.dropGrid, [clickedTile.tileX, clickedTile.tileY])){
+          soundManager.playSelect();
+          selectedUnit.dropUnit(clickedTile);
+        }else{
+        selectedUnit.dropGrid = [];
+        selectedUnit.actionState.current = selectedUnit.actionState.selectingAction;
       }
-      }
-    });
+    }
+    }
   }
 
   selectClickedUnit = (clickedTile) => {
