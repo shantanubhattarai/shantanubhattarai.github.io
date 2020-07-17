@@ -43,7 +43,7 @@ class LevelLoader{
     var startMenuContainer = document.querySelector('.start-menu');
     startMenuContainer.style.display = 'none';
     mainMap.layers = level.map;
-    initializePlayers();
+    initializePlayers(level.units);
     mainGameLoop = new MainGameLoop();
   }
 }

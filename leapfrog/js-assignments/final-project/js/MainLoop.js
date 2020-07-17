@@ -455,22 +455,42 @@ class MainGameLoop{
   }
 }
 
-function initializePlayers(){
+function initializePlayers(units){
   let player1 = new Player('red');
   let player2 = new Player('blue');
   let player3 = new Player('green');
   let player4 = new Player('yellow');
   playerList = [];
-  player1.addUnit(9,9,'Rocket Launcher');
-  player1.addUnit(6,9,'Infantry');
-
-  player2.addUnit(6,10,'Infantry');
-  player2.addUnit(9,12,'Rocket Launcher');
-
   playerList.push(player1);
   playerList.push(player2);
   playerList.push(player3);
   playerList.push(player4);
+  console.log(units);
+  if(units !== undefined){
+    console.log('here');
+    units.forEach((unit) => {
+      switch(unit.color){
+        case 'red':
+          player1.addUnit(unit.tileX, unit.tileY, unit.type);
+          break;
+        case 'blue':
+          player2.addUnit(unit.tileX, unit.tileY, unit.type);
+          break;
+        case 'green':
+          player3.addUnit(unit.tileX, unit.tileY, unit.type);
+          break;
+        case 'yellow':
+          player4.addUnit(unit.tileX, unit.tileY, unit.type);
+          break;
+      }
+    });
+  }else{
+    player1.addUnit(9,9,'Rocket Launcher');
+    player1.addUnit(6,9,'Infantry');
+
+    player2.addUnit(6,10,'Infantry');
+    player2.addUnit(9,12,'Rocket Launcher');
+  }
 }
 
 

@@ -86,7 +86,7 @@ class LevelEditor{
       this.sourceType = 'unit';
       this.spawnableUnits.forEach((unit) => {
         if(tileX == unit.tileX && tileY == unit.tileY){
-          this.sourceTile = {color: unit.color, tileX: unit.tileX, tileY: unit.tileY};
+          this.sourceTile = {color: unit.color, tileX: unit.tileX, tileY: unit.tileY, type: unit.type};
         }
       });
     }
@@ -109,7 +109,7 @@ class LevelEditor{
       else{
         this.sourceTile.tileX = tileX + 1;
         this.sourceTile.tileY = tileY + 1;
-        let unitToSpawn = {color: this.sourceTile.color, tileX: this.sourceTile.tileX, tileY: this.sourceTile.tileY};
+        let unitToSpawn = {color: this.sourceTile.color, tileX: this.sourceTile.tileX, tileY: this.sourceTile.tileY, type: this.sourceTile.type};
         this.unitsToSpawn.push(unitToSpawn);
         this.sourceTile = 0;
         this.sourceType = 'tile';
@@ -188,8 +188,9 @@ class LevelEditor{
 
   drawSourceUnits = () => {
     let colors = ['red', 'blue', 'green', 'yellow'];
+    let rowUnits = ['Infantry', 'Mech'];
     for(let i = 0; i < 4; i++){
-      let unit  = new Unit(i, Math.floor((this.mapHeight + 50)/mainMap.tsize)  + 1, colors[i]);
+      let unit  = new Infantry(i, Math.floor((this.mapHeight + 50)/mainMap.tsize)  + 1, colors[i]);
       this.spawnableUnits.push(unit);
       this.context.drawImage(
         mainSpriteSheet,
