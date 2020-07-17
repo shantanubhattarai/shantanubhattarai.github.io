@@ -24,7 +24,7 @@ div.start-menu p{
   margin-bottom: 20px;
 }
 
-div.start-menu button{
+div.start-menu button, div.load-level-menu button{
   font-family: AW2;
   font-size: 28px;
   background-color: #f8e8c0;
@@ -76,11 +76,15 @@ li{
   margin-bottom: 4px;
 }
 
-.action-menu li:hover, .unit-menu li:hover, div.end-turn:hover{
+.action-menu li:hover, .unit-menu li:hover, div.end-turn:hover, div.save-level:hover, div.back-button:hover{
   cursor: pointer;
 }
 
-div.turn-indicator, div.end-turn, div.unit-info{
+div.save-level, div.load-level-menu, div.back-button{
+  display: none;
+}
+
+div.turn-indicator, div.end-turn, div.unit-info, div.save-level, div.back-button{
   margin: 8px 8px 8px 8px;
   color: black;
   border: 2px black solid;

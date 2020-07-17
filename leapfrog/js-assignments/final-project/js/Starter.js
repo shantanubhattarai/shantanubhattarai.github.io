@@ -10,12 +10,12 @@ class Starter {
     this.levelEditorButton.addEventListener('click', startLevelEditor);
   }
 }
-
 var mainGameLoop;
 
 var startGame = () => {
   var startMenuContainer = document.querySelector('.start-menu');
   startMenuContainer.style.display = 'none';
+  mainMap.layers = defaultLayers;
   initializePlayers();
   mainGameLoop = new MainGameLoop();
 }
@@ -29,10 +29,13 @@ var startLevelEditor = () => {
 }
 
 var levelLoader;
-
 var startLevelLoader = () => {
-
+  var startMenuContainer = document.querySelector('.start-menu');
+  startMenuContainer.style.display = 'none';
+  if(levelLoader == undefined) levelLoader = new LevelLoader();
+  else (levelLoader.showLoader());
 }
 
 var starter = new Starter();
+
 

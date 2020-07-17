@@ -1,6 +1,7 @@
 class LevelEditor{
   constructor(){
     this.layers = [[],[]];
+    this.unitsToSpawn = [];
     this.placedTiles = new Array(mainMap.cols * mainMap.rows);
     this.mapHeight = mainMap.rows * mainMap.tsize;
     this.mapWidth = mainMap.cols * mainMap.tsize;
@@ -13,7 +14,6 @@ class LevelEditor{
     this.sourceWidth = 375;
     this.sourceHeight = 530;
     this.canvas.addEventListener('click', this.clickEventHandler);
-    this.canvas.addEventListener('mousemove', this.mouseMoveEventHandler);
     this.mapTilesImage = document.createElement('img');
     this.mapTilesImage.src = './img/RoadTiles.png';
     this.tilesToDraw = [1, 27, 77, 79, 81, 10, 76, 63, 56, 12, 2, 3, 5, 7, 28, 29, 111, 112, 113, 155, 156, 157, 137, 120, 122, 141, 134, 135, 500, 501];
@@ -29,7 +29,24 @@ class LevelEditor{
     };
     this.drawGrid();
     this.initLowerLayer();
+    this.hasDrawnUnitsOnce = false;
     this.context.imageSmoothingEnabled = false;
+
+    this.saveLevelButton = document.querySelector('.save-level');
+    this.saveLevelButton.style.display = 'inline-block';
+    this.saveLevelButton.addEventListener('click', this.saveLevel);
+
+    this.backButton = document.querySelector('.back-button');
+    this.backButton.style.display = 'inline-block';
+    this.backButton.addEventListener('click', this.goToMenu);
+  }
+
+  goToMenu = () => {
+    var startMenuContainer = document.querySelector('.start-menu');
+    startMenuContainer.style.display = 'block';
+    this.canvas.style.display = 'none';
+    this.saveLevelButton.style.display = 'none';
+    this.backButton.style.display = 'none';
   }
 
   getTileFromNewMap(layer, col, row){
@@ -69,7 +86,7 @@ class LevelEditor{
       this.sourceType = 'unit';
       this.spawnableUnits.forEach((unit) => {
         if(tileX == unit.tileX && tileY == unit.tileY){
-          this.sourceTile = unit;
+          this.sourceTile = {color: unit.color, tileX: unit.tileX, tileY: unit.tileY};
         }
       });
     }
@@ -80,11 +97,20 @@ class LevelEditor{
       let tileX = Math.floor(mousePos.x/ mainMap.tsize);
       let tileY = Math.floor(mousePos.y/ mainMap.tsize);
       let targetTile = tileY * mainMap.cols + tileX;
-      if(this.sourceType == 'tile') this.layers[1][targetTile] = this.sourceTile;
+      if(this.sourceType == 'tile') {
+        this.layers[1][targetTile] = this.sourceTile;
+        this.unitsToSpawn = this.unitsToSpawn.filter((unit) => {
+          if(unit.tileX == tileX + 1 && unit.tileY == tileY + 1){
+            return false;
+          }
+          return true;
+        });
+      }
       else{
         this.sourceTile.tileX = tileX + 1;
         this.sourceTile.tileY = tileY + 1;
-        unitsToSpawn.push(this.sourceTile);
+        let unitToSpawn = {color: this.sourceTile.color, tileX: this.sourceTile.tileX, tileY: this.sourceTile.tileY};
+        this.unitsToSpawn.push(unitToSpawn);
         this.sourceTile = 0;
         this.sourceType = 'tile';
       }
@@ -93,8 +119,17 @@ class LevelEditor{
     }
   }
 
-  mouseMoveEventHandler = () => {
-
+  saveLevel = () => {
+    let level = {
+      level: parseInt(localStorage.length) + 1,
+      map: this.layers,
+      units: this.unitsToSpawn
+    }
+    if(localStorage.length < 9){
+      localStorage.setItem('level-' + '0' + (parseInt(localStorage.length) + 1), JSON.stringify(level));
+    }else{
+      localStorage.setItem('level-' + (parseInt(localStorage.length) + 1), JSON.stringify(level));
+    }
   }
 
   initLowerLayer = () => {
@@ -131,7 +166,6 @@ class LevelEditor{
   }
 
   drawInteractableTiles = () => {
-    let colors = ['red', 'blue', 'green', 'yellow'];
     for(let c = 0; c < this.tilesToDraw.length; c++){
       for (let r = 0; r < 2; r++){
         var tile = this.getInteractableTiles(c,r);
@@ -150,6 +184,10 @@ class LevelEditor{
         }
       }
     }
+  }
+
+  drawSourceUnits = () => {
+    let colors = ['red', 'blue', 'green', 'yellow'];
     for(let i = 0; i < 4; i++){
       let unit  = new Unit(i, Math.floor((this.mapHeight + 50)/mainMap.tsize)  + 1, colors[i]);
       this.spawnableUnits.push(unit);
@@ -165,6 +203,7 @@ class LevelEditor{
         mainMap.tsize
       );
     }
+    this.hasDrawnUnitsOnce = true;
   }
 
   drawLayer = (layer) => {
@@ -204,7 +243,7 @@ class LevelEditor{
   }
 
   drawUnits = () => {
-    unitsToSpawn.forEach((unit) => {
+    this.unitsToSpawn.forEach((unit) => {
       this.context.drawImage(
         mainSpriteSheet,
         this.spritePos[unit.color].x,
@@ -225,6 +264,6 @@ class LevelEditor{
     this.drawUnits();
     this.drawGrid();
     this.drawInteractableTiles();
-    // window.requestAnimationFrame(this.render);
+    if(!this.hasDrawnUnitsOnce) this.drawSourceUnits();
   }
 }
