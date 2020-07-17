@@ -268,13 +268,13 @@ class Unit{
   /**Starts capture animation */
   startCaptureAnimate = () => {
     capturingUnit = this;
+    soundManager.playCapture();
     fadeId = setInterval(this.captureAnimate, 10);
   }
 
   /** Defines capture animation Timings*/
   captureAnimate = () => {
     this.captureCounter += 1;
-    soundManager.playCapture();
     if(this.captureCounter % 8 == 0) this.captureAnimFrame++;
     if(this.captureAnimFrame > 3) this.captureAnimFrame = 0;
     if(this.captureCounter >= 114){

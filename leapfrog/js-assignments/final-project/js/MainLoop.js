@@ -480,11 +480,29 @@ function initializePlayers(units){
       }
     });
   }else{
-    player1.addUnit(9,9,'Rocket Launcher');
-    player1.addUnit(6,9,'Infantry');
+    player1.addUnit(6,7,'Infantry');
+    player1.addUnit(6,9,'Mech');
 
-    player2.addUnit(6,10,'Infantry');
-    player2.addUnit(9,12,'Rocket Launcher');
+    player1.addUnit(10,7,'Infantry');
+    player1.addUnit(10,9,'Mech');
+
+    player2.addUnit(6,25,'Infantry');
+    player2.addUnit(6,23,'Mech');
+
+    player2.addUnit(10,25,'Infantry');
+    player2.addUnit(10,23,'Mech');
+
+    player3.addUnit(24,3,'Infantry');
+    player3.addUnit(24,5,'Mech');
+
+    player3.addUnit(20,3,'Infantry');
+    player3.addUnit(20,5,'Mech');
+
+    player4.addUnit(24,21,'Infantry');
+    player4.addUnit(28,19,'Mech');
+
+    player4.addUnit(28,21,'Infantry');
+    player4.addUnit(24,19,'Mech');
   }
 
   playerList.push(player1);
