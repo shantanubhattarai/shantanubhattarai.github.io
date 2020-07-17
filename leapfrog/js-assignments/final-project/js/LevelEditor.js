@@ -10,9 +10,10 @@ class LevelEditor{
     this.context.imageSmoothingEnabled = false;
     this.canvas.style.display = 'inline-block';
     this.canvas.width = mainMap.cols * mainMap.tsize;
-    this.canvas.height = 850;
+    this.canvas.height = 1200;
     this.sourceWidth = 375;
     this.sourceHeight = 530;
+    this.unit;
     this.canvas.addEventListener('click', this.clickEventHandler);
     this.mapTilesImage = document.createElement('img');
     this.mapTilesImage.src = './img/RoadTiles.png';
@@ -80,13 +81,13 @@ class LevelEditor{
   }
 
   checkClickUnits = (mousePos) => {
-    if(mousePos.y > this.mapHeight + 50 && mousePos.y < (this.mapHeight + 50 + mainMap.tsize) && mousePos.x < 4 * mainMap.tsize){
+    if(mousePos.y > this.mapHeight + 50 && mousePos.y < (this.mapHeight + 50 + 16 * mainMap.tsize) && mousePos.x < 4 * mainMap.tsize){
       let tileX = Math.floor(mousePos.x/ mainMap.tsize);
       let tileY = Math.floor(mousePos.y/ mainMap.tsize);
       this.sourceType = 'unit';
       this.spawnableUnits.forEach((unit) => {
         if(tileX == unit.tileX && tileY == unit.tileY){
-          this.sourceTile = {color: unit.color, tileX: unit.tileX, tileY: unit.tileY, type: unit.type};
+          this.sourceTile = {color: unit.color, tileX: unit.tileX, tileY: unit.tileY, type: unit.type, spritePos: unit.spritePos};
         }
       });
     }
@@ -109,8 +110,7 @@ class LevelEditor{
       else{
         this.sourceTile.tileX = tileX + 1;
         this.sourceTile.tileY = tileY + 1;
-        let unitToSpawn = {color: this.sourceTile.color, tileX: this.sourceTile.tileX, tileY: this.sourceTile.tileY, type: this.sourceTile.type};
-        this.unitsToSpawn.push(unitToSpawn);
+        this.unitsToSpawn.push(this.sourceTile);
         this.sourceTile = 0;
         this.sourceType = 'tile';
       }
@@ -188,23 +188,109 @@ class LevelEditor{
 
   drawSourceUnits = () => {
     let colors = ['red', 'blue', 'green', 'yellow'];
-    let rowUnits = ['Infantry', 'Mech'];
-    for(let i = 0; i < 4; i++){
-      let unit  = new Infantry(i, Math.floor((this.mapHeight + 50)/mainMap.tsize)  + 1, colors[i]);
-      this.spawnableUnits.push(unit);
-      this.context.drawImage(
-        mainSpriteSheet,
-        this.spritePos[colors[i]].x,
-        this.spritePos[colors[i]].y,
-        mainMap.sourceSize-1,
-        mainMap.sourceSize-1,
-        i * (mainMap.tsize),
-        this.mapHeight + 50,
-        mainMap.tsize,
-        mainMap.tsize
-      );
+    let rowUnits = ['Infantry', 'Mech', 'Anti Air', 'APC', 'Artillery', 'MD Tank', 'Tank', 'Missile Launcher', 'Rocket Launcher', 'Recon', 'Bomber', 'Fighter', 'Helicopter', 'Transport Copter', 'Battleship', 'Cruiser'];
+    for (let r = 0; r < rowUnits.length; r++){
+      for(let i = 0; i < 4; i++){
+        this.spawnUnit(i, Math.floor((this.mapHeight + 50)/mainMap.tsize) + r  + 1, colors[i], rowUnits[r]);
+        this.context.drawImage(
+          mainSpriteSheet,
+          this.unit.spritePos[colors[i]]['idle'][0].x,
+          this.unit.spritePos[colors[i]]['idle'][0].y,
+          mainMap.sourceSize-1,
+          mainMap.sourceSize-1,
+          i * (mainMap.tsize),
+          this.mapHeight + 50 + r * mainMap.tsize,
+          mainMap.tsize,
+          mainMap.tsize
+        );
+      }
     }
     this.hasDrawnUnitsOnce = true;
+  }
+
+  spawnUnit = (tileX, tileY, color, unitType) => {
+    switch (unitType){
+      case 'Infantry': {
+        this.unit  = new Infantry(tileX, tileY, color);
+        this.spawnableUnits.push(this.unit);
+        break;
+      }
+      case 'Mech': {
+        this.unit  = new Mech(tileX, tileY, color);
+        this.spawnableUnits.push(this.unit);
+        break;
+      }
+      case 'Recon': {
+        this.unit  = new Recon(tileX, tileY, color);
+        this.spawnableUnits.push(this.unit);
+        break;
+      }
+      case 'Artillery': {
+        this.unit  = new Artillery(tileX, tileY, color);
+        this.spawnableUnits.push(this.unit);
+        break;
+      }
+      case 'Cruiser': {
+        this.unit  = new Cruiser(tileX, tileY, color);
+        this.spawnableUnits.push(this.unit);
+        break;
+      }
+      case 'Tank': {
+        this.unit  = new Tank(tileX, tileY, color);
+        this.spawnableUnits.push(this.unit);
+        break;
+      }
+      case 'MD Tank': {
+        this.unit  = new MDTank(tileX, tileY, color);
+        this.spawnableUnits.push(this.unit);
+        break;
+      }
+      case 'Helicopter': {
+        this.unit  = new Helicopter(tileX, tileY, color);
+        this.spawnableUnits.push(this.unit);
+        break;
+      }
+      case 'Anti Air': {
+        this.unit  = new AntiAir(tileX, tileY, color);
+        this.spawnableUnits.push(this.unit);
+        break;
+      }
+      case 'Missile Launcher': {
+        this.unit  = new MissileLauncher(tileX, tileY, color);
+        this.spawnableUnits.push(this.unit);
+        break;
+      }
+      case 'APC': {
+        this.unit  = new APC(tileX, tileY, color);
+        this.spawnableUnits.push(this.unit);
+        break;
+      }
+      case 'Rocket Launcher': {
+        this.unit  = new RocketLauncher(tileX, tileY, color);
+        this.spawnableUnits.push(this.unit);
+        break;
+      }
+      case 'Transport Copter': {
+        this.unit  = new TransportCopter(tileX, tileY, color);
+        this.spawnableUnits.push(this.unit);
+        break;
+      }
+      case 'Fighter': {
+        this.unit  = new Fighter(tileX, tileY, color);
+        this.spawnableUnits.push(this.unit);
+        break;
+      }
+      case 'Bomber': {
+        this.unit  = new Bomber(tileX, tileY, color);
+        this.spawnableUnits.push(this.unit);
+        break;
+      }
+      case 'Battleship': {
+        this.unit  = new Battleship(tileX, tileY, color);
+        this.spawnableUnits.push(this.unit);
+        break;
+      }
+    }
   }
 
   drawLayer = (layer) => {
@@ -247,8 +333,8 @@ class LevelEditor{
     this.unitsToSpawn.forEach((unit) => {
       this.context.drawImage(
         mainSpriteSheet,
-        this.spritePos[unit.color].x,
-        this.spritePos[unit.color].y,
+        unit.spritePos[unit.color]['idle'][0].x,
+        unit.spritePos[unit.color]['idle'][0].y,
         mainMap.sourceSize-1,
         mainMap.sourceSize-1,
         (unit.tileX - 1) * mainMap.tsize,

@@ -3,9 +3,10 @@ class LevelLoader{
     this.levelsList = [];
     this.levelMenu = document.querySelector('.load-level-menu');
     this.backButton = document.querySelector('.back-button');
+    this.createdButtonsCounter = 0;
+
     this.showLoader();
     this.getLevels();
-    this.createdButtons = false;
   }
 
   showLoader = () => {
@@ -23,23 +24,31 @@ class LevelLoader{
 
   getLevels = () => {
     for(let i = 0; i < parseInt(localStorage.length); i++){
-      let levelName = localStorage.key(i);
-      let level = localStorage.getItem(levelName);
-      this.levelsList.push(JSON.parse(level));
+      this.addLevel(i);
+      this.showLevel(i);
     }
-    this.showLevels();
   }
 
-  showLevels = () => {
-    this.levelsList.forEach((level) => {
-      let levelButton = document.createElement('button');
-      levelButton.textContent = "Level - " + level.level;
-      levelButton.addEventListener('click', () => {this.startLevel(level)});
-      this.levelMenu.appendChild(levelButton);
-    });
+  addLevel = (i) => {
+    let levelName = localStorage.key(i);
+    let level = localStorage.getItem(levelName);
+    this.levelsList.push(JSON.parse(level));
+  }
+
+  showLevel = (i) => {
+    let levelName = localStorage.key(i);
+    let level = localStorage.getItem(levelName);
+    level = JSON.parse(level);
+    this.createdButtonsCounter += 1;
+    let levelButton = document.createElement('button');
+    levelButton.textContent = "Level - " + level.level;
+    levelButton.addEventListener('click', () => {this.startLevel(level)});
+    this.levelMenu.prepend(levelButton);
   }
 
   startLevel(level){
+    this.levelMenu.style.display = 'none';
+    this.backButton.style.display = 'none';
     var startMenuContainer = document.querySelector('.start-menu');
     startMenuContainer.style.display = 'none';
     mainMap.layers = level.map;

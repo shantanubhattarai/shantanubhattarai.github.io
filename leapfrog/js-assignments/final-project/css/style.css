@@ -54,7 +54,7 @@ div.start-menu button:hover{
 }
 
 div.unit-menu, div.action-menu{
-  display: block;
+  display: none;
 }
 
 div.unit-info{
@@ -84,7 +84,7 @@ div.save-level, div.load-level-menu, div.back-button{
   display: none;
 }
 
-div.turn-indicator, div.end-turn, div.unit-info, div.save-level, div.back-button{
+div.turn-indicator, div.end-turn, div.unit-info, div.save-level, div.back-button, div.loading-container{
   margin: 8px 8px 8px 8px;
   color: black;
   border: 2px black solid;
@@ -92,6 +92,14 @@ div.turn-indicator, div.end-turn, div.unit-info, div.save-level, div.back-button
   background-color: #f8e8c0;
   padding: 4px;
   border-radius: 3px;
+}
+
+div.loading-container{
+  font-size: 28px;
+}
+
+div.start-menu{
+  display: none;
 }
 
 .unit-menu, .action-menu{

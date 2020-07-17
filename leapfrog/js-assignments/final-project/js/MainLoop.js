@@ -183,7 +183,7 @@ class MainGameLoop{
       }else{
         valueP.active = true;
         currentPlayer = valueP;
-        let moneyToAdd = currentPlayer.capturedFactories.length * 1000 + 1000;
+        let moneyToAdd = currentPlayer.capturedBuildings.length * 1000 + 1000;
         currentPlayer.increaseMoney(moneyToAdd);
         valueP.unitList.forEach((valueU) => {
           valueU.actionState.current = valueU.actionState.idle;
@@ -461,13 +461,8 @@ function initializePlayers(units){
   let player3 = new Player('green');
   let player4 = new Player('yellow');
   playerList = [];
-  playerList.push(player1);
-  playerList.push(player2);
-  playerList.push(player3);
-  playerList.push(player4);
-  console.log(units);
-  if(units !== undefined){
-    console.log('here');
+
+  if(units !== undefined && units.length > 0){
     units.forEach((unit) => {
       switch(unit.color){
         case 'red':
@@ -491,6 +486,11 @@ function initializePlayers(units){
     player2.addUnit(6,10,'Infantry');
     player2.addUnit(9,12,'Rocket Launcher');
   }
+
+  playerList.push(player1);
+  playerList.push(player2);
+  playerList.push(player3);
+  playerList.push(player4);
 }
 
 

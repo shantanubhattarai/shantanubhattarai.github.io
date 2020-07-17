@@ -1,5 +1,14 @@
 class Starter {
   constructor(){
+    this.preloader = new Preloader();
+    this.preloader.load(this.initStarter);
+
+  }
+
+  initStarter = () => {
+    var startMenuContainer = document.querySelector('.start-menu');
+    startMenuContainer.style.display = 'block';
+
     this.gameButton = document.querySelector('#game-button');
     this.gameButton.addEventListener('click', startGame);
 
@@ -11,8 +20,9 @@ class Starter {
   }
 }
 var mainGameLoop;
-
+var backButton = document.querySelector('.back-button');
 var startGame = () => {
+  backButton.style.display = 'none';
   var startMenuContainer = document.querySelector('.start-menu');
   startMenuContainer.style.display = 'none';
   mainMap.layers = defaultLayers;
@@ -33,7 +43,16 @@ var startLevelLoader = () => {
   var startMenuContainer = document.querySelector('.start-menu');
   startMenuContainer.style.display = 'none';
   if(levelLoader == undefined) levelLoader = new LevelLoader();
-  else (levelLoader.showLoader());
+  else {
+    if(levelLoader.createdButtonsCounter < localStorage.length){
+      for( let i = levelLoader.createdButtonsCounter; i < localStorage.length; i++){
+        console.log(i);
+        levelLoader.addLevel(i);
+        levelLoader.showLevel(i);
+      }
+    }
+    levelLoader.showLoader();
+  };
 }
 
 var starter = new Starter();

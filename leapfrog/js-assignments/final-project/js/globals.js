@@ -5,6 +5,8 @@ const playerColors = {
   'yellow': '#c0b800'
 };
 
+const assetsLoaded = 0;
+
 const mainSpriteSheet = document.createElement('img');
 mainSpriteSheet.src='./img/UnitMap.png';
 
