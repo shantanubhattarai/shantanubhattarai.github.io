@@ -21,6 +21,7 @@ class Preloader {
       var img = new Image;
       img.src = this.images[i];
       img.onload = () => {
+        loadingContainer.textContent += ".";
         this.loadedImages += 1;
         if (this.loadedImages == this.images.length - 1) {
           loadingContainer.style.display = 'none';
