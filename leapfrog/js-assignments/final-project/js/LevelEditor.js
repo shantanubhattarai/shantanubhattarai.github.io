@@ -113,12 +113,16 @@ class LevelEditor{
       else{
         this.sourceTile.tileX = tileX + 1;
         this.sourceTile.tileY = tileY + 1;
+        this.unitsToSpawn = this.unitsToSpawn.filter((unit) => {
+          return !(unit.tileX == this.sourceTile.tileX && unit.tileY == this.sourceTile.tileY);
+        });
         this.unitsToSpawn.push(this.sourceTile);
         this.sourceTile = 0;
         this.sourceType = 'tile';
       }
       this.context.clearRect(tileX * mainMap.tsize, tileY * mainMap.tsize, mainMap.tsize, mainMap.tsize);
     }
+    this.render();
   }
 
   saveLevel = () => {
@@ -354,6 +358,5 @@ class LevelEditor{
     this.drawGrid();
     this.drawInteractableTiles();
     if(!this.hasDrawnUnitsOnce) this.drawSourceUnits();
-    window.requestAnimationFrame(this.render);
   }
 }
