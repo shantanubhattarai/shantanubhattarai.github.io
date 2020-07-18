@@ -2,6 +2,7 @@ class LevelEditor{
   constructor(){
     this.layers = [[],[]];
     this.unitsToSpawn = [];
+    this.spawnableUnits = [];
     this.placedTiles = new Array(mainMap.cols * mainMap.rows);
     this.mapHeight = mainMap.rows * mainMap.tsize;
     this.mapWidth = mainMap.cols * mainMap.tsize;
@@ -20,16 +21,14 @@ class LevelEditor{
     this.tilesToDraw = [1, 27, 77, 79, 81, 10, 76, 63, 56, 12, 2, 3, 5, 7, 28, 29, 111, 112, 113, 155, 156, 157, 137, 120, 122, 141, 134, 135, 500, 501];
     this.sourceTile = 0;
     this.sourceType = 'tile';
-    this.render();
-    this.spawnableUnits = [];
+
     this.spritePos = {
       red: {x: 3, y: 104},
       blue:{x: 392, y: 104},
       green:{x: 3, y: 672},
       yellow:{x: 392, y: 672}
     };
-    this.drawGrid();
-    this.initLowerLayer();
+
     this.hasDrawnUnitsOnce = false;
     this.context.imageSmoothingEnabled = false;
 
@@ -40,6 +39,10 @@ class LevelEditor{
     this.backButton = document.querySelector('.back-button');
     this.backButton.style.display = 'inline-block';
     this.backButton.addEventListener('click', this.goToMenu);
+
+    this.render();
+    this.drawGrid();
+    this.initLowerLayer();
   }
 
   goToMenu = () => {
@@ -212,6 +215,7 @@ class LevelEditor{
     switch (unitType){
       case 'Infantry': {
         this.unit  = new Infantry(tileX, tileY, color);
+        console.log(this.spawnableUnits);
         this.spawnableUnits.push(this.unit);
         break;
       }
