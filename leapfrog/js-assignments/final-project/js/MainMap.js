@@ -30,11 +30,8 @@ const mainMap = {
    * @param tileY y postion of tile
    */
   getTileWalkable(tileX, tileY){
-    // let normalWalk = []; fill these with tiles representing each, then just array includes below
     let slowWalk = [2,3];
-    // let oneWalk = [];
     let water = [111,112,113,155,156,157,137,120, 122,141, 133, 134, 135];
-    // let air = [];
     return this.layers.reduce((res, layer, index) => {
       var tile = this.getTile(index, tileX, tileY);
       var walkableLevel = 1;

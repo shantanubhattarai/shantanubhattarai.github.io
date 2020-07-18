@@ -135,7 +135,6 @@ class APC extends Unit{
     xyOffsets.forEach((value) => {
       i = this.tileX + value[0];
       j = this.tileY + value[1];
-      console.log(!mainMap.getTileHasUnit(i, j));
       if(
         (mainMap.getTileWalkable(i-1, j-1) !== 4 || mainMap.getTileWalkable(i-1, j-1) !== 5)
         && mainMap.getTileWalkable(i-1, j-1) <= this.loadedUnit.walkableLevel
@@ -173,6 +172,7 @@ class APC extends Unit{
     this.loadedUnit.actionState.current = this.loadedUnit.actionState.inactive;
     currentPlayer.increaseCounter();
     this.loadedUnit.drawState =  true;
+    this.loadedUnit = '';
     this.actionState.current = this.actionState.inactive;
     currentPlayer.increaseCounter();
   }

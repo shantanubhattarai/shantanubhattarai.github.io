@@ -1,3 +1,7 @@
+/** Declares a Queue element
+ * @param element value to add to object
+ * @param priority priority of element
+ */
 class QElement{
   constructor(element, priority){
     this.element = element;
@@ -5,11 +9,16 @@ class QElement{
   }
 }
 
+/** Declares a priority queue */
 class PriorityQueue{
   constructor(){
     this.items = [];
   }
 
+  /** Adds a new element to priority queue
+   * @param element value to add
+   * @param priority priority for element
+   */
   enqueue(element, priority){
     var qElement = new QElement(element, priority);
     var contain = false;
@@ -25,6 +34,7 @@ class PriorityQueue{
     }
   }
 
+  /** Remove first element from queue */
   dequeue(){
     if(this.isEmpty()){
       return "No elements";
@@ -32,6 +42,7 @@ class PriorityQueue{
     return this.items.shift();
   }
 
+  /** Get first element in queue */
   front(){
     if(this.isEmpty()){
       return "No elements";
@@ -39,6 +50,7 @@ class PriorityQueue{
     return this.items[0];
   }
 
+  /** Get last element in queue */
   rear(){
     if(this.isEmpty()){
       return "No elements"
@@ -46,6 +58,7 @@ class PriorityQueue{
     return this.items[this.items.length - 1];
   }
 
+  /** Check if queue is empty */
   isEmpty(){
     return this.items.length == 0;
   }

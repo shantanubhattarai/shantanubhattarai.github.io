@@ -1,3 +1,6 @@
+/**
+ * Declares the sound manager
+ */
 class SoundManager{
   constructor(){
     this.initMusic();
@@ -9,6 +12,7 @@ class SoundManager{
     this.initCaputureCompleteSound();
   }
 
+  /** Initalizes the background music */
   initMusic = () => {
     let bgAudio = document.createElement("audio");
     bgAudio.setAttribute("preload", "auto");
@@ -22,6 +26,7 @@ class SoundManager{
     this.bgAudio.load();
   }
 
+  /** Initializes the select sound */
   initSelectSound(){
     let selectAudio = document.createElement("audio");
     selectAudio.setAttribute("preload", "auto");
@@ -34,6 +39,7 @@ class SoundManager{
     this.selectAudio.load();
   }
 
+  /** Initializes the wrong select sound */
   initWrongSelectSound(){
     let wrongAudio = document.createElement("audio");
     wrongAudio.setAttribute("preload", "auto");
@@ -46,6 +52,7 @@ class SoundManager{
     this.wrongAudio.load();
   }
 
+  /** Initializes the attack sound */
   initAttackSound(){
     let attackAudio = document.createElement("audio");
     attackAudio.setAttribute("preload", "auto");
@@ -58,6 +65,7 @@ class SoundManager{
     this.attackAudio.load();
   }
 
+  /** Initializes the damage taken sound */
   initDamageSound(){
     let damageAudio = document.createElement("audio");
     damageAudio.setAttribute("preload", "auto");
@@ -70,6 +78,7 @@ class SoundManager{
     this.damageAudio.load();
   }
 
+  /** Initializes the capture sound */
   initCaputureSound(){
     let captureAudio = document.createElement("audio");
     captureAudio.setAttribute("preload", "auto");
@@ -82,6 +91,7 @@ class SoundManager{
     this.captureAudio.load();
   }
 
+  /** Initialize Capture completion sound */
   initCaputureCompleteSound(){
     let captureCompleteAudio = document.createElement("audio");
     captureCompleteAudio.setAttribute("preload", "auto");
@@ -94,6 +104,7 @@ class SoundManager{
     this.captureCompleteAudio.load();
   }
 
+  /** Play selected sounds */
   startMusic = () => {
     this.bgAudio.play();
   }
@@ -122,6 +133,9 @@ class SoundManager{
     this.captureCompleteAudio.play();
   }
 
+  /** Set volume of sounds
+   * @param volume value to set volume to, 0 to 1
+   */
   setVolume(volume){
     this.bgAudio.volume = volume/2 < 0 ? 0: volume/2;
     this.attackAudio.volume = volume;

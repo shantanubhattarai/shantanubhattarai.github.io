@@ -1,3 +1,4 @@
+/** The main game loop, handles update and draw calls, mouse events and game state */
 class MainGameLoop{
   constructor(){
     this.mapTilesImage = document.createElement('img');
@@ -26,11 +27,13 @@ class MainGameLoop{
     this.canvas.addEventListener('click', this.mainClickHandler);
   }
 
+  /** Handles click events
+   * @param e event
+   */
   mainClickHandler = (e) => {
     if(this.gameState.current == this.gameState.noclick){
       return;
-    }
-    else if(this.gameState.current == this.gameState.start){
+    }else if(this.gameState.current == this.gameState.start){
       this.gameState.current = this.gameState.running;
       soundManager.startMusic();
       this.init();
@@ -42,74 +45,122 @@ class MainGameLoop{
     }
     else if(this.gameState.current == this.gameState.running)
     {
-      let rect = this.canvas.getBoundingClientRect();
-      let mousePos = {
-        x: e.clientX - rect.left,
-        y: e.clientY - rect.top
-      }
-
-      let clickedTile = {
-        tileX: Math.floor(mousePos.x / mainMap.tsize) + 1,
-        tileY: Math.floor(mousePos.y / mainMap.tsize) + 1
-      };
-      let clickedUnit = mainMap.getUnitOnTile(clickedTile.tileX, clickedTile.tileY);
-      if(clickedUnit !== undefined){
-        showInfoUnit = clickedUnit;
-      }
-
-      if((selectedUnit == undefined || selectedUnit.actionState == selectedUnit.actionState.inactive || selectedUnit.actionState == selectedUnit.actionState.idle)
-      && mainMap.getTileIsFactory(clickedTile.tileX-1, clickedTile.tileY-1) && !mainMap.getTileHasUnit(clickedTile.tileX, clickedTile.tileY)){
-        buildingsList.forEach((building) => {
-          if((building.capturedBy == this.token && building.tileX == clickedTile.tileX && building.tileY == clickedTile.tileY)){
-            selectedFactory = building;
-            uiManager.setPrices();
-            soundManager.playSelect();
-            uiManager.disableUnitMenuItems();
-            uiManager.unitMenu.style.display = 'block';
-          }
-        });
-      }else{
-        selectedFactory = undefined;
-        uiManager.unitMenu.style.display = 'none';
-      }
-
-      if(selectedUnit !== undefined && selectedUnit.actionState.current == selectedUnit.actionState.prepareMove){
-        soundManager.playSelect();
-        selectedUnit.moveTo(clickedTile.tileX, clickedTile.tileY);
-      }else if(selectedUnit !== undefined && selectedUnit.actionState.current == selectedUnit.actionState.prepareFire){
-        let isUnitClicked = this.checkIfClickedOnEnemy(clickedTile);
-        if(!isUnitClicked){
-          soundManager.playWrongSelect();
-          selectedUnit.drawAttackGrid = false;
-          selectedUnit.attackGrid = [];
-          selectedUnit.actionState.current = selectedUnit.actionState.selectingAction;
-          selectedUnit.actionState.currentState = 'idle';
-        }
-      }else if(selectedUnit == undefined || selectedUnit.actionState.current == selectedUnit.actionState.idle){
-        this.selectClickedUnit(clickedTile);
-      }else if(selectedUnit !== undefined && selectedUnit.actionState.current == selectedUnit.actionState.prepareLoad){
-          if(selectedUnit.isArrayinArray(selectedUnit.loadGrid, [clickedTile.tileX, clickedTile.tileY])){
-            let clickedUnit = mainMap.getTileHasPlayerUnit(clickedTile.tileX, clickedTile.tileY)
-            if(clickedUnit !== undefined && clickedUnit !== selectedUnit && clickedUnit.type == "Infantry" || clickedUnit.type == "Mech"){
-            selectedUnit.loadUnit(clickedUnit);
-            soundManager.playSelect();
-          }
-        }else{
-          selectedUnit.loadGrid = [];
-          selectedUnit.actionState.current = selectedUnit.actionState.selectingAction;
-        }
-      }else if(selectedUnit !== undefined && selectedUnit.actionState.current == selectedUnit.actionState.prepareDrop){
-        if(selectedUnit.isArrayinArray(selectedUnit.dropGrid, [clickedTile.tileX, clickedTile.tileY])){
-          soundManager.playSelect();
-          selectedUnit.dropUnit(clickedTile);
-        }else{
-        selectedUnit.dropGrid = [];
-        selectedUnit.actionState.current = selectedUnit.actionState.selectingAction;
-      }
-    }
+      this.handleClickWhenRunning(e);
     }
   }
 
+  /** Handle clicks if game state is running
+   * @param e event
+   */
+  handleClickWhenRunning = (e) => {
+    let rect = this.canvas.getBoundingClientRect();
+    let mousePos = {
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top
+    }
+
+    let clickedTile = {
+      tileX: Math.floor(mousePos.x / mainMap.tsize) + 1,
+      tileY: Math.floor(mousePos.y / mainMap.tsize) + 1
+    };
+
+    let clickedUnit = mainMap.getUnitOnTile(clickedTile.tileX, clickedTile.tileY);
+
+    if(clickedUnit !== undefined){
+      showInfoUnit = clickedUnit;
+    }
+
+    if((selectedUnit == undefined || selectedUnit.actionState == selectedUnit.actionState.inactive || selectedUnit.actionState == selectedUnit.actionState.idle)
+    && mainMap.getTileIsFactory(clickedTile.tileX-1, clickedTile.tileY-1) && !mainMap.getTileHasUnit(clickedTile.tileX, clickedTile.tileY)){
+      this.selectClickedFactory(clickedTile);
+    }else{
+      selectedFactory = undefined;
+      uiManager.unitMenu.style.display = 'none';
+    }
+
+    this.checkUnitStates(clickedTile);
+
+  }
+
+  /** Check what state selected unit is in
+   * @param clickedTile tile clicked by mouse
+   */
+  checkUnitStates = (clickedTile) => {
+    if(selectedUnit !== undefined && selectedUnit.actionState.current == selectedUnit.actionState.prepareMove){
+      soundManager.playSelect();
+      selectedUnit.moveTo(clickedTile.tileX, clickedTile.tileY);
+    }else if(selectedUnit !== undefined && selectedUnit.actionState.current == selectedUnit.actionState.prepareFire){
+      this.checkAttackClickedUnit(clickedUnit);
+    }else if(selectedUnit == undefined || selectedUnit.actionState.current == selectedUnit.actionState.idle){
+      this.selectClickedUnit(clickedTile);
+    }else if(selectedUnit !== undefined && selectedUnit.actionState.current == selectedUnit.actionState.prepareLoad){
+      this.checkLoadUnit(clickedTile);
+    }else if(selectedUnit !== undefined && selectedUnit.actionState.current == selectedUnit.actionState.prepareDrop){
+      this.checkDropUnit(clickedTile);
+    }
+  }
+
+  /** Handle dropping a unit
+   * @param clickedTile tile clicked by mouse
+   */
+  checkDropUnit = (clickedTile) => {
+    if(selectedUnit.isArrayinArray(selectedUnit.dropGrid, [clickedTile.tileX, clickedTile.tileY])){
+      soundManager.playSelect();
+      selectedUnit.dropUnit(clickedTile);
+    }else{
+      selectedUnit.dropGrid = [];
+      selectedUnit.actionState.current = selectedUnit.actionState.selectingAction;
+    }
+  }
+
+  /** Handle loading a unit
+   * @param clickedTile tile clicked by mouse
+   */
+  checkLoadUnit = (clickedTile) =>{
+    if(selectedUnit.isArrayinArray(selectedUnit.loadGrid, [clickedTile.tileX, clickedTile.tileY])){
+      let clickedUnit = mainMap.getTileHasPlayerUnit(clickedTile.tileX, clickedTile.tileY)
+      if(clickedUnit !== undefined && clickedUnit !== selectedUnit && clickedUnit.type == "Infantry" || clickedUnit.type == "Mech"){
+        selectedUnit.loadUnit(clickedUnit);
+        soundManager.playSelect();
+      }
+    }else{
+      selectedUnit.loadGrid = [];
+      selectedUnit.actionState.current = selectedUnit.actionState.selectingAction;
+    }
+  }
+
+    /** Handle attacking a unit
+   * @param clickedTile tile clicked by mouse
+   */
+  checkAttackClickedUnit = (clickedTile) => {
+    let isUnitClicked = this.checkIfClickedOnEnemy(clickedTile);
+    if(!isUnitClicked){
+      soundManager.playWrongSelect();
+      selectedUnit.drawAttackGrid = false;
+      selectedUnit.attackGrid = [];
+      selectedUnit.actionState.current = selectedUnit.actionState.selectingAction;
+      selectedUnit.actionState.currentState = 'idle';
+    }
+  }
+
+  /** Handle clicking factory
+   * @param clickedTile tile clicked by mouse
+   */
+  selectClickedFactory = (clickedTile) => {
+    buildingsList.forEach((building) => {
+      if((building.capturedBy == this.token && building.tileX == clickedTile.tileX && building.tileY == clickedTile.tileY)){
+        selectedFactory = building;
+        uiManager.setPrices();
+        soundManager.playSelect();
+        uiManager.disableUnitMenuItems();
+        uiManager.unitMenu.style.display = 'block';
+      }
+    });
+  }
+
+  /** Select the clicked unit
+   * @param clickedTile tile clicked by mouse
+   */
   selectClickedUnit = (clickedTile) => {
     currentPlayer.unitList.forEach((valueU) => {
       if(valueU.getTilePos().tileX == clickedTile.tileX && valueU.getTilePos().tileY == clickedTile.tileY){
@@ -132,6 +183,9 @@ class MainGameLoop{
     });
   }
 
+  /** Handle attacking a unit
+   * @param clickedTile tile clicked by mouse
+   */
   checkIfClickedOnEnemy = (clickedTile) => {
     let isUnitClicked = false;
     playerList.forEach((valueP) => {
@@ -154,6 +208,9 @@ class MainGameLoop{
     return isUnitClicked;
   }
 
+  /** Sets active player token
+   * @param playerIdx index of player to set active
+   */
   setToken = (playerIdx) =>{
     this.token = playerIdx;
     selectedUnit = undefined;
@@ -172,12 +229,24 @@ class MainGameLoop{
     });
   }
 
+  /** Switch current active player */
   switchToken(){
     currentPlayer.setCounter(0);
+
     if(selectedUnit !== undefined) selectedUnit.movementGrid = [];
+
     selectedUnit = undefined;
+
     if(this.token < playerList.length - 1) this.token++;
     else this.token = 0;
+
+    this.setNextPlayerAsActive();
+
+    currentPlayer.increaseUnitHP();
+  }
+
+  /** Set next player in array as active */
+  setNextPlayerAsActive = () => {
     playerList.forEach((valueP, index) => {
       if(this.token !== undefined && this.token != index){
         valueP.active = false;
@@ -197,9 +266,11 @@ class MainGameLoop{
         });
       }
     });
-    currentPlayer.increaseUnitHP();
   }
 
+  /** Draw tiles in given layer
+   * @param layer layer array to draw
+   */
   drawLayer(layer){
     for(let c = 0; c < mainMap.cols; c++){
       for (let r = 0; r < mainMap.rows; r++){
@@ -221,6 +292,7 @@ class MainGameLoop{
     }
   }
 
+  /** Updates all players */
   updatePlayers(){
     playerList.forEach((valueP)=>{
       valueP.unitList.forEach((valueU) => {
@@ -229,6 +301,7 @@ class MainGameLoop{
     });
   }
 
+  /** Main update function, calls update on players and units */
   update(){
     if(currentPlayer !== undefined){
       this.updatePlayers();
@@ -239,6 +312,7 @@ class MainGameLoop{
     }
   }
 
+  /** Generates building and factory objects */
   generateBuildings(){
     let factoryTiles = [501, 491, 535, 623, 579];
     let buildingTiles = [500, 501, 490, 534, 491, 535, 622, 578, 623, 579];
@@ -260,6 +334,7 @@ class MainGameLoop{
     }
   }
 
+  /** Shows start screen if gamestate is start */
   showStartMenu = () => {
     this.context.clearRect(0,0, this.canvas.width, this.canvas.height);
     this.context.beginPath();
@@ -278,6 +353,7 @@ class MainGameLoop{
     if(this.gameState.current == this.gameState.start) window.requestAnimationFrame(this.showStartMenu);
   }
 
+  /** Initialize the loop */
   init(){
     this.lostPlayers = [];
     this.setToken(0);
@@ -285,6 +361,7 @@ class MainGameLoop{
     this.generateBuildings();
   }
 
+  /** Draw background image in battle animations */
   drawBattleBackground(){
     this.context.beginPath();
     this.context.fillStyle = 'rgba(0,0,0,1)';
@@ -293,6 +370,7 @@ class MainGameLoop{
     this.context.closePath();
   }
 
+  /** Draw overlay for transition in battle animation */
   drawBattleOverlay(){
     this.context.beginPath();
     this.context.fillStyle = 'rgba(0,0,0,' + this.alphaModifier + ')';
@@ -300,6 +378,7 @@ class MainGameLoop{
     this.context.closePath();
   }
 
+  /** Draw the battle animation */
   drawBattleAnimation = () => {
     if(attackingUnit !== undefined && defendingUnit !== undefined){
       this.gameState.current = this.gameState.noclick;
@@ -381,6 +460,7 @@ class MainGameLoop{
     }
   }
 
+  /** Draw the capture animation */
   drawCaptureAnimation(){
     if(capturingUnit !== undefined){
       this.gameState.current = this.gameState.noclick;
@@ -393,6 +473,7 @@ class MainGameLoop{
     }
   }
 
+  /** Draws all units */
   drawUnits(){
     playerList.forEach(player => {
       player.update();
@@ -402,6 +483,7 @@ class MainGameLoop{
     this.drawBattleAnimation();
   }
 
+  /** Increases frames by 1 every call */
   incrementFrames(){
     if(frames < 200) frames++;
     else frames = 0;
@@ -411,10 +493,12 @@ class MainGameLoop{
     };
   }
 
+  /** Draws all buildings */
   drawBuildings(){
     buildingsList.forEach((building) => {building.draw(this.context);} );
   }
 
+  /** Show game over menu */
   showGameOverMenu = () => {
     soundManager.bgAudio.pause();
     this.context.clearRect(0,0, this.canvas.width, this.canvas.height);
@@ -435,6 +519,7 @@ class MainGameLoop{
     if(this.gameState.current == this.gameState.gameOver) window.requestAnimationFrame(this.showGameOverMenu);
   }
 
+  /** Check if game is over */
   checkGameOver = () => {
     if(this.lostPlayers.length >= playerList.length - 1){
       this.gameState.current = this.gameState.gameOver;
@@ -444,6 +529,7 @@ class MainGameLoop{
     }
   }
 
+  /** Call all draw functions */
   render(){
     this.context.clearRect(0,0, this.canvas.width, this.canvas.height);
     this.drawLayer(0);
@@ -457,6 +543,9 @@ class MainGameLoop{
   }
 }
 
+/** Initialize all players with given units
+ * @units array of unit objects to spawn players with
+ */
 function initializePlayers(units){
   let player1 = new Player('red');
   let player2 = new Player('blue');

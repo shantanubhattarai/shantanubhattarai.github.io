@@ -1,3 +1,4 @@
+/** Loads all images before starting game */
 class Preloader {
   constructor(){
     this.images = [
@@ -13,6 +14,9 @@ class Preloader {
   this.loadedImages = 0;
   }
 
+  /** loads all images
+   * @param start function to start game to after loading is complete
+   */
   load = (start) => {
     var startMenuContainer = document.querySelector('.start-menu');
     startMenuContainer.style.display = 'none';

@@ -1,10 +1,11 @@
+/** Declares start menu */
 class Starter {
   constructor(){
     this.preloader = new Preloader();
     this.preloader.load(this.initStarter);
-
   }
 
+  /** Initialize start menu */
   initStarter = () => {
     var startMenuContainer = document.querySelector('.start-menu');
     startMenuContainer.style.display = 'block';
@@ -19,8 +20,10 @@ class Starter {
     this.levelEditorButton.addEventListener('click', startLevelEditor);
   }
 }
+
 var mainGameLoop;
 var backButton = document.querySelector('.back-button');
+/** Starts the game */
 var startGame = () => {
   backButton.style.display = 'none';
   var startMenuContainer = document.querySelector('.start-menu');
@@ -32,6 +35,7 @@ var startGame = () => {
 
 var levelEditor;
 
+/** Starts the level editor */
 var startLevelEditor = () => {
   var startMenuContainer = document.querySelector('.start-menu');
   startMenuContainer.style.display = 'none';
@@ -39,6 +43,7 @@ var startLevelEditor = () => {
 }
 
 var levelLoader;
+/** Starts the level loader */
 var startLevelLoader = () => {
   var startMenuContainer = document.querySelector('.start-menu');
   startMenuContainer.style.display = 'none';

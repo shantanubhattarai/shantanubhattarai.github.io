@@ -1,3 +1,6 @@
+/**
+ * Declares the main level editor
+ */
 class LevelEditor{
   constructor(){
     this.layers = [[],[]];
@@ -45,6 +48,7 @@ class LevelEditor{
     this.initLowerLayer();
   }
 
+  /** Go to start menu */
   goToMenu = () => {
     var startMenuContainer = document.querySelector('.start-menu');
     startMenuContainer.style.display = 'block';
@@ -53,14 +57,19 @@ class LevelEditor{
     this.backButton.style.display = 'none';
   }
 
+  /** Get tiles to draw on edited map */
   getTileFromNewMap(layer, col, row){
     return this.layers[layer][row * mainMap.cols + col];
   }
 
+  /** Get tiles that can be clicked */
   getInteractableTiles(col,row){
     return this.tilesToDraw[row * mainMap.cols + col];
   }
 
+  /** Main click handler
+   * @param e event
+   */
   clickEventHandler = (e) => {
     let rect = this.canvas.getBoundingClientRect();
     let mousePos = {
@@ -73,6 +82,9 @@ class LevelEditor{
     this.checkClickDrawGrid(mousePos);
   }
 
+  /** Check if clicked on interactable tiles
+   * @param mousePos position of mouse when clicked
+   */
   checkClickSourceTiles = (mousePos) => {
     if(mousePos.y > this.mapHeight + 10 && mousePos.y < (this.mapHeight + 10 + mainMap.tsize) && mousePos.x < this.tilesToDraw.length * mainMap.tsize){
       let tileX = Math.floor(mousePos.x/ mainMap.tsize);
@@ -83,6 +95,9 @@ class LevelEditor{
     }
   }
 
+  /** Check if unit tiles are clicked
+   * @param mousePos position of mouse when clicked
+   */
   checkClickUnits = (mousePos) => {
     if(mousePos.y > this.mapHeight + 50 && mousePos.y < (this.mapHeight + 50 + 16 * mainMap.tsize) && mousePos.x < 4 * mainMap.tsize){
       let tileX = Math.floor(mousePos.x/ mainMap.tsize);
@@ -96,35 +111,56 @@ class LevelEditor{
     }
   }
 
+  /** Check if clicked on editing map
+   * @param mousePos mouse position when clicked
+   */
   checkClickDrawGrid = (mousePos) => {
     if(mousePos.y < this.mapHeight && mousePos.x < mainMap.cols * mainMap.tsize){
       let tileX = Math.floor(mousePos.x/ mainMap.tsize);
       let tileY = Math.floor(mousePos.y/ mainMap.tsize);
       let targetTile = tileY * mainMap.cols + tileX;
       if(this.sourceType == 'tile') {
-        this.layers[1][targetTile] = this.sourceTile;
-        this.unitsToSpawn = this.unitsToSpawn.filter((unit) => {
-          if(unit.tileX == tileX + 1 && unit.tileY == tileY + 1){
-            return false;
-          }
-          return true;
-        });
+        this.addTileToNewMap(tileX, tileY, targetTile);
       }
       else{
-        this.sourceTile.tileX = tileX + 1;
-        this.sourceTile.tileY = tileY + 1;
-        this.unitsToSpawn = this.unitsToSpawn.filter((unit) => {
-          return !(unit.tileX == this.sourceTile.tileX && unit.tileY == this.sourceTile.tileY);
-        });
-        this.unitsToSpawn.push(this.sourceTile);
-        this.sourceTile = 0;
-        this.sourceType = 'tile';
+        this.addUnitToNewMap(tileX, tileY);
       }
       this.context.clearRect(tileX * mainMap.tsize, tileY * mainMap.tsize, mainMap.tsize, mainMap.tsize);
     }
     this.render();
   }
 
+ /** Adds unit to editing map
+   * @tileX x position of tile where clicked
+   * @tileY y position of tile where clicked
+   */
+  addUnitToNewMap = (tileX, tileY) => {
+    this.sourceTile.tileX = tileX + 1;
+    this.sourceTile.tileY = tileY + 1;
+    this.unitsToSpawn = this.unitsToSpawn.filter((unit) => {
+      return !(unit.tileX == this.sourceTile.tileX && unit.tileY == this.sourceTile.tileY);
+    });
+    this.unitsToSpawn.push(this.sourceTile);
+    this.sourceTile = 0;
+    this.sourceType = 'tile';
+  }
+
+  /** Adds tile to editing map
+   * @tileX x position of tile where clicked
+   * @tileY y position of tile where clicked
+   * @targetTile array position of clicked tile
+   */
+  addTileToNewMap = (tileX, tileY, targetTile) => {
+    this.layers[1][targetTile] = this.sourceTile;
+    this.unitsToSpawn = this.unitsToSpawn.filter((unit) => {
+      if(unit.tileX == tileX + 1 && unit.tileY == tileY + 1){
+        return false;
+      }
+      return true;
+    });
+  }
+
+  /** Saves current level */
   saveLevel = () => {
     let level = {
       level: parseInt(localStorage.length) + 1,
@@ -138,6 +174,7 @@ class LevelEditor{
     }
   }
 
+  /** Initialize Ground layer */
   initLowerLayer = () => {
     this.layers[0] = [
       1,1,1 ,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
@@ -171,6 +208,7 @@ class LevelEditor{
     ];
   }
 
+  /** Draw the interactable tiles at the bottom*/
   drawInteractableTiles = () => {
     for(let c = 0; c < this.tilesToDraw.length; c++){
       for (let r = 0; r < 2; r++){
@@ -192,6 +230,7 @@ class LevelEditor{
     }
   }
 
+  /** Draw unit tiles at bottom */
   drawSourceUnits = () => {
     let colors = ['red', 'blue', 'green', 'yellow'];
     let rowUnits = ['Infantry', 'Mech', 'Anti Air', 'APC', 'Artillery', 'MD Tank', 'Tank', 'Missile Launcher', 'Rocket Launcher', 'Recon', 'Bomber', 'Fighter', 'Helicopter', 'Transport Copter', 'Battleship', 'Cruiser'];
@@ -214,6 +253,12 @@ class LevelEditor{
     this.hasDrawnUnitsOnce = true;
   }
 
+  /** Spawn unit objects for each source tile
+   * @param tileX x tile position of unit
+   * @param tileY y tile position of unit
+   * @param color color of unit
+   * @param unitType type of unit, string
+   */
   spawnUnit = (tileX, tileY, color, unitType) => {
     switch (unitType){
       case 'Infantry': {
@@ -299,6 +344,9 @@ class LevelEditor{
     }
   }
 
+  /** Draw given layer
+   * @param layer layer array to draw
+   */
   drawLayer = (layer) => {
     for(let c = 0; c < mainMap.cols; c++){
       for (let r = 0; r < mainMap.rows; r++){
@@ -320,6 +368,7 @@ class LevelEditor{
     }
   }
 
+  /** Draw grid outlines */
   drawGrid = () => {
     for(let i = 0; i <= mainMap.cols; i++){
       this.context.moveTo(i * mainMap.tsize, 0);
@@ -335,6 +384,7 @@ class LevelEditor{
     this.context.stroke();
   }
 
+  /** Draw units on editing map */
   drawUnits = () => {
     this.unitsToSpawn.forEach((unit) => {
       this.context.drawImage(
@@ -351,6 +401,7 @@ class LevelEditor{
     });
   }
 
+  /** Call all draw functions */
   render = () => {
     this.drawLayer(0);
     this.drawLayer(1);

@@ -151,7 +151,6 @@ class Battleship extends Unit{
       });
       childrenGrid.forEach(element => {
         setTimeout(()=>{this.generateMovementTiles(element[0], element[1], element[2], element[3]);}, 0)
-        //this.generateMovementTiles(element[0], element[1], element[2], element[3]);
       });
     }
   }

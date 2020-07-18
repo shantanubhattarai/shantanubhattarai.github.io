@@ -1,3 +1,4 @@
+/** Declares the UI manager */
 class UIManager{
   constructor(){
     this.turnIndicator = document.querySelector('.turn-indicator');
@@ -44,6 +45,7 @@ class UIManager{
     };
   }
 
+  /** Initialize buttons and click events for buttons */
   initEndTurn(){
     this.endTurnButton.style.display = 'none';
     this.endTurnButton.onclick = () => {
@@ -162,6 +164,7 @@ class UIManager{
     this.unitMenu.style.display = 'none';
   }
 
+  /** Set price for factory UI */
   setPrices(){
     let unitMenuListItems = Array.from(document.querySelectorAll('.unit-menu-list > li'));
     unitMenuListItems.forEach((unitMenuListItem) => {
@@ -171,6 +174,7 @@ class UIManager{
     });
   }
 
+  /** Show the menu */
   showMenu(){
     if(selectedUnit !== undefined && selectedUnit.actionState.current == selectedUnit.actionState.selectingAction){
       this.showCaptureIfBuilding();
@@ -274,6 +278,7 @@ class UIManager{
     });
   }
 
+  /** Updates UI manager */
   update(){
     this.endTurnButton.style.display = 'inline-block';
     if(window.mainGameLoop.gameState.current == window.mainGameLoop.gameState.running){

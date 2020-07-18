@@ -33,6 +33,7 @@ let buildingsList = [];
 let capturingUnit;
 let attackingUnit;
 let defendingUnit;
+
 const hudPos = {
   1: {x: 166, y: 23},
   2: {x: 175, y: 23},
