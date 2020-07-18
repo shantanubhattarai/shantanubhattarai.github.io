@@ -18,7 +18,7 @@ class LevelEditor{
     this.canvas.addEventListener('click', this.clickEventHandler);
     this.mapTilesImage = document.createElement('img');
     this.mapTilesImage.src = './img/RoadTiles.png';
-    this.tilesToDraw = [1, 27, 77, 79, 81, 10, 76, 63, 56, 12, 2, 3, 5, 7, 28, 29, 111, 112, 113, 155, 156, 157, 137, 120, 122, 141, 134, 135, 500, 501];
+    this.tilesToDraw = [1, 27, 77, 79, 81, 10, 76, 63, 56, 12, 2, 3, 5, 7, 28, 29, 111, 112, 113, 155, 156, 157, 137, 120, 122, 141,133, 134, 135, 500, 501];
     this.sourceTile = 0;
     this.sourceType = 'tile';
 
@@ -118,7 +118,6 @@ class LevelEditor{
         this.sourceType = 'tile';
       }
       this.context.clearRect(tileX * mainMap.tsize, tileY * mainMap.tsize, mainMap.tsize, mainMap.tsize);
-      this.render();
     }
   }
 
@@ -356,5 +355,6 @@ class LevelEditor{
     this.drawGrid();
     this.drawInteractableTiles();
     if(!this.hasDrawnUnitsOnce) this.drawSourceUnits();
+    window.requestAnimationFrame(this.render);
   }
 }
