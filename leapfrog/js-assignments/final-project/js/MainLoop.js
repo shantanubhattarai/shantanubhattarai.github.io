@@ -512,23 +512,5 @@ function initializePlayers(units){
   playerList.push(player4);
 }
 
-
-// player2.addUnit(10,20,'Infantry');
-// player2.addUnit(8,13,'Bomber');
-// player2.addUnit(8,14,'MD Tank');
-// player2.addUnit(14, 15, 'Battleship');
-
-// playerList.push(player3);
-// player3.addUnit(6, 8, 'Rocket Launcher');
-// player3.addUnit(6, 9, 'Bomber');
-// player3.addUnit(14, 14, 'Battleship');
-
-
-// playerList.push(player4);
-// player4.addUnit(5, 9, 'Rocket Launcher');
-// player4.addUnit(4, 9, 'Bomber');
-// player4.addUnit(8, 9, 'Recon');
-// player4.addUnit(14, 16, 'Battleship');
 var uiManager = new UIManager();
 var soundManager = new SoundManager();
-// var mainGameLoop = new MainGameLoop();
