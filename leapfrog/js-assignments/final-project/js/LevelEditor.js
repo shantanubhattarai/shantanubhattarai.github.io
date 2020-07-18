@@ -214,7 +214,6 @@ class LevelEditor{
     switch (unitType){
       case 'Infantry': {
         this.unit  = new Infantry(tileX, tileY, color);
-        console.log(this.spawnableUnits);
         this.spawnableUnits.push(this.unit);
         break;
       }
