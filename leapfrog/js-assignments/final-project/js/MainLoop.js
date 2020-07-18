@@ -36,8 +36,9 @@ class MainGameLoop{
       this.init();
     }else if(this.gameState.current == this.gameState.gameOver){
       this.gameState.current = this.gameState.running;
-      initializePlayers();
-      this.init();
+      var startMenuContainer = document.querySelector('.start-menu');
+      startMenuContainer.style.display = 'block';
+      this.canvas.style.display = 'none';
     }
     else if(this.gameState.current == this.gameState.running)
     {
@@ -425,7 +426,7 @@ class MainGameLoop{
     this.context.fillStyle = '#000000';
     this.context.font = "48px AW2";
     this.context.fillText("Congrats Player " + currentPlayer.color.toUpperCase(), 280, 320);
-    this.context.fillText("LEFT CLICK TO RESTART", 258, 376);
+    this.context.fillText("LEFT CLICK TO GO BACK", 258, 376);
     this.context.beginPath();
     this.context.rect(240, 390, 365, 20);
     this.context.fill();
