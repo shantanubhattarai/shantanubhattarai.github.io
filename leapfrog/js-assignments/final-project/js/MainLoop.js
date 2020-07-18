@@ -416,6 +416,7 @@ class MainGameLoop{
   }
 
   showGameOverMenu = () => {
+    soundManager.bgAudio.pause();
     this.context.clearRect(0,0, this.canvas.width, this.canvas.height);
     this.context.beginPath();
     this.context.fillStyle = playerColors[currentPlayer.color];
