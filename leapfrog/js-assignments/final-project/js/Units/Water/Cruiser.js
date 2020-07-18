@@ -12,7 +12,8 @@ class Cruiser extends Unit{
       'Fighter': 60,
       'Bomber': 70,
       'Tank': 50,
-      'Battleship': 10
+      'Battleship': 10,
+      'Cruiser': 50
     };
     this.spritePos = {
       red: {
