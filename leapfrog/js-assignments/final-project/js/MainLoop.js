@@ -90,6 +90,11 @@ class MainGameLoop{
       soundManager.playSelect();
       selectedUnit.moveTo(clickedTile.tileX, clickedTile.tileY);
     }else if(selectedUnit !== undefined && selectedUnit.actionState.current == selectedUnit.actionState.prepareFire){
+      let clickedUnit = mainMap.getUnitOnTile(clickedTile.tileX, clickedTile.tileY);
+
+      if(clickedUnit !== undefined){
+        showInfoUnit = clickedUnit;
+      }
       this.checkAttackClickedUnit(clickedUnit);
     }else if(selectedUnit == undefined || selectedUnit.actionState.current == selectedUnit.actionState.idle){
       this.selectClickedUnit(clickedTile);
