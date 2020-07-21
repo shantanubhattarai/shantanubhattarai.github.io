@@ -70,7 +70,7 @@ class UIManager{
           soundManager.playSelect();
           selectedUnit.startCaptureAnimate();
           building.captureProgress += 50;
-          if(building.captureProgress == 100){
+          if(building.captureProgress >= 100){
             building.getCaptured(currentPlayer);
           }
         }
