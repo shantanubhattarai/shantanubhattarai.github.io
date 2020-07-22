@@ -1,0 +1,28 @@
+.latest-works{
+  padding: 130px 0px;
+  text-align: center;
+  background-color: $catskill-white;
+
+  @include e(title){
+    font-family: $font-family-title;
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 16px;
+
+    @include mq(md){
+      font-size: 44px;
+      margin-bottom: 24px;
+    }
+  }
+
+  @include e(text){
+    padding: 20px;
+    max-width: 830px;
+    margin: 0 auto;
+    color: $lynch;
+
+    @include mq(md){
+      font-size: 22px;
+    }
+  }
+}
