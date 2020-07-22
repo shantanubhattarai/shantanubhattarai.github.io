@@ -1,0 +1,37 @@
+.hero{
+  position: relative;
+  height: 260px;
+  background: url('../img/hero.png');
+  background-size: cover;
+  text-align: center;
+
+  @include mq(md){
+    height: 520px;
+  }
+
+  @include mq(lg){
+    height: 880px;
+  }
+  width: 100%;
+
+  @include e(text-container){
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+  }
+
+  @include e(title){
+    color: $white;
+    font-size: 78px;
+    //font lato weight black
+  }
+
+  @include e(text){
+    max-width: 970px;
+    margin: 0 auto;
+    color: $cadet-blue;
+    font-size: 24px;
+  }
+
+}

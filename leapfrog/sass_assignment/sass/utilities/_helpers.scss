@@ -21,6 +21,13 @@
 %clearfix-none{
   display: inherit;
 }
+
+%clearfix{
+  display: table;
+  content: "";
+  clear: both;
+}
+
 %pseudos{
   display: block;
   content:"";

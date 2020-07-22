@@ -15,7 +15,7 @@
     "clean": "rimraf dist/",
     "clean:dist": "rimraf dist/**/* !dist/images/ ! dist/images/**/*",
     "sass": "node-sass --source-map true sass/style.scss -o dist/css/",
-    "watch:sass": "node-sass --source-map true sass/style.scss -wo dist/css/",
+    "watch:sass": "nodemon -e scss -x npm run sass",
     "imagemin": "imagemin images/**/* --out-dir=dist/images/",
     "start": "concurrently \"npm run watch:html\" \"npm run watch:js\" \"npm run watch:images\" \"npm run watch:fonts\" \"npm run watch:sass\" \"npm run serve\"",
     "build": "npm install && npm run clean:dist && npm run sass && npm run imagemin && npm run fonts && npm run js && npm run html",
@@ -36,7 +36,8 @@
     "autoprefixer": "^6.7.7",
     "connect-history-api-fallback": "^1.6.0",
     "imagemin-cli": "^5.0.0",
-    "node-sass": "^4.13.0"
+    "node-sass": "^4.13.0",
+    "nodemon": "^2.0.4"
   },
   "dependencies": {
     "browser-sync": "^2.26.7",

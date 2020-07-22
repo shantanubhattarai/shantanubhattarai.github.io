@@ -13,13 +13,13 @@
   padding: 0;
   box-sizing: border-box;
   // Global Clearfixing
-  @if $grid-type == 'float'{
-    &:after{
-      clear: both;
-      content: "";
-      display: block;
-    }
+  //
+  &:after{
+    clear: both;
+    content: "";
+    display: block;
   }
+  //
 }
 
 // Base Code
@@ -89,4 +89,11 @@ select{
 option {
   background-color: $white;
   color: $black;
+}
+button{
+  border: none;
+  outline: none;
+  &:hover{
+    cursor: pointer;
+  }
 }
