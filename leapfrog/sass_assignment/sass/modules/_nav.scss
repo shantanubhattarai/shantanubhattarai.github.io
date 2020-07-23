@@ -1,2 +1,7 @@
 .nav{
+  li{
+    @include mq(md){
+      float: left;
+    }
+  }
 }

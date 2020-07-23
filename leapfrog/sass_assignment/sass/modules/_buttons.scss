@@ -21,6 +21,11 @@
         border-radius: 50%;
     }
 
+    @include m(form){
+        font-size: 13px;
+        padding: 10px 11px;
+    }
+
     @include m(inactive){
         background-color: $blue;
     }
