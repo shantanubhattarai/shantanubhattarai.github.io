@@ -5,6 +5,8 @@
   background-size: cover;
   text-align: center;
   margin-bottom: 50px;
+  width: 100%;
+
   @include mq(md){
     height: 520px;
     margin-bottom: 130px;
@@ -13,13 +15,12 @@
   @include mq(lg){
     height: 880px;
   }
-  width: 100%;
 
   @include e(text-container){
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translateX(-50%) translateY(-50%);
+    transform: translate(-50%, -50%);
   }
 
   @include e(title){
@@ -39,6 +40,15 @@
       margin: 0 auto;
       color: $cadet-blue;
       font-size: 24px;
+    }
+  }
+
+  @include e(btn){
+    margin-top: 20px;
+    font-size: 18px;
+    @include mq(md){
+      padding: 26px 70px;
+      margin-top: 70px;
     }
   }
 

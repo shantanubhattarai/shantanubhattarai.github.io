@@ -1,0 +1,18 @@
+.footer{
+  padding: 0px 72px;
+  color: $white;
+  background-color: $bluewood;
+  @include e(col){
+    width: 25%;
+    float: left;
+    padding: 0px 15px;
+
+    &:first-child{
+      padding-left: 0px;
+    }
+
+    &:last-child{
+      padding-right: 0px;
+    }
+  }
+}

@@ -5,7 +5,7 @@
     border: 1px solid $gray;
   }
 
-  @include e(left){
+  @include m(left){
     width: 100%;
     text-align: center;
     padding: 14px 0px;
@@ -23,7 +23,7 @@
     }
   }
 
-  @include e(right){
+  @include m(right){
     display: block;
     width: 160px;
     margin: 0px auto;

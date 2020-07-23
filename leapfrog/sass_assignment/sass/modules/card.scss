@@ -1,0 +1,16 @@
+.card{
+  background-color: #fff;
+
+  @include e(title){
+    font-family: $font-family-title;
+    font-weight: bold;
+    font-size: 20px;
+    padding: 16px 0px;
+  }
+
+  @include e(text){
+    font-size: 14px;
+    color: $lynch;
+    padding-bottom: 30px;
+  }
+}
