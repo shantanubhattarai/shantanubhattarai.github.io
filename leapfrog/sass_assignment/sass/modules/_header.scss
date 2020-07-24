@@ -50,12 +50,23 @@
   }
 
   @include e(logo){
-    margin: 0px auto;
     width: 160px;
     display: block;
+    float:left;
+    @include mq(md){
+      float: none;
+      margin: 0px auto;
+    }
     @include mq(lg){
       float: left;
       margin-right: 58px;
+    }
+  }
+
+  @include e(menu-icon){
+    float: right;
+    @include mq(md){
+      display: none;
     }
   }
 
@@ -66,12 +77,13 @@
       float: left;
       font-size: 12px;
       font-weight: bold;
+      margin-top: 14px;
       li {
         padding: 12px 22px;
-
       }
     }
     @include mq(lg){
+      margin-top: 0px;
       font-size: 15px;
     }
   }
@@ -83,6 +95,10 @@
       float: right;
       background: transparent;
       color: $color-text;
+      margin-top: 22px;
+    }
+    @include mq(lg){
+      margin-top: 0px;
       padding: 12px 0px;
     }
   }

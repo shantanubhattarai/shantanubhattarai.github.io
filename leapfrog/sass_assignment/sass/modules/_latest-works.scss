@@ -44,6 +44,7 @@
   }
 
   @include e(gallery){
+
     img{
       width: 50%;
       float: left;
@@ -51,6 +52,10 @@
       @include mq(md){
         padding: 0px 15px;
         width: 25%;
+      }
+
+      &:hover{
+        box-shadow: 0px 2px 2px $gray;
       }
     }
   }
