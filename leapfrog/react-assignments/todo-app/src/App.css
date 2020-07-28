@@ -1,0 +1,73 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #f9f9f9;
+}
+
+.App {
+  width: 60%;
+  margin: 0 auto;
+}
+
+.toDoListContainer {
+  padding: 15px;
+  background-color: #fff;
+}
+
+.toDoForm {
+  width: 100%;
+}
+
+.toDoForm__input {
+  border: none;
+  outline: none;
+
+  display: block;
+  width: 100%;
+
+  padding: 16px 2px;
+  border-bottom: 1px #ddd solid;
+  margin-bottom: 15px;
+}
+
+.toDoForm__input:focus {
+  border-bottom: 2px #cf1a30 solid;
+  margin-bottom: 14px;
+}
+
+.toDoForm__button {
+  border: none;
+  outline: none;
+
+  display: block;
+  width: 100%;
+
+  padding: 16px;
+  background-color: #e71d36;
+  color: white;
+}
+
+.toDoForm__button:hover {
+  cursor: pointer;
+  background-color: #cf1a30;
+}
+
+.tasksList {
+  list-style: none;
+  padding: 15px 0;
+}
+
+.tasksList li {
+  padding: 15px 0px;
+  border-bottom: 1px #ddd solid;
+}
+
+.tasksList li:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
