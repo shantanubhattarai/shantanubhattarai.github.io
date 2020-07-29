@@ -7,6 +7,8 @@ class ToDoList extends React.Component {
     this.state = {
       currentValue: "",
       items: [],
+      displayItems: [],
+      filter: "none",
     };
   }
 
@@ -16,11 +18,16 @@ class ToDoList extends React.Component {
       let taskItem = {
         text: this.state.currentValue,
         key: Date.now(),
+        completed: false,
       };
 
       let tempItems = this.state.items;
       tempItems.push(taskItem);
-      this.setState({ currentValue: "", items: tempItems });
+      this.setState({
+        currentValue: "",
+        items: tempItems,
+        displayItems: tempItems,
+      });
     }
   };
 
@@ -28,9 +35,92 @@ class ToDoList extends React.Component {
     this.setState({ currentValue: e.target.value });
   };
 
+  deleteItem = (key) => {
+    let filteredItems = this.state.items.filter((item) => {
+      return item.key !== key;
+    });
+
+    this.setState({ items: filteredItems });
+  };
+
+  handleCompleted = (key) => {
+    let items = this.state.items;
+    let itemIdx = items.findIndex((task) => task.key === key);
+    let item = items[itemIdx];
+
+    items[itemIdx] = { ...item, completed: !item.completed };
+
+    this.setState({ items, displayItems: items });
+  };
+
+  filterOnSearch = (e) => {
+    let tempDisplayItems = this.checkFilters();
+    if (!e.target.value || e.target.value === "" || e.target.value === " ") {
+      this.setState({ displayItems: [...this.state.items] });
+    } else {
+      let searchQuery = e.target.value.toLowerCase();
+      tempDisplayItems = tempDisplayItems.filter((item) => {
+        let searchValue = item.text.toLowerCase();
+        return searchValue.indexOf(searchQuery) !== -1;
+      });
+      this.setState({ displayItems: tempDisplayItems });
+    }
+  };
+
+  checkFilters = () => {
+    let itemsToDisplay = [...this.state.items];
+    if (this.state.filter === "completed") {
+      itemsToDisplay = this.state.items.filter((item) => {
+        return item.completed;
+      });
+    } else if (this.state.filter === "remaining") {
+      itemsToDisplay = this.state.items.filter((item) => {
+        return !item.completed;
+      });
+    }
+
+    return itemsToDisplay;
+  };
+
+  setFilter = (value) => {
+    this.setState({ filter: value }, () => {
+      let itemsToDisplay = this.checkFilters();
+      this.setState({ displayItems: itemsToDisplay });
+    });
+  };
+
   render() {
     return (
       <div className="toDoListContainer">
+        <div className="toDoSearch">
+          <input
+            type="text"
+            className="searchBar"
+            placeholder="Search here"
+            onChange={this.filterOnSearch}
+          />
+        </div>
+        <div className="toDoFilters">
+          <h3>Filter your tasks</h3>
+          <button className="filter-box" onClick={() => this.setFilter("none")}>
+            <i className="filter-icon far fa-check-circle"></i>
+            <p className="filter-text"> All Items </p>
+          </button>
+          <button
+            className="filter-box"
+            onClick={() => this.setFilter("completed")}
+          >
+            <i className="filter-icon far fa-check-circle"></i>
+            <p className="filter-text"> Completed </p>
+          </button>
+          <button
+            className="filter-box"
+            onClick={() => this.setFilter("remaining")}
+          >
+            <i className="filter-icon far fa-circle"></i>
+            <p className="filter-text"> Remaining </p>
+          </button>
+        </div>
         <div className="toDoForm">
           <form onSubmit={this.addTask}>
             <input
@@ -46,7 +136,11 @@ class ToDoList extends React.Component {
           </form>
         </div>
         <div className="toDoItems">
-          <ToDoItems entries={this.state.items} />
+          <ToDoItems
+            entries={this.state.displayItems}
+            delete={this.deleteItem}
+            complete={this.handleCompleted}
+          />
         </div>
       </div>
     );
