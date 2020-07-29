@@ -159,6 +159,10 @@ button:hover {
   background-color: #18897d;
 }
 
+.filter-box:focus {
+  background-color: #1fc98b;
+}
+
 .filter-icon {
   display: block;
   margin-bottom: 12px;

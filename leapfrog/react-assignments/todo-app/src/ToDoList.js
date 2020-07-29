@@ -1,5 +1,6 @@
 import React from "react";
 import ToDoItems from "./ToDoItems";
+import FilterButton from "./FilterButton";
 
 class ToDoList extends React.Component {
   constructor(props) {
@@ -49,8 +50,8 @@ class ToDoList extends React.Component {
     let item = items[itemIdx];
 
     items[itemIdx] = { ...item, completed: !item.completed };
-
-    this.setState({ items, displayItems: items });
+    let displayItems = this.checkFilters();
+    this.setState({ items, displayItems });
   };
 
   filterOnSearch = (e) => {
@@ -102,24 +103,21 @@ class ToDoList extends React.Component {
         </div>
         <div className="toDoFilters">
           <h3>Filter your tasks</h3>
-          <button className="filter-box" onClick={() => this.setFilter("none")}>
-            <i className="filter-icon far fa-check-circle"></i>
-            <p className="filter-text"> All Items </p>
-          </button>
-          <button
-            className="filter-box"
-            onClick={() => this.setFilter("completed")}
-          >
-            <i className="filter-icon far fa-check-circle"></i>
-            <p className="filter-text"> Completed </p>
-          </button>
-          <button
-            className="filter-box"
-            onClick={() => this.setFilter("remaining")}
-          >
-            <i className="filter-icon far fa-circle"></i>
-            <p className="filter-text"> Remaining </p>
-          </button>
+          <FilterButton
+            filterFunc={this.setFilter}
+            type="none"
+            text="All Items"
+          />
+          <FilterButton
+            filterFunc={this.setFilter}
+            type="completed"
+            text="Completed"
+          />
+          <FilterButton
+            filterFunc={this.setFilter}
+            type="remaining"
+            text="Remaining"
+          />
         </div>
         <div className="toDoForm">
           <form onSubmit={this.addTask}>

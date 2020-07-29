@@ -22,6 +22,7 @@ class ToDoItems extends React.Component {
             type="checkBox"
             className="todoCheck pullLeft"
             onChange={() => this.complete(item.key)}
+            checked={item.completed ? true : false}
           />
           <p className="todoText pullLeft">{item.text}</p>
           <button className="deleteBtn" onClick={() => this.delete(item.key)}>
