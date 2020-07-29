@@ -115,7 +115,7 @@ button:hover {
   border: none;
   outline: none;
   color: white;
-  width: 25%;
+  max-width: 25%;
 }
 
 .pullLeft {
@@ -126,7 +126,7 @@ button:hover {
   margin-top: 13px;
   margin-right: 12px;
   padding: 5px;
-  width: 10%;
+  max-width: 10%;
 }
 
 .todoText {
