@@ -13,11 +13,8 @@ class ToDoItems extends React.Component {
     let toDoEntries = this.props.entries;
 
     let listItems = toDoEntries.map((item) => {
-      let className = "clearFix";
-      if (item.completed) className += " checked";
-
       return (
-        <li key={item.key} className={className}>
+        <li key={item.key} className={`clearFix ${item.completed ? 'checked' : ''}`}>
           <input
             type="checkBox"
             className="todoCheck pullLeft"

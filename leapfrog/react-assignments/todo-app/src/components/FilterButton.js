@@ -21,10 +21,8 @@ class FilterButton extends React.Component {
   };
 
   render() {
-    let className = "filter-box";
-    if (this.state.active) className += " filter-box-active";
     return (
-      <button className={className} onClick={() => this.setActive()}>
+      <button className={`filter-box ${this.state.active ? 'filter-box-active':''}`} onClick={() => this.setActive()}>
         <i
           className={"filter-icon far fa-" + this.iconMap[this.props.type]}
         ></i>
