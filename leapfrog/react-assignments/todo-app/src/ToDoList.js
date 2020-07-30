@@ -7,8 +7,8 @@ class ToDoList extends React.Component {
     super(props);
     this.state = {
       currentValue: "",
+      searchText: "",
       items: [],
-      displayItems: [],
       filter: "none",
     };
   }
@@ -50,44 +50,43 @@ class ToDoList extends React.Component {
     let item = items[itemIdx];
 
     items[itemIdx] = { ...item, completed: !item.completed };
-    let displayItems = this.checkFilters();
-    this.setState({ items, displayItems });
+    this.setState({ items });
   };
 
-  filterOnSearch = (e) => {
-    let tempDisplayItems = this.checkFilters();
-    if (!e.target.value || e.target.value === "" || e.target.value === " ") {
-      this.setState({ displayItems: [...this.state.items] });
-    } else {
-      let searchQuery = e.target.value.toLowerCase();
-      tempDisplayItems = tempDisplayItems.filter((item) => {
-        let searchValue = item.text.toLowerCase();
-        return searchValue.indexOf(searchQuery) !== -1;
-      });
-      this.setState({ displayItems: tempDisplayItems });
+  setSearchText = (e) => {
+    if (e.target.value && e.target.value !== "" && e.target.value !== " ") {
+      this.setState({ searchText: e.target.value.toLowerCase() });
     }
   };
 
-  checkFilters = () => {
-    let itemsToDisplay = [...this.state.items];
+  filterOnSearch = (displayItems) => {
+    let tempDisplayItems = [...displayItems];
+
+    let searchQuery = this.state.searchText.toLowerCase();
+    tempDisplayItems = tempDisplayItems.filter((item) => {
+      let searchValue = item.text.toLowerCase();
+      return searchValue.indexOf(searchQuery) !== -1;
+    });
+    return tempDisplayItems;
+  };
+
+  checkFilters = (tempDisplayItems) => {
+    let displayItems = [...tempDisplayItems];
     if (this.state.filter === "completed") {
-      itemsToDisplay = this.state.items.filter((item) => {
+      displayItems = this.state.items.filter((item) => {
         return item.completed;
       });
     } else if (this.state.filter === "remaining") {
-      itemsToDisplay = this.state.items.filter((item) => {
+      displayItems = this.state.items.filter((item) => {
         return !item.completed;
       });
     }
 
-    return itemsToDisplay;
+    return displayItems;
   };
 
   setFilter = (value) => {
-    this.setState({ filter: value }, () => {
-      let itemsToDisplay = this.checkFilters();
-      this.setState({ displayItems: itemsToDisplay });
-    });
+    this.setState({ filter: value });
   };
 
   render() {
@@ -98,7 +97,7 @@ class ToDoList extends React.Component {
             type="text"
             className="searchBar"
             placeholder="Search here"
-            onChange={this.filterOnSearch}
+            onChange={this.setSearchText}
           />
         </div>
         <div className="toDoFilters">
@@ -135,7 +134,7 @@ class ToDoList extends React.Component {
         </div>
         <div className="toDoItems">
           <ToDoItems
-            entries={this.state.displayItems}
+            entries={this.checkFilters(this.filterOnSearch(this.state.items))}
             delete={this.deleteItem}
             complete={this.handleCompleted}
           />
