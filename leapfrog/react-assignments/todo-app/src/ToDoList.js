@@ -54,19 +54,24 @@ class ToDoList extends React.Component {
   };
 
   setSearchText = (e) => {
-    if (e.target.value && e.target.value !== "" && e.target.value !== " ") {
-      this.setState({ searchText: e.target.value.toLowerCase() });
-    }
+    this.setState({ searchText: e.target.value.toLowerCase() });
   };
 
   filterOnSearch = (displayItems) => {
     let tempDisplayItems = [...displayItems];
+    if (
+      this.state.searchText &&
+      this.state.searchText !== "" &&
+      this.state.searchText !== " "
+    ) {
+      console.log(this.state.searchText);
+      let searchQuery = this.state.searchText.toLowerCase();
+      tempDisplayItems = tempDisplayItems.filter((item) => {
+        let searchValue = item.text.toLowerCase();
+        return searchValue.indexOf(searchQuery) !== -1;
+      });
+    }
 
-    let searchQuery = this.state.searchText.toLowerCase();
-    tempDisplayItems = tempDisplayItems.filter((item) => {
-      let searchValue = item.text.toLowerCase();
-      return searchValue.indexOf(searchQuery) !== -1;
-    });
     return tempDisplayItems;
   };
 
@@ -81,7 +86,6 @@ class ToDoList extends React.Component {
         return !item.completed;
       });
     }
-
     return displayItems;
   };
 
