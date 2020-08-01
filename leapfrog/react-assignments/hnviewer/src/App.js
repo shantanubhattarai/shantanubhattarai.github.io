@@ -7,6 +7,7 @@ import StoryList from './components/pages/StoryList';
 function App() {
   return (
     <div className="container">
+      <h1>HN Viewer</h1>
       <Router>
         <Switch>
           <Route path="/story/:id" component={Story} />

@@ -5,7 +5,8 @@ class Comment extends React.Component {
     super();
     this.state = {
       commentDetails: {},
-      comments: []
+      comments: [],
+      isLoading: false
     };
   }
 
@@ -14,9 +15,10 @@ class Comment extends React.Component {
   };
 
   fetchCommentDetails = (id) => {
+    this.setState({ isLoading: true });
     fetch(`https://hacker-news.firebaseio.com/v0/item/${id}.json`)
       .then((response) => response.json())
-      .then((response) => this.setState({ commentDetails: response }))
+      .then((response) => this.setState({ commentDetails: response, isLoading: false }))
       .then(() => this.fetchSubComments());
   };
 
@@ -33,7 +35,12 @@ class Comment extends React.Component {
   render() {
     return (
       <li key={this.props.id}>
-        {this.state.commentDetails.deleted ? 'deleted' : ''}
+        {this.state.isLoading && (
+          <p className="loader-container">
+            <span className="loader"></span>
+          </p>
+        )}
+        {this.state.commentDetails.deleted && <span className="deleted">deleted</span>}
         <span dangerouslySetInnerHTML={{ __html: this.state.commentDetails.text }}></span>
         <ul>
           {this.state.comments.map((item) => (

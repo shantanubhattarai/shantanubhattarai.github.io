@@ -33,7 +33,9 @@ class Story extends React.Component {
   render() {
     return (
       <div>
-        {this.state.storyDetails.title}
+        <a href={this.state.storyDetails.url} className="story-title">
+          {this.state.storyDetails.title}
+        </a>
         <ul>
           {this.state.comments.map((item) => {
             return <Comment key={item.id} id={item.id} />;
