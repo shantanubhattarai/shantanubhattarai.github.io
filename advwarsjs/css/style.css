@@ -94,8 +94,8 @@ div.loading-container{
 
 .turn-indicator-block{
   display: inline-block;
-  margin: 0 auto;
-  width: 300px;
+  margin-left:36px;
+  width: 400px;
 }
 
 .inactive-spawn{
