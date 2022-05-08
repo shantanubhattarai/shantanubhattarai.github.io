@@ -1,0 +1,146 @@
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@100;200;300;400;500;600;700&display=swap");
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  font-family: "IBM Plex Sans", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 10px;
+  --primary-color: #000000;
+  --secondary-color: #676767;
+  --background-color: #ffffff;
+  --accent-color: #96f2ff;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --primary-color: #ffffff;
+    --secondary-color: #e6e6e6;
+    --background-color: #333333;
+    --accent-color: #d02a84;
+  }
+}
+
+html,
+body {
+  background-color: var(--background-color);
+  color: var(--primary-color);
+}
+
+.container {
+  max-width: 556px;
+  padding: 16px;
+  margin: 0 auto;
+}
+
+.avatar-img {
+  height: 212px;
+  width: auto;
+  margin-bottom: 8px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: 1.6rem;
+  font-weight: 500;
+  line-height: 2.4rem;
+}
+
+.heading-title {
+  color: var(--primary-color);
+}
+
+.heading-subtitle,
+.heading-section {
+  color: var(--secondary-color);
+}
+
+.heading-section {
+  margin-bottom: 16px;
+}
+
+header {
+  margin-bottom: 42px;
+}
+
+p {
+  font-size: 1.6rem;
+  line-height: 2.4rem;
+}
+
+a {
+  text-decoration: none;
+  color: var(--primary-color);
+  display: inline-block;
+  position: relative;
+  z-index: 1;
+}
+
+a.link-filled {
+  background-color: var(--accent-color);
+  padding: 0.4rem 2.4rem;
+  line-height: 2.4rem;
+}
+
+a.link-default:after {
+  content: "";
+  position: absolute;
+  height: 5px;
+  background-color: var(--accent-color);
+  bottom: 0;
+  left: -1px;
+  right: -1px;
+  z-index: -1;
+  transition: all 300ms;
+}
+
+a.link-default:hover:after {
+  height: 2px;
+}
+
+a.link-filled:after {
+  content: "";
+  position: absolute;
+  height: 100%;
+  background-color: var(--accent-color);
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: -1;
+  transition: all 300ms;
+}
+
+a.link-filled:hover{
+  background-color: transparent;
+}
+
+a.link-filled:hover:after {
+  height: 5px;
+}
+
+.section-container {
+  margin-bottom: 42px;
+}
+
+.contacts-grid,
+.projects-grid {
+  display: grid;
+  gap: 8px;
+}
+
+.contacts-grid-row {
+  display: grid;
+  grid-template-columns: 77px 250px;
+  gap: 8px;
+}
+
+.mt-8{
+  margin-top:8px;
+}
