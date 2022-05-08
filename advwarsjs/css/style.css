@@ -94,6 +94,7 @@ div.loading-container{
 
 .turn-indicator-block{
   display: inline-block;
+  margin: 0 auto;
   width: 300px;
 }
 
