@@ -53,12 +53,14 @@ h6 {
   line-height: 2.4rem;
 }
 
-.heading-title {
+.heading-title,
+.text-primary {
   color: var(--primary-color);
 }
 
 .heading-subtitle,
-.heading-section {
+.heading-section,
+.text-secondary {
   color: var(--secondary-color);
 }
 
@@ -129,8 +131,7 @@ a.link-filled:hover:after {
   margin-bottom: 42px;
 }
 
-.contacts-grid,
-.projects-grid {
+.contacts-grid {
   display: grid;
   gap: 8px;
 }
@@ -141,6 +142,29 @@ a.link-filled:hover:after {
   gap: 8px;
 }
 
+.projects-grid{
+  display: grid;
+  gap:12px;
+}
+
+.projects-grid-item{
+  display: grid;
+  gap: 0px;
+}
+
 .mt-8{
   margin-top:8px;
+}
+
+.flex{
+  display: flex;
+  flex: 0 0 100%;
+}
+
+.space-between{
+  justify-content: space-between;
+}
+
+.date-text{
+  width: 200px;
 }
